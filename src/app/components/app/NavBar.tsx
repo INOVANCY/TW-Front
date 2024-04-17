@@ -1,9 +1,11 @@
 import Image from "next/image";
 import HorizontalMenu from "./HorizontalMenu";
 import { IconBell, IconHome, IconSearch, IconSun } from "@tabler/icons-react";
+import ThemeSwitcher from "./ThemeSwitcher";
+import SearchBar from "./SearchBar";
 export default function NavBar() {
   return (
-    <div className="bg-white ">
+    <div className="bg-white dark:bg-gray-700">
       <header className="border-b">
         <div className="mx-auto w-9/12">
           <div className="flex justify-between w-full ps-0 p-4">
@@ -19,11 +21,8 @@ export default function NavBar() {
               </h1>
             </div>
             <div className="flex gap-5 items-center">
-              <button className="bg-gradient-to-br from-red-600 to-rose-600 py-2 px-5 rounded-lg text-white font-medium flex items-center gap-2 text-sm">
-                <IconSearch size={20} />
-                Recherche
-              </button>
-              <IconSun size={24} className="text-gray-700" />
+              <SearchBar />
+              <ThemeSwitcher />
               <IconBell size={24} className="text-gray-700" />
               <Image
                 src="/dev/pdp.jpeg"
@@ -38,7 +37,7 @@ export default function NavBar() {
       </header>
       <nav className="border-b">
         <div className="mx-auto w-9/12">
-            <HorizontalMenu />
+          <HorizontalMenu />
         </div>
       </nav>
     </div>

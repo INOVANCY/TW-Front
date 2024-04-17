@@ -3,8 +3,16 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Cabinet Grotesk';
-    src: url('/fonts/cabinetgrotesk/cabinetgrotesk-Variable.ttf') format('truetype');
-    font-weight: 100 900; /* Variable font weight from 100 (thin) to 900 (bold) */
-    font-style: normal;
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinetgrotesk/cabinetgrotesk-Variable.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-100;
+    @apply dark:bg-slate-800;
   }
+}

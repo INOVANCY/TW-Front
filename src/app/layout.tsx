@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import NavBar from "./components/app/NavBar";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ThemeProvider } from "next-themes";
+import Providers from "./components/app/Providers";
 
 export const metadata: Metadata = {
   title: "Thrills World - Your thrills. One app.",
@@ -16,11 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className={`${inter.className} bg-gray-100`}>
-        <NavBar></NavBar>
-        {children}
-      </body>
+    <html lang="fr" suppressHydrationWarning>
+      <Providers>
+        <body>
+          <NavBar></NavBar>
+          {children}
+        </body>
+      </Providers>
     </html>
   );
 }
