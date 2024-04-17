@@ -27,7 +27,7 @@ export default function Notifications() {
     <div className="relative">
       <IconBell
         size={24}
-        className="text-gray-700 cursor-pointer"
+        className="text-slate-800 cursor-pointer"
         onClick={() => handleOpenClose()}
       />
       <div
@@ -39,7 +39,7 @@ export default function Notifications() {
       >
         <div className="flex items-center justify-between p-4">
           <h1 className="text-slate-700 font-medium">Notifications</h1>
-          <div className="text-gray-700 flex items-center gap-3">
+          <div className="text-slate-800 flex items-center gap-3">
             <span className="bg-red-200/50 border border-red-200 px-2 rounded-lg text-red-600">
               2 non lues
             </span>
@@ -47,39 +47,39 @@ export default function Notifications() {
           </div>
         </div>
         <hr />
-        <div className="flex gap-3 px-4 py-2">
+        <div className="flex gap-3 px-4 py-2 hover:bg-slate-200/50">
           <span className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mt-1">
             <IconUserPlus size={24} />
           </span>
           <div className="flex flex-col">
-            <p className="text-gray-700">Nouvelle demande d'ami</p>
-            <p className="text-xs text-gray-700">
+            <p className="text-slate-800">Nouvelle demande d'ami</p>
+            <p className="text-xs text-slate-800">
               Hourra ! Gaspard Delvaux vous a demandé en ami.
             </p>
             <span className="text-gray-400 text-xs mt-1">Aujourd'hui</span>
           </div>
         </div>
         <hr />
-        <div className="flex gap-3 px-4 py-2">
+        <div className="flex gap-3 px-4 py-2 hover:bg-slate-200/50">
           <span className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mt-1">
             <IconTrophy size={24} />
           </span>
           <div className="flex flex-col">
-            <p className="text-gray-700">Le nouveau classement est arrivé</p>
-            <p className="text-xs text-gray-700">
+            <p className="text-slate-800">Le nouveau classement est arrivé</p>
+            <p className="text-xs text-slate-800">
               Alors, ça donne quoi ce mois-ci ?
             </p>
             <span className="text-gray-400 text-xs mt-1">Hier</span>
           </div>
         </div>
         <hr />
-        <div className="flex gap-3 px-4 py-2">
+        <div className="flex gap-3 px-4 py-2 hover:bg-slate-200/50">
           <span className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mt-1">
             <IconShoppingCart size={24} />
           </span>
           <div className="flex flex-col">
-            <p className="text-gray-700">Nouvelle commande</p>
-            <p className="text-xs text-gray-700">
+            <p className="text-slate-800">Nouvelle commande</p>
+            <p className="text-xs text-slate-800">
               Félicitations, vous avez reçu une nouvelle commande.
             </p>
             <span className="text-gray-400 text-xs mt-1">14 avril 2024</span>

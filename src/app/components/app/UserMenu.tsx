@@ -42,26 +42,26 @@ export default function UserMenu() {
             : "scale-95 opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex gap-3 px-4 py-3 items-center">
+        <div className="flex gap-3 px-4 py-2 items-center">
           <Image
             src="/dev/pdp.jpeg"
             height={48}
             width={48}
             alt="Avatar"
-            className="rounded-full shadow-md h-fit"
+            className="rounded-full"
           />
           <div className="flex flex-col">
             <p className="text-slate-800 font-medium">Gaspard Delvaux</p>
             <span className="text-slate-800 text-sm">Administateur</span>
           </div>
         </div>
-        <hr />
+        <hr className="mb-2" />
         {userNavItems.map((item) => {
           return (
             <a
               key={item.name}
               href={item.href}
-              className="py-1.5 px-2 mx-2 mt-1 text-slate-800 flex items-center gap-2 rounded-lg hover:bg-slate-200/50"
+              className="mx-2 mt-0.5 px-3 py-2 rounded-lg text-slate-800 flex items-center gap-2 hover:bg-slate-200/50"
             >
               {item.icon} {item.name}
             </a>

@@ -1,9 +1,14 @@
 "use client";
 
 import {
+  IconBrandDiscord,
+  IconChevronDown,
   IconDeviceGamepad,
   IconHome,
+  IconInfoSquare,
+  IconMailCheck,
   IconMap,
+  IconMoneybag,
   IconNews,
   IconPlane,
   IconPoo,
@@ -11,6 +16,7 @@ import {
   IconRollercoaster,
   IconShoppingCart,
   IconTrophy,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 
@@ -43,11 +49,31 @@ export default function HorizontalMenu() {
       href: "/thrills",
       icon: <IconRollercoaster size={20} />,
       children: [
-        { name: "A propos", href: "/thrills/a-propos" },
-        { name: "Collaborateurs", href: "/thrills/collaborateurs" },
-        { name: "Faire un don", href: "/thrills/faire-un-don" },
-        { name: "Discord", href: "/thrills/discord" },
-        { name: "Contact", href: "/thrills/contact" },
+        {
+          name: "A propos",
+          href: "/thrills/a-propos",
+          icon: <IconInfoSquare size={20} />,
+        },
+        {
+          name: "Collaborateurs",
+          href: "/thrills/collaborateurs",
+          icon: <IconUsersGroup size={20} />,
+        },
+        {
+          name: "Faire un don",
+          href: "/thrills/faire-un-don",
+          icon: <IconMoneybag size={20} />,
+        },
+        {
+          name: "Discord",
+          href: "/thrills/discord",
+          icon: <IconBrandDiscord size={20} />,
+        },
+        {
+          name: "Contact",
+          href: "/thrills/contact",
+          icon: <IconMailCheck size={20} />,
+        },
       ],
     },
   ];
@@ -65,16 +91,17 @@ export default function HorizontalMenu() {
             <div className="group inline-block">
               <a href={item.href} className={className}>
                 {item.icon} {item.name}
+                {item.children && <IconChevronDown size={18} />}
               </a>
               {item.children && (
-                <div className="hidden group-hover:block absolute left-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="opacity-0 group-hover:opacity-100 absolute left-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-opacity duration-300">
                   {item.children.map((child) => (
                     <a
                       key={child.name}
                       href={child.href}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center gap-2 mx-2 my-1 px-3 py-2 rounded-lg text-slate-800 hover:bg-slate-200/50"
                     >
-                      {child.name}
+                      {child.icon} {child.name}
                     </a>
                   ))}
                 </div>

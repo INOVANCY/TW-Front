@@ -7,7 +7,6 @@ import {
   IconSearch,
   IconX,
 } from "@tabler/icons-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function SearchBar() {
@@ -58,9 +57,13 @@ export default function SearchBar() {
       >
         <div className="bg-white rounded-lg shadow-lg w-1/3 h-fit mt-48">
           <div className="p-4 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-slate-800">
+            <div className="flex flex-grow items-center gap-2 text-slate-800">
               <IconSearch size={24} />
-              <input className="focus:outline-none" type="text" autoFocus />
+              <input
+                className="focus:outline-none flex-grow"
+                type="text"
+                autoFocus
+              />
             </div>
             <div className="flex items-center gap-2">
               <p className="text-slate-800">[esc]</p>
@@ -77,7 +80,7 @@ export default function SearchBar() {
             </p>
             <a
               href=""
-              className="flex items-center justify-between hover:bg-gray-200/50 p-2 px-4 rounded-lg mb-1 group"
+              className="flex items-center justify-between hover:bg-slate-200/50 p-2 px-4 rounded-lg mb-1 group"
             >
               <div className="flex items-center gap-2 text-slate-700">
                 <IconRollercoaster size={24} />
@@ -90,7 +93,7 @@ export default function SearchBar() {
             </a>
             <a
               href=""
-              className="flex items-center justify-between hover:bg-gray-200/50 p-2 px-4 rounded-lg group"
+              className="flex items-center justify-between hover:bg-slate-200/50 p-2 px-4 rounded-lg group"
             >
               <div className="flex items-center gap-2 text-slate-700">
                 <IconRollercoaster size={24} />
