@@ -3,6 +3,7 @@ import NavBar from "./components/app/NavBar";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Providers from "./components/app/Providers";
+import Footer from "./components/app/Footer";
 
 export const metadata: Metadata = {
   title: "Thrills World - Your thrills. One app.",
@@ -18,8 +19,13 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <Providers>
         <body>
-          <NavBar></NavBar>
-          {children}
+          <div className="flex flex-col justify-between min-h-screen">
+            <div>
+              <NavBar></NavBar>
+              <div className="mx-auto w-9/12 mt-6">{children}</div>
+            </div>
+            <Footer />
+          </div>
         </body>
       </Providers>
     </html>
