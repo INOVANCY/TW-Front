@@ -1,7 +1,7 @@
 "use client";
 
-import { useOpenElement } from "@/app/contexts/OpenElement";
-import { Theme } from "@/app/types/app";
+import { useOpenElement } from "@/contexts/OpenElement";
+import { Theme } from "@/types/app";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
 import { useState, useEffect, use } from "react";

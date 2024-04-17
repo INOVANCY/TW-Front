@@ -1,6 +1,6 @@
 "use client";
 
-import { OpenElementProvider } from "@/app/contexts/OpenElement";
+import { OpenElementProvider } from "@/contexts/OpenElement";
 import { ThemeProvider } from "next-themes";
 import { useState, useEffect } from "react";
 

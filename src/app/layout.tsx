@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import NavBar from "./components/app/NavBar";
+import NavBar from "@/components/app/NavBar";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import Providers from "./components/app/Providers";
-import Footer from "./components/app/Footer";
+import Providers from "@/components/app/Providers";
+import Footer from "@/components/app/Footer";
 
 export const metadata: Metadata = {
   title: "Thrills World - Your thrills. One app.",

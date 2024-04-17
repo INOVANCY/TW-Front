@@ -1,6 +1,6 @@
 "use client";
 
-import { useOpenElement } from "@/app/contexts/OpenElement";
+import { useOpenElement } from "@/contexts/OpenElement";
 import { IconSettings, IconShoppingCart, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 

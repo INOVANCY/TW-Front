@@ -1,6 +1,6 @@
 "use client";
 
-import { NavItems } from "@/app/types/app";
+import { NavItems } from "@/types/app";
 import {
   IconBrandDiscord,
   IconChevronDown,
