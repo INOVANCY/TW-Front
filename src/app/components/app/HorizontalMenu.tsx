@@ -1,8 +1,10 @@
 "use client";
 
+import { NavItems } from "@/app/types/app";
 import {
   IconBrandDiscord,
   IconChevronDown,
+  IconCrane,
   IconDeviceGamepad,
   IconHome,
   IconInfoSquare,
@@ -22,7 +24,7 @@ import { usePathname } from "next/navigation";
 
 export default function HorizontalMenu() {
   const pathName = usePathname();
-  const navItems = [
+  const navItems: NavItems = [
     {
       name: "Accueil",
       href: "/",
@@ -37,7 +39,23 @@ export default function HorizontalMenu() {
     { name: "Carte", href: "/carte", icon: <IconMap size={20} /> },
     { name: "Voyages", href: "/voyages", icon: <IconPlane size={20} /> },
     { name: "VDM", href: "/vdm", icon: <IconPoo size={20} /> },
-    { name: "Gaming", href: "/gaming", icon: <IconDeviceGamepad size={20} /> },
+    {
+      name: "Gaming",
+      href: "/gaming",
+      icon: <IconDeviceGamepad size={20} />,
+      children: [
+        {
+          name: "Créations",
+          href: "/gaming/creations",
+          icon: <IconCrane size={20} />,
+        },
+        {
+          name: "Concours",
+          href: "/gaming/concours",
+          icon: <IconTrophy size={20} />,
+        },
+      ],
+    },
     {
       name: "Produits",
       href: "/produits",
@@ -79,7 +97,7 @@ export default function HorizontalMenu() {
   ];
 
   return (
-    <div className="flex gap-3 p-2 ps-0">
+    <div className="flex p-2 gap-2 ps-0">
       {navItems.map((item) => {
         const isActive = pathName === item.href;
         const className = isActive

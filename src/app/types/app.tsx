@@ -1,3 +1,16 @@
+import { ReactElement } from "react";
+
+// Theme
 type Theme = "light" | "dark" | "system";
 
-export type { Theme }
+// Navigation
+type NavItem = {
+  name: string;
+  href: string;
+  icon: ReactElement;
+  children?: NavItem[];
+};
+
+type NavItems = NavItem[];
+
+export type { Theme, NavItems };

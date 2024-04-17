@@ -1,6 +1,19 @@
+"use client";
+
 import { IconHeart } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <></>;
+  }
+
   return (
     <div className="mx-auto w-9/12">
       <p className="flex items-center justify-between mb-3">
@@ -13,7 +26,7 @@ export default function Footer() {
             INOVANCY
           </a>
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <a
             href=""
             className="text-slate-800 hover:underline underline-offset-2"
