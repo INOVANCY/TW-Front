@@ -4,6 +4,7 @@ import { IconBell, IconHome, IconSearch, IconSun } from "@tabler/icons-react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import SearchBar from "./SearchBar";
 import Notifications from "./Notifications";
+import UserMenu from "./UserMenu";
 export default function NavBar() {
   return (
     <div className="bg-white dark:bg-gray-700">
@@ -25,13 +26,7 @@ export default function NavBar() {
               <SearchBar />
               <ThemeSwitcher />
               <Notifications />
-              <Image
-                src="/dev/pdp.jpeg"
-                height={40}
-                width={40}
-                alt="Avatar"
-                className="rounded-full shadow-md"
-              />
+              <UserMenu />
             </div>
           </div>
         </div>
