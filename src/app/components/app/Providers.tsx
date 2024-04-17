@@ -1,9 +1,12 @@
 "use client";
 
+import { OpenElementProvider } from "@/app/contexts/OpenElement";
 import { ThemeProvider } from "next-themes";
 import { useState, useEffect } from "react";
 
-export default function Providers({children,}: Readonly<{children: React.ReactNode;}>) {
+export default function Providers({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -14,5 +17,9 @@ export default function Providers({children,}: Readonly<{children: React.ReactNo
     return <>{children}</>;
   }
 
-  return <ThemeProvider attribute="class">{children}</ThemeProvider>;
-}   
+  return (
+    <ThemeProvider attribute="class">
+      <OpenElementProvider>{children}</OpenElementProvider>
+    </ThemeProvider>
+  );
+}

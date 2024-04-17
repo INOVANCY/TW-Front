@@ -1,6 +1,6 @@
 "use client";
 
-import { useOpenElement } from "@/app/contexts/NarBarOpenElement";
+import { useOpenElement } from "@/app/contexts/OpenElement";
 import {
   IconBell,
   IconMailOpened,
@@ -31,7 +31,7 @@ export default function Notifications() {
         onClick={() => handleOpenClose()}
       />
       <div
-        className={`absolute right-0 top-10 w-96 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col gap-1 pb-2 transition-all duration-300 transform ${
+        className={`absolute z-20 right-0 top-10 w-96 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col gap-1 pb-2 transition-all duration-300 transform ${
           openElement === "notifications"
             ? "scale-100 opacity-100 pointer-events-auto"
             : "scale-95 opacity-0 pointer-events-none"

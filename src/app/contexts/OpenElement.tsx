@@ -17,7 +17,7 @@ export const OpenElementContext = createContext<{
 
 export const useOpenElement = () => useContext(OpenElementContext);
 
-export const NarBarOpenElementProvider = ({
+export const OpenElementProvider = ({
   children,
 }: Readonly<{
   children: React.ReactNode;

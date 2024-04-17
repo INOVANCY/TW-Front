@@ -1,6 +1,6 @@
 "use client";
 
-import { useOpenElement } from "@/app/contexts/NarBarOpenElement";
+import { useOpenElement } from "@/app/contexts/OpenElement";
 import { IconSettings, IconShoppingCart, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 
@@ -36,7 +36,7 @@ export default function UserMenu() {
         onClick={() => handleOpenClose()}
       />
       <div
-        className={`absolute right-0 top-12 w-56 pb-3 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col transition-all duration-300 transform ${
+        className={`absolute right-0 top-12 w-56 pb-3 z-20 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col transition-all duration-300 transform ${
           openElement === "userMenu"
             ? "scale-100 opacity-100 pointer-events-auto"
             : "scale-95 opacity-0 pointer-events-none"

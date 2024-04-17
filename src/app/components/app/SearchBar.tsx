@@ -1,6 +1,6 @@
 "use client";
 
-import { useOpenElement } from "@/app/contexts/NarBarOpenElement";
+import { useOpenElement } from "@/app/contexts/OpenElement";
 import {
   IconArrowBack,
   IconRollercoaster,
@@ -50,7 +50,7 @@ export default function SearchBar() {
         Rechercher n'importe quoi...
       </button>
       <div
-        className={`fixed top-0 left-0 w-full min-h-screen bg-black/30 flex justify-center transition-opacity duration-300 ${
+        className={`fixed z-40 top-0 left-0 w-full min-h-screen bg-black/30 flex justify-center transition-opacity duration-300 ${
           openElement === "search"
             ? "opacity-100"
             : "opacity-0 pointer-events-none"

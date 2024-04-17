@@ -1,6 +1,6 @@
 "use client";
 
-import { useOpenElement } from "@/app/contexts/NarBarOpenElement";
+import { useOpenElement } from "@/app/contexts/OpenElement";
 import { Theme } from "@/app/types/app";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
@@ -42,7 +42,7 @@ export default function ThemeSwitcher() {
         onClick={() => handleOpenClose()}
       />
       <div
-        className={`absolute left-0 top-10 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-3 flex flex-col gap-1 transition-all duration-300 transform ${
+        className={`absolute z-20 left-0 top-10 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-3 flex flex-col gap-1 transition-all duration-300 transform ${
           openElement === "themeSwitcher"
             ? "scale-100 opacity-100 pointer-events-auto"
             : "scale-95 opacity-0 pointer-events-none"
