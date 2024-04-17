@@ -3,6 +3,7 @@ import HorizontalMenu from "./HorizontalMenu";
 import { IconBell, IconHome, IconSearch, IconSun } from "@tabler/icons-react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import SearchBar from "./SearchBar";
+import Notifications from "./Notifications";
 export default function NavBar() {
   return (
     <div className="bg-white dark:bg-gray-700">
@@ -23,7 +24,7 @@ export default function NavBar() {
             <div className="flex gap-5 items-center">
               <SearchBar />
               <ThemeSwitcher />
-              <IconBell size={24} className="text-gray-700" />
+              <Notifications />
               <Image
                 src="/dev/pdp.jpeg"
                 height={40}

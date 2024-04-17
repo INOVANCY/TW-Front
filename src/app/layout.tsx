@@ -3,6 +3,7 @@ import NavBar from "./components/app/NavBar";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Providers from "./components/app/Providers";
+import { NarBarOpenElementProvider } from "./contexts/NarBarOpenElement";
 
 export const metadata: Metadata = {
   title: "Thrills World - Your thrills. One app.",
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <Providers>
         <body>
-          <NavBar></NavBar>
+          <NarBarOpenElementProvider>
+            <NavBar></NavBar>
+          </NarBarOpenElementProvider>
           {children}
         </body>
       </Providers>

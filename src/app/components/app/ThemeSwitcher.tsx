@@ -1,5 +1,6 @@
 "use client";
 
+import { useOpenElement } from "@/app/contexts/NarBarOpenElement";
 import { Theme } from "@/app/types/app";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
@@ -8,13 +9,21 @@ import { useState, useEffect, use } from "react";
 export default function ThemeSwitcher() {
   // Variables
   const [mounted, setMounted] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { openElement, setOpenElement } = useOpenElement();
 
   // Functions
   const handleThemeChange = (theme: Theme) => {
     setTheme(theme);
-    setIsDropdownOpen(false);
+    setOpenElement(null);
+  };
+
+  const handleOpenClose = () => {
+    if (openElement === "themeSwitcher") {
+      setOpenElement(null);
+    } else {
+      setOpenElement("themeSwitcher");
+    }
   };
 
   useEffect(() => {
@@ -30,11 +39,11 @@ export default function ThemeSwitcher() {
       <IconSun
         size={24}
         className="text-gray-700 cursor-pointer"
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        onClick={() => handleOpenClose()}
       />
       <div
         className={`absolute left-0 top-10 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-3 flex flex-col gap-1 transition-all duration-300 transform ${
-          isDropdownOpen
+          openElement === "themeSwitcher"
             ? "scale-100 opacity-100 pointer-events-auto"
             : "scale-95 opacity-0 pointer-events-none"
         }`}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useOpenElement } from "@/app/contexts/NarBarOpenElement";
 import {
   IconArrowBack,
   IconRollercoaster,
@@ -10,14 +11,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function SearchBar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { openElement, setOpenElement } = useOpenElement();
 
   const handleButtonClick = () => {
-    setIsOpen(true);
+    setOpenElement("search");
   };
 
   const handleClose = () => {
-    setIsOpen(false);
+    setOpenElement(null);
   };
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function SearchBar() {
       }
     };
 
-    if (isOpen) {
+    if (openElement === "search") {
       window.addEventListener("keydown", handleKeyDown);
     } else {
       window.removeEventListener("keydown", handleKeyDown);
@@ -37,7 +38,7 @@ export default function SearchBar() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [openElement]);
 
   return (
     <>
@@ -50,7 +51,9 @@ export default function SearchBar() {
       </button>
       <div
         className={`fixed top-0 left-0 w-full min-h-screen bg-black/30 flex justify-center transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          openElement === "search"
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="bg-white rounded-lg shadow-lg w-1/3 h-fit mt-48">
