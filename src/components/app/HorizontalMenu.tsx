@@ -1,11 +1,13 @@
 "use client";
 
+import { useOpenElement } from "@/contexts/OpenElement";
 import { NavItems } from "@/types/app";
 import {
   IconBrandDiscord,
   IconChevronDown,
   IconCrane,
   IconDeviceGamepad,
+  IconHeartHandshake,
   IconHome,
   IconInfoSquare,
   IconMailCheck,
@@ -21,27 +23,33 @@ import {
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function HorizontalMenu() {
+  const { openElement, setOpenElement } = useOpenElement();
+
   const pathName = usePathname();
   const navItems: NavItems = [
     {
       name: "Accueil",
       href: "/",
+      code: "home",
       icon: <IconHome size={20} />,
     },
-    { name: "Actualités", href: "/actualites", icon: <IconNews size={20} /> },
+    { name: "Actualités", href: "/news", icon: <IconNews size={20} /> },
     {
       name: "Classements",
-      href: "/classements",
+      href: "/rankings",
+      code: "rankings",
       icon: <IconTrophy size={20} />,
     },
-    { name: "Carte", href: "/carte", icon: <IconMap size={20} /> },
-    { name: "Voyages", href: "/voyages", icon: <IconPlane size={20} /> },
-    { name: "VDM", href: "/vdm", icon: <IconPoo size={20} /> },
+    { name: "Carte", href: "/world-map", icon: <IconMap size={20} /> },
+    { name: "Voyages", href: "/trips", icon: <IconPlane size={20} /> },
+    { name: "VDM", href: "/stories", icon: <IconPoo size={20} /> },
     {
       name: "Gaming",
-      href: "/gaming",
+      href: "",
+      code: "gaming",
       icon: <IconDeviceGamepad size={20} />,
       children: [
         {
@@ -51,36 +59,38 @@ export default function HorizontalMenu() {
         },
         {
           name: "Concours",
-          href: "/gaming/concours",
+          href: "/gaming/contests",
           icon: <IconTrophy size={20} />,
         },
       ],
     },
     {
       name: "Produits",
-      href: "/produits",
+      href: "/shop",
+      code: "products",
       icon: <IconShoppingCart size={20} />,
     },
     { name: "Quizz", href: "/quizz", icon: <IconPuzzle size={20} /> },
     {
       name: "Thrills",
-      href: "/thrills",
+      href: "",
+      code: "thrills",
       icon: <IconRollercoaster size={20} />,
       children: [
         {
           name: "A propos",
-          href: "/thrills/a-propos",
+          href: "/thrills/about",
           icon: <IconInfoSquare size={20} />,
         },
         {
           name: "Collaborateurs",
-          href: "/thrills/collaborateurs",
+          href: "/thrills/staff",
           icon: <IconUsersGroup size={20} />,
         },
         {
           name: "Faire un don",
-          href: "/thrills/faire-un-don",
-          icon: <IconMoneybag size={20} />,
+          href: "/thrills/donate",
+          icon: <IconHeartHandshake size={20} />,
         },
         {
           name: "Discord",
@@ -101,18 +111,38 @@ export default function HorizontalMenu() {
       {navItems.map((item) => {
         const isActive = pathName === item.href;
         const className = isActive
-          ? "py-1.5 px-4 bg-gradient-to-r from-red-600 to-rose-400 text-white flex items-center gap-2 rounded-lg"
-          : "py-1.5 px-4 text-slate-800 flex items-center gap-2 rounded-lg hover:bg-slate-200/50";
+          ? "py-1.5 px-4 bg-gradient-to-r from-red-600 to-rose-400 text-white flex items-center gap-2 rounded-lg cursor-pointer"
+          : "py-1.5 px-4 text-slate-800 flex items-center gap-2 rounded-lg hover:bg-slate-200/50 cursor-pointer";
 
         return (
-          <div className="relative" key={item.name}>
-            <div className="group inline-block">
-              <a href={item.href} className={className}>
+          <div
+            className="relative"
+            key={item.name}
+            onMouseLeave={() => setOpenElement("")}
+          >
+            {item.children ? (
+              <span
+                className={className}
+                onMouseEnter={() =>
+                  setOpenElement(`horizontalNav-${item.code}`)
+                }
+              >
+                {item.icon} {item.name} <IconChevronDown size={18} />
+              </span>
+            ) : (
+              <Link href={item.href} className={className}>
                 {item.icon} {item.name}
-                {item.children && <IconChevronDown size={18} />}
-              </a>
-              {item.children && (
-                <div className="opacity-0 group-hover:opacity-100 absolute left-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-opacity duration-300">
+              </Link>
+            )}
+            {item.children && (
+              <div className="absolute left-0">
+                <div className="h-2"></div>
+                <div
+                  className={`opacity-0 left-0 w-48 z-20 rounded-lg shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 transition-opacity duration-300 pointer-events-none ${
+                    openElement === `horizontalNav-${item.code}` &&
+                    "opacity-95 pointer-events-auto"
+                  }`}
+                >
                   {item.children.map((child) => (
                     <a
                       key={child.name}
@@ -123,8 +153,8 @@ export default function HorizontalMenu() {
                     </a>
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         );
       })}

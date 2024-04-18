@@ -8,6 +8,7 @@ type NavItem = {
   name: string;
   href: string;
   icon: ReactElement;
+  code?: string;
   children?: NavItem[];
 };
 

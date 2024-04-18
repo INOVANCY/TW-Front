@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import NavBar from "@/components/app/NavBar";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
 import Providers from "@/components/app/Providers";
 import Footer from "@/components/app/Footer";
 
@@ -18,15 +17,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <Providers>
-        <body>
-          <div className="flex flex-col justify-between min-h-screen">
-            <div>
-              <NavBar></NavBar>
-              <div className="mx-auto w-9/12 mt-6">{children}</div>
-            </div>
-            <Footer />
-          </div>
-        </body>
+        <body>{children}</body>
       </Providers>
     </html>
   );
