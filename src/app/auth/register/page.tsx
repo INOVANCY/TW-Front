@@ -12,12 +12,11 @@ import {
   IconBrandGoogle,
   IconBrandTwitter,
 } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function AuthLoginPage() {
+export default function AuthRegisterPage() {
   const {
     register,
     handleSubmit,
@@ -33,13 +32,15 @@ export default function AuthLoginPage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl text-slate-800 mt-3 mb-1">Enfin de retour! 👋🏻</h1>
+      <h1 className="text-2xl text-slate-800 mt-3 mb-1">
+        Bienvenue, cher #ThrillsLover ! 👋🏻
+      </h1>
       <p className="text-slate-800 mb-6">
-        Connectez-vous à votre compte et (re-)commencez l'aventure.
+        Créez-vous un compte et commencez l'aventure.
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-y-4 mb-6"
+        className="grid grid-cols-2 gap-y-4 gap-x-2 mb-6"
       >
         <TWInput
           type="text"
@@ -56,7 +57,21 @@ export default function AuthLoginPage() {
             },
           }}
           required
-          className="col-span-2"
+        />
+        <TWInput
+          type="email"
+          name="email"
+          label="Adresse email"
+          errors={errors}
+          register={register}
+          validationSchema={{
+            required: "L'adresse email est requise",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "L'adresse email est invalide",
+            },
+          }}
+          required
         />
         <TWInput
           type="password"
@@ -68,28 +83,54 @@ export default function AuthLoginPage() {
             required: "Le mot de passe est requis",
           }}
           required
-          className="col-span-2"
         />
-        <TWCheckbox
-          name="remember"
-          label="Se souvenir de moi"
+        <TWInput
+          type="password"
+          name="confirmPassword"
+          label="Confirmer le mot de passe"
           errors={errors}
           register={register}
-          validationSchema={{}}
-          required={false}
+          validationSchema={{
+            required: "La confirmation du mot de passe est requise",
+          }}
+          required
         />
-        <div className="text-right align-middle">
-          <Link href="/auth/forgot-password" className="text-slate-800">
-            Mot de passe oublié?
-          </Link>
-        </div>
-        <TWButton text="Se connecter" className="col-span-2" />
+        <TWCheckbox
+          name="terms"
+          label={
+            <span>
+              J'accepte les
+              <Link
+                href="/terms"
+                className="text-red-600 underline-offset-2 hover:underline mx-1"
+              >
+                conditions d'utilisation
+              </Link>
+              et la
+              <Link
+                href="/privacy"
+                className="text-red-600 underline-offset-2 hover:underline mx-1"
+              >
+                politique de confidentialité
+              </Link>
+            </span>
+          }
+          errors={errors}
+          register={register}
+          validationSchema={{
+            required:
+              "Vous devez accepter les conditions d'utilisation et la politique de confidentialité",
+          }}
+          required
+          className="col-span-2"
+        />
+        <TWButton text="Créer mon compte" className="col-span-2" />
       </form>
       <div className="w-full flex flex-col gap-4 items-center">
         <span className="text-slate-800">
-          Nouveau sur Thrills ?
-          <Link href="/auth/register" className="ms-1 font-medium text-red-600">
-            Créer un compte
+          Déjà un compte Thrills ?
+          <Link href="/auth/login" className="ms-1 font-medium text-red-600">
+            Se connecter
           </Link>
         </span>
         <TextDivider text="ou" />
