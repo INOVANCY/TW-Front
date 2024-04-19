@@ -3,6 +3,7 @@
 import { OpenElementProvider } from "@/contexts/OpenElement";
 import { ThemeProvider } from "next-themes";
 import { useState, useEffect } from "react";
+import NextTopLoader from "nextjs-toploader";
 
 export default function Providers({
   children,
@@ -19,6 +20,7 @@ export default function Providers({
 
   return (
     <ThemeProvider attribute="class">
+      <NextTopLoader color="#dc2626" />
       <OpenElementProvider>{children}</OpenElementProvider>
     </ThemeProvider>
   );
