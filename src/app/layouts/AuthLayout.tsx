@@ -30,7 +30,7 @@ export default function AuthLayout({
           </div>
         </div>
         <div className="w-2/5 flex justify-center items-center">
-          <div className="w-4/5">{children}</div>
+          <div className="w-2/3">{children}</div>
         </div>
       </div>
     </div>
