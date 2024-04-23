@@ -9,7 +9,7 @@ export default function AppLayout({
 }>) {
   return (
     <div className="flex flex-col justify-between min-h-screen">
-      <div>
+      <div className="mb-6">
         <NavBar></NavBar>
         <div className="mx-auto w-9/12 mt-6">{children}</div>
       </div>

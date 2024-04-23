@@ -27,11 +27,6 @@ export interface CheckboxProps {
   className?: string;
 }
 
-export interface ButtonProps {
-  text: string;
-  className?: string;
-}
-
 export interface TextDividerProps {
   text: string;
   className?: string;
