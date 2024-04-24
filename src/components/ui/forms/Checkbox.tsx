@@ -5,7 +5,6 @@ const TWCheckbox = ({
   label,
   register,
   errors,
-  required,
   validationSchema,
   className,
 }: CheckboxProps) => (
@@ -19,7 +18,7 @@ const TWCheckbox = ({
     />
     <label htmlFor={name} className="text-slate-800">
       {label}
-      <span className="text-red-600">{required && "*"}</span>
+      <span className="text-red-600">{validationSchema.required && "*"}</span>
     </label>
     {errors && errors[name] && (
       <span className="text-xs mt-1 text-red-600">{errors[name]?.message}</span>

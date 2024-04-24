@@ -1,13 +1,17 @@
 "use client";
 
 import AppLayout from "@/app/layouts/AppLayout";
+import ParksFormModal from "@/components/app/manage/ParksFormModal";
 import TWTable from "@/components/ui/Table";
 import TWCard from "@/components/ui/cards/Card";
 import TWCardHeader from "@/components/ui/cards/CardHeader";
 import TWButton from "@/components/ui/forms/Button";
 import TWInput from "@/components/ui/forms/Input";
+import { useState } from "react";
 
 export default function ManageParksHome() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // Data sur les parcs d'attractions
   const data = [
     {
@@ -41,9 +45,10 @@ export default function ManageParksHome() {
           columns={columns}
           data={data}
           actions
-          onAdd={() => console.log("test")}
+          onAdd={() => setIsModalOpen(true)}
         />
       </TWCard>
+      {isModalOpen && <ParksFormModal />}
     </AppLayout>
   );
 }

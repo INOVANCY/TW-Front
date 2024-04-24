@@ -40,12 +40,12 @@ export default function TWTable({
               }`}
             >
               {search && (
-                <div className="flex items-center gap-2 border rounded-lg py-1 px-2 text-slate-800">
+                <div className="flex items-center gap-2 border rounded-lg has-[:focus]:border-red-600 py-1 px-2 text-slate-800">
                   <IconSearch size={18} />
                   <input
                     type="text"
                     placeholder="Rechercher"
-                    className="w-72 focus:outline-none"
+                    className="w-72 focus:outline-none rounded-lg"
                   />
                 </div>
               )}
