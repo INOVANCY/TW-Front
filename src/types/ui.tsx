@@ -54,3 +54,11 @@ export interface TWTabsProps {
   labels: TWTabsLabelsList[];
   onClick: (index: number) => void;
 }
+
+// Alert
+
+export interface TWAlertProps {
+  type: "success" | "info" | "warning" | "error";
+  size: "sm" | "md" | "lg";
+  message: string;
+}

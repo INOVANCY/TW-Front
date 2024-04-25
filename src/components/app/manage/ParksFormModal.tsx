@@ -23,6 +23,7 @@ import { Marker, TileLayer, useMap } from "react-leaflet";
 import { MapContainer } from "react-leaflet/MapContainer";
 import "leaflet/dist/leaflet.css";
 import TWMap from "@/components/ui/Map";
+import TWAlert from "@/components/ui/Alert";
 
 export default function ParksFormModal() {
   // Formulaire
@@ -192,18 +193,26 @@ export default function ParksFormModal() {
             </div>
           </TWTabPanel>
           <TWTabPanel activeTab={activeTab} index={2}>
+            <TWAlert
+              type="info"
+              size="sm"
+              message="Pour changer les informations de localisation, repositionnez les points sur la carte. Le champ d'adresse ne sert qu'à la navigation dans la carte, il n'est pas prit en compte."
+            />
+            <TWInput
+              type="text"
+              name="address"
+              label="Adresse du parc"
+              errors={errors}
+              register={register}
+              validationSchema={{}}
+              className="mb-4"
+            />
             <div className="aspect-video z-50">
               <TWMap />
             </div>
           </TWTabPanel>
           <hr className="mt-4 mb-2" />
           <div className="w-full flex items-center justify-end gap-2">
-            <TWButton
-              type="button"
-              text="Annuler"
-              color="secondary"
-              onClick={() => console.log("cancel")}
-            />
             <TWButton type="submit" text="Ajouter le parc" />
           </div>
         </form>
