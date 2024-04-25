@@ -17,9 +17,12 @@ import {
   IconServer,
   IconX,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Marker, TileLayer, useMap } from "react-leaflet";
 import { MapContainer } from "react-leaflet/MapContainer";
+import "leaflet/dist/leaflet.css";
+import TWMap from "@/components/ui/Map";
 
 export default function ParksFormModal() {
   // Formulaire
@@ -37,7 +40,7 @@ export default function ParksFormModal() {
 
   // Tabs
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(2);
 
   const tabsList: TWTabsLabelsList[] = [
     {
@@ -189,11 +192,9 @@ export default function ParksFormModal() {
             </div>
           </TWTabPanel>
           <TWTabPanel activeTab={activeTab} index={2}>
-            <MapContainer
-              center={[51.505, -0.09]}
-              zoom={13}
-              scrollWheelZoom={false}
-            ></MapContainer>
+            <div className="aspect-video z-50">
+              <TWMap />
+            </div>
           </TWTabPanel>
           <hr className="mt-4 mb-2" />
           <div className="w-full flex items-center justify-end gap-2">

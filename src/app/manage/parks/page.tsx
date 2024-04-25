@@ -10,7 +10,7 @@ import TWInput from "@/components/ui/forms/Input";
 import { useState } from "react";
 
 export default function ManageParksHome() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   // Data sur les parcs d'attractions
   const data = [

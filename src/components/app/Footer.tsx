@@ -16,7 +16,7 @@ export default function Footer() {
 
   return (
     <div className="mx-auto w-9/12">
-      <p className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-3">
         <p className="flex gap-1 items-center text-slate-800">
           © 2024 Fait avec <IconHeart size={18} className="text-red-600" /> par
           <a
@@ -40,7 +40,7 @@ export default function Footer() {
             Conditions d'utilisation
           </a>
         </div>
-      </p>
+      </div>
     </div>
   );
 }

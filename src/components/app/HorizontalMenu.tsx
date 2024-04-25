@@ -135,7 +135,12 @@ export default function HorizontalMenu() {
               </Link>
             )}
             {item.children && (
-              <div className="absolute left-0">
+              <div
+                className={`absolute left-0 ${
+                  openElement != `horizontalNav-${item.code}` &&
+                  "pointer-events-none"
+                }`}
+              >
                 <div className="h-2"></div>
                 <div
                   className={`opacity-0 left-0 w-48 z-20 rounded-lg shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 transition-opacity duration-300 pointer-events-none ${
