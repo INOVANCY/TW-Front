@@ -11,6 +11,10 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Separator } from "../ui/separator";
+import { Button, buttonVariants } from "../ui/button";
 
 export default function UserMenu() {
   const { openElement, setOpenElement } = useOpenElement();
@@ -42,51 +46,42 @@ export default function UserMenu() {
   ];
 
   return (
-    <div className="relative">
-      <Image
-        src="/dev/pdp.jpeg"
-        height={40}
-        width={40}
-        alt="Avatar"
-        className="rounded-full shadow-md cursor-pointer"
-        onClick={() => handleOpenClose()}
-      />
-      <div
-        className={`absolute right-0 top-12 w-56 pb-2 z-20 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col transition-all duration-300 transform ${
-          openElement === "userMenu"
-            ? "scale-100 opacity-100 pointer-events-auto"
-            : "scale-95 opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="flex gap-3 px-4 py-2 items-center">
-          <Image
-            src="/dev/pdp.jpeg"
-            height={48}
-            width={48}
-            alt="Avatar"
-            className="rounded-full"
-          />
+    <Popover>
+      <PopoverTrigger asChild>
+        <Avatar className="cursor-pointer">
+          <AvatarImage src="/dev/pdp.jpeg" alt="Avatar" />
+          <AvatarFallback>GD</AvatarFallback>
+        </Avatar>
+      </PopoverTrigger>
+      <PopoverContent sideOffset={10} align="center">
+        <div className="flex gap-3 items-center">
+          <Avatar className="cursor-pointer">
+            <AvatarImage src="/dev/pdp.jpeg" alt="Avatar" />
+            <AvatarFallback>GD</AvatarFallback>
+          </Avatar>
           <div className="flex flex-col">
             <p className="text-slate-800 font-medium">Gaspard Delvaux</p>
             <span className="text-slate-800 text-sm">Administateur</span>
           </div>
         </div>
-        <hr className="mb-1" />
+        <Separator className="mt-4 mb-1" />
         {userNavItems.map((item, index) =>
           item.name === "hr" ? (
-            <hr key={index} className="my-1" />
+            <Separator key={index} className="my-1" />
           ) : (
-            <Link
-              key={index}
-              href={item.href}
-              className="mx-2 mt-0.5 px-3 py-2 rounded-lg text-slate-800 flex items-center gap-2 hover:bg-slate-200/50"
-            >
-              {item.icon}
-              {item.name}
-            </Link>
+            <Button variant="ghost" className="w-full !justify-start" asChild>
+              <Link
+                key={index}
+                href={item.href}
+                className="flex gap-2 items-center"
+              >
+                {item.icon}
+                {item.name}
+              </Link>
+            </Button>
           )
         )}
-      </div>
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 }
