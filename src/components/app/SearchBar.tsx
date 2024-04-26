@@ -8,6 +8,16 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import Link from "next/link";
 
 export default function SearchBar() {
   const { openElement, setOpenElement } = useOpenElement();
@@ -33,7 +43,6 @@ export default function SearchBar() {
       window.removeEventListener("keydown", handleKeyDown);
     }
 
-    // Cleanup function
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -41,72 +50,28 @@ export default function SearchBar() {
 
   return (
     <>
-      <button
-        onClick={handleButtonClick}
-        className="py-1.5 px-3 border-2 border-red-600 rounded-lg text-red-600 focus:outline-none dark:text-black font-medium flex items-center gap-2 text-sm"
+      <Button variant="outline" onClick={() => setOpenElement("search")}>
+        <IconSearch size={20} className="me-2" /> Rechercher n'importe quoi...
+      </Button>
+      <CommandDialog
+        open={openElement === "search"}
+        onOpenChange={() => setOpenElement(null)}
       >
-        <IconSearch size={20} />
-        Rechercher n'importe quoi...
-      </button>
-      <div
-        className={`fixed z-40 top-0 left-0 w-full min-h-screen bg-black/30 flex justify-center transition-opacity duration-300 ${
-          openElement === "search"
-            ? "opacity-100"
-            : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="bg-white rounded-lg shadow-lg w-1/3 h-fit mt-48">
-          <div className="p-4 flex items-center justify-between">
-            <div className="flex flex-grow items-center gap-2 text-slate-800">
-              <IconSearch size={24} />
-              <input
-                className="focus:outline-none flex-grow"
-                type="text"
-                autoFocus
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <p className="text-slate-800">[esc]</p>
-              <button onClick={() => handleClose()} className="text-slate-800">
-                <IconX stroke={1} size={24} />
-              </button>
-            </div>
-          </div>
-          <hr />
-          {/* Results */}
-          <div className="flex flex-col py-4 p-1">
-            <p className="text-slate-400 uppercase text-xs px-4 mb-2">
-              Attractions
-            </p>
-            <a
-              href=""
-              className="flex items-center justify-between hover:bg-slate-200/50 p-2 px-4 rounded-lg mb-1 group"
-            >
-              <div className="flex items-center gap-2 text-slate-700">
-                <IconRollercoaster size={24} />
-                <p>Kondaa - Walibi Belgium</p>
-              </div>
-              <IconArrowBack
-                size={24}
-                className="text-slate-700 hidden group-hover:block"
-              />
-            </a>
-            <a
-              href=""
-              className="flex items-center justify-between hover:bg-slate-200/50 p-2 px-4 rounded-lg group"
-            >
-              <div className="flex items-center gap-2 text-slate-700">
-                <IconRollercoaster size={24} />
-                <p>Taron - Phantasialand</p>
-              </div>
-              <IconArrowBack
-                size={24}
-                className="text-slate-700 hidden group-hover:block"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
+        <CommandInput placeholder="Taron, B&M, Hôtel Krønasår..." />
+        <CommandList>
+          <CommandEmpty>
+            Aucun résultat n'a été trouvé! Il fallait le faire...
+          </CommandEmpty>
+          <CommandGroup heading="Attractions">
+            <CommandItem>
+              <IconRollercoaster className="!w-4 !h-4 mr-2" />
+              <span>Taron Phantasialand</span>
+            </CommandItem>
+            <CommandItem>Colorado Adventure - Phantasialand</CommandItem>
+            <CommandItem>Black Mamba - Phantasialand</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
     </>
   );
 }

@@ -41,7 +41,7 @@ export default function ParksFormModal() {
 
   // Tabs
 
-  const [activeTab, setActiveTab] = useState(2);
+  const [activeTab, setActiveTab] = useState(0);
 
   const tabsList: TWTabsLabelsList[] = [
     {

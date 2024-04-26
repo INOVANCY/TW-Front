@@ -2,8 +2,8 @@
 
 import { OpenElementProvider } from "@/contexts/OpenElement";
 import { ThemeProvider } from "next-themes";
-import { useState, useEffect } from "react";
 import NextTopLoader from "nextjs-toploader";
+import { useState, useEffect } from "react";
 
 export default function Providers({
   children,
@@ -15,7 +15,7 @@ export default function Providers({
   }, []);
 
   if (!mounted) {
-    return <>{children}</>;
+    return <></>;
   }
 
   return (

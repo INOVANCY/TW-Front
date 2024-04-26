@@ -50,7 +50,7 @@ export default function ThemeSwitcher() {
       >
         <button
           onClick={() => handleThemeChange("system")}
-          className={`text-left mx-2 mt-0.5 px-3 py-2 w-full rounded-lg flex gap-3 items-center ${
+          className={`text-left mx-2 mt-0.5 px-3 py-2 rounded-lg flex gap-3 items-center ${
             theme === "system"
               ? "bg-red-200/50 text-red-600"
               : "hover:bg-slate-200/50 text-slate-800"
