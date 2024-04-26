@@ -9,6 +9,9 @@ import {
   IconUserPlus,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Badge } from "../ui/badge";
+import { Separator } from "../ui/separator";
 
 export default function Notifications() {
   // Variables
@@ -24,30 +27,25 @@ export default function Notifications() {
   };
 
   return (
-    <div className="relative">
-      <IconBell
-        size={24}
-        className="text-slate-800 cursor-pointer"
-        onClick={() => handleOpenClose()}
-      />
-      <div
-        className={`absolute z-20 right-0 top-10 w-96 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col gap-1 pb-2 transition-all duration-300 transform ${
-          openElement === "notifications"
-            ? "scale-100 opacity-100 pointer-events-auto"
-            : "scale-95 opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="flex items-center justify-between p-4">
+    <Popover>
+      <PopoverTrigger asChild>
+        <IconBell
+          size={24}
+          className="text-slate-800 cursor-pointer"
+          onClick={() => handleOpenClose()}
+        />
+      </PopoverTrigger>
+
+      <PopoverContent sideOffset={10} align="center" className="w-auto">
+        <div className="flex items-center justify-between mb-4">
           <h1 className="text-slate-700 font-medium">Notifications</h1>
           <div className="text-slate-800 flex items-center gap-3">
-            <span className="bg-red-200/50 border border-red-200 px-2 rounded-lg text-red-600">
-              2 non lues
-            </span>
+            <Badge variant="destructive">2 non lues</Badge>
             <IconMailOpened size={20} />
           </div>
         </div>
-        <hr />
-        <div className="flex gap-3 px-4 py-2 hover:bg-slate-200/50">
+        <Separator />
+        <div className="flex gap-3 p-2 my-2 hover:bg-slate-100 rounded-lg">
           <span className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mt-1">
             <IconUserPlus size={24} />
           </span>
@@ -60,7 +58,7 @@ export default function Notifications() {
           </div>
         </div>
         <hr />
-        <div className="flex gap-3 px-4 py-2 hover:bg-slate-200/50">
+        <div className="flex gap-3 p-2 my-2 hover:bg-slate-100 rounded-lg">
           <span className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mt-1">
             <IconTrophy size={24} />
           </span>
@@ -73,7 +71,7 @@ export default function Notifications() {
           </div>
         </div>
         <hr />
-        <div className="flex gap-3 px-4 py-2 hover:bg-slate-200/50">
+        <div className="flex gap-3 p-2 my-2 hover:bg-slate-100 rounded-lg">
           <span className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mt-1">
             <IconShoppingCart size={24} />
           </span>
@@ -85,7 +83,7 @@ export default function Notifications() {
             <span className="text-gray-400 text-xs mt-1">14 avril 2024</span>
           </div>
         </div>
-      </div>
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 }
