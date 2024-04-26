@@ -5,6 +5,8 @@ import { Theme } from "@/types/app";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
 import { useState, useEffect, use } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
 
 export default function ThemeSwitcher() {
   // Variables
@@ -35,13 +37,34 @@ export default function ThemeSwitcher() {
   }
 
   return (
-    <div className="relative">
-      <IconSun
-        size={24}
-        className="text-slate-800 cursor-pointer"
-        onClick={() => handleOpenClose()}
-      />
-      <div
+    <Popover>
+      <PopoverTrigger asChild>
+        <IconSun size={24} className="text-slate-800 cursor-pointer" />
+      </PopoverTrigger>
+      <PopoverContent sideOffset={10} align="center" className="w-40">
+        <Button
+          onClick={() => handleThemeChange("system")}
+          variant={theme === "system" ? "secondary" : "ghost"}
+          className="w-full mb-2"
+        >
+          <IconDeviceDesktop className="me-2" size={20} /> Système
+        </Button>
+        <Button
+          onClick={() => handleThemeChange("dark")}
+          variant={theme === "dark" ? "secondary" : "ghost"}
+          className="w-full mb-2"
+        >
+          <IconMoon className="me-2" size={20} /> Sombre
+        </Button>
+        <Button
+          onClick={() => handleThemeChange("light")}
+          variant={theme === "light" ? "secondary" : "ghost"}
+          className="w-full"
+        >
+          <IconSun className="me-2" size={20} /> Clair
+        </Button>
+      </PopoverContent>
+      {/* <div
         className={`absolute z-20 left-0 top-10 w-48 py-2 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col transition-all duration-300 transform ${
           openElement === "themeSwitcher"
             ? "scale-100 opacity-100 pointer-events-auto"
@@ -78,7 +101,7 @@ export default function ThemeSwitcher() {
         >
           <IconSun size={20} /> Clair
         </button>
-      </div>
-    </div>
+      </div> */}
+    </Popover>
   );
 }
