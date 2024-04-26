@@ -24,6 +24,13 @@ import {
 } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../ui/navigation-menu";
 
 export default function HorizontalMenu() {
   const { openElement, setOpenElement } = useOpenElement();
@@ -107,8 +114,26 @@ export default function HorizontalMenu() {
   ];
 
   return (
-    <div className="flex p-2 gap-2 ps-0">
-      {navItems.map((item) => {
+    <NavigationMenu>
+      <NavigationMenuList>
+        {navItems.map((item) => {
+          {
+            item.children ? (
+              <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                {item.children.map((child) => (
+                  <NavigationMenuLink key={child.name} href={child.href}>
+                    {child.icon} {child.name}
+                  </NavigationMenuLink>
+                ))}
+              </NavigationMenuContent>
+            ) : (
+              ""
+            );
+          }
+        })}
+      </NavigationMenuList>
+      {/* {navItems.map((item) => {
         const isActive = pathName === item.href;
         const className = isActive
           ? "py-1.5 px-4 bg-gradient-to-r from-red-600 to-rose-400 text-white flex items-center gap-2 rounded-lg cursor-pointer"
@@ -162,7 +187,7 @@ export default function HorizontalMenu() {
             )}
           </div>
         );
-      })}
-    </div>
+      })} */}
+    </NavigationMenu>
   );
 }
