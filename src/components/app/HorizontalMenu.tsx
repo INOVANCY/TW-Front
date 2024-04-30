@@ -30,6 +30,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuItem,
+  navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 
 export default function HorizontalMenu() {
@@ -113,81 +115,54 @@ export default function HorizontalMenu() {
     },
   ];
 
+  function onNavChange() {
+    setTimeout(() => {
+      const triggers = document.querySelectorAll(
+        '.submenu-trigger[data-state="open"]'
+      );
+      if (triggers.length === 0) return;
+
+      const firstTrigger = triggers[0] as HTMLElement;
+
+      document.documentElement.style.setProperty(
+        "--menu-left-position",
+        `${firstTrigger.offsetLeft}px`
+      );
+    });
+  }
+
   return (
-    <NavigationMenu>
+    <NavigationMenu className="my-1" onValueChange={onNavChange}>
       <NavigationMenuList>
-        {navItems.map((item) => {
-          {
-            item.children ? (
-              <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
+        {navItems.map((item) =>
+          item.children ? (
+            <NavigationMenuItem key={item.name}>
+              <NavigationMenuTrigger className="submenu-trigger">
+                <span className="me-2">{item.icon}</span> {item.name}
+              </NavigationMenuTrigger>
               <NavigationMenuContent>
                 {item.children.map((child) => (
-                  <NavigationMenuLink key={child.name} href={child.href}>
-                    {child.icon} {child.name}
+                  <NavigationMenuLink
+                    key={child.name}
+                    href={child.href}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <span className="me-2">{child.icon}</span> {child.name}
                   </NavigationMenuLink>
                 ))}
               </NavigationMenuContent>
-            ) : (
-              ""
-            );
-          }
-        })}
-      </NavigationMenuList>
-      {/* {navItems.map((item) => {
-        const isActive = pathName === item.href;
-        const className = isActive
-          ? "py-1.5 px-4 bg-gradient-to-r from-red-600 to-rose-400 text-white flex items-center gap-2 rounded-lg cursor-pointer"
-          : "py-1.5 px-4 text-slate-800 flex items-center gap-2 rounded-lg hover:bg-slate-200/50 cursor-pointer";
-
-        return (
-          <div
-            className="relative"
-            key={item.name}
-            onMouseLeave={() => setOpenElement("")}
-          >
-            {item.children ? (
-              <span
-                className={className}
-                onMouseEnter={() =>
-                  setOpenElement(`horizontalNav-${item.code}`)
-                }
-              >
-                {item.icon} {item.name} <IconChevronDown size={18} />
-              </span>
-            ) : (
-              <Link href={item.href} className={className}>
-                {item.icon} {item.name}
+            </NavigationMenuItem>
+          ) : (
+            <NavigationMenuItem key={item.name}>
+              <Link href={item.href} legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <span className="me-2">{item.icon}</span> {item.name}
+                </NavigationMenuLink>
               </Link>
-            )}
-            {item.children && (
-              <div
-                className={`absolute left-0 ${
-                  openElement != `horizontalNav-${item.code}` &&
-                  "pointer-events-none"
-                }`}
-              >
-                <div className="h-2"></div>
-                <div
-                  className={`opacity-0 left-0 w-48 z-20 rounded-lg shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 transition-opacity duration-300 pointer-events-none ${
-                    openElement === `horizontalNav-${item.code}` &&
-                    "opacity-95 pointer-events-auto"
-                  }`}
-                >
-                  {item.children.map((child) => (
-                    <a
-                      key={child.name}
-                      href={child.href}
-                      className="flex items-center gap-2 mx-2 my-1 px-3 py-2 rounded-lg text-slate-800 hover:bg-slate-200/50"
-                    >
-                      {child.icon} {child.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })} */}
+            </NavigationMenuItem>
+          )
+        )}
+      </NavigationMenuList>
     </NavigationMenu>
   );
 }
