@@ -140,7 +140,7 @@ export default function HorizontalMenu() {
               <NavigationMenuTrigger className="submenu-trigger">
                 <span className="me-2">{item.icon}</span> {item.name}
               </NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuContent className="p-2">
                 {item.children.map((child) => (
                   <NavigationMenuLink
                     key={child.name}

@@ -30,11 +30,15 @@ export default function UserMenu() {
   const userNavItems: NavItems = [
     {
       name: "Votre profil",
-      href: "/",
+      href: "/user/gaspard.dlx",
       icon: <IconUser size={20} />,
     },
-    { name: "Paramètres", href: "/", icon: <IconSettings size={20} /> },
-    { name: "Vos commandes", href: "/", icon: <IconShoppingCart size={20} /> },
+    { name: "Paramètres", href: "/settings", icon: <IconSettings size={20} /> },
+    {
+      name: "Vos commandes",
+      href: "/orders",
+      icon: <IconShoppingCart size={20} />,
+    },
     { name: "hr", href: "", icon: <></> },
     {
       name: "Panneau de gestion",
@@ -53,7 +57,7 @@ export default function UserMenu() {
           <AvatarFallback>GD</AvatarFallback>
         </Avatar>
       </PopoverTrigger>
-      <PopoverContent sideOffset={10} align="center">
+      <PopoverContent sideOffset={10} align="center" className="w-56">
         <div className="flex gap-3 items-center">
           <Avatar className="cursor-pointer">
             <AvatarImage src="/dev/pdp.jpeg" alt="Avatar" />

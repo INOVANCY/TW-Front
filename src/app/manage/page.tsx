@@ -1,6 +1,7 @@
 import { NavItems } from "@/types/app";
 import {
   IconBuilding,
+  IconBuildingCircus,
   IconCheck,
   IconChefHat,
   IconFountain,
@@ -33,7 +34,7 @@ export default function ManageHome() {
     },
     {
       name: "Spectacles",
-      icon: <IconTheater size={32} stroke={1.5} />,
+      icon: <IconBuildingCircus size={32} stroke={1.5} />,
       href: "/manage/shows",
     },
     {
