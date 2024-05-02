@@ -22,6 +22,7 @@ export default function Footer() {
           <a
             href="https://inovancy.dev"
             className="hover:underline underline-offset-2"
+            target="_blank"
           >
             INOVANCY
           </a>

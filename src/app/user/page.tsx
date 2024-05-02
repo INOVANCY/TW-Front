@@ -17,6 +17,7 @@ import {
   IconBrandSnapchat,
   IconBrandX,
   IconBuildingCarousel,
+  IconCalendarEvent,
   IconCirclePlus,
   IconClock,
   IconCrane,
@@ -25,15 +26,20 @@ import {
   IconHeart,
   IconHome,
   IconLanguage,
+  IconMoneybag,
   IconNotes,
   IconPin,
+  IconPlaneArrival,
+  IconPlaneDeparture,
   IconPlus,
   IconRollercoaster,
+  IconScale,
   IconStar,
   IconTimeline,
   IconTrophy,
   IconUser,
   IconUserPlus,
+  IconUsersGroup,
   IconWorld,
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
@@ -51,6 +57,7 @@ import {
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import { toast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 export default function UserProfile() {
   const UserStatistics = [
@@ -100,7 +107,10 @@ export default function UserProfile() {
 
   function handleCopyUserLink() {
     navigator.clipboard.writeText("https://thrills.world/user/gaspard.dlx");
-    toast({ title: "Lien copié dans le presse-papier" });
+    toast({
+      title: "(Trace du) Hourra!",
+      description: "Lien copié dans le presse-papier",
+    });
   }
 
   return (
@@ -215,13 +225,15 @@ export default function UserProfile() {
         {/* Statistiques */}
         <div className="col-span-3 grid grid-cols-4 gap-4">
           {UserStatistics.map((stat, index) => (
-            <Card key={index}>
+            <Card key={index} className="cursor-pointer group">
               <CardContent className="p-4 flex items-center justify-between">
                 <div className="flex flex-col justify-center items-start">
-                  <p className="font-bold text-slate-800 text-xl">
+                  <p className="font-bold text-slate-800 text-xl group-hover:text-red-600">
                     {stat.value}
                   </p>
-                  <p className="text-slate-800">{stat.label}</p>
+                  <p className="text-slate-800 group-hover:text-red-600">
+                    {stat.label}
+                  </p>
                 </div>
                 <div className="bg-red-200 p-3 rounded-full text-red-600">
                   {stat.icon}
@@ -235,9 +247,7 @@ export default function UserProfile() {
             <CardContent className="p-2">
               <TabsList className="w-full grid grid-cols-6">
                 <TabsTrigger value="rankings">Classements</TabsTrigger>
-                <TabsTrigger value="trips" disabled>
-                  Voyages
-                </TabsTrigger>
+                <TabsTrigger value="trips">Voyages</TabsTrigger>
                 <TabsTrigger value="anecdotes">Anecdotes</TabsTrigger>
                 <TabsTrigger value="gaming">Gaming</TabsTrigger>
                 <TabsTrigger value="products">Produits</TabsTrigger>
@@ -251,28 +261,38 @@ export default function UserProfile() {
                 <CardTitle>Classements</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2">
-                  <p>Choisissez le classement à afficher:</p>
-                  <Select defaultValue="a_coasters">
-                    <SelectTrigger className="w-72">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Manuel</SelectLabel>
-                        <SelectItem value="m_coasters">
-                          Top coasters manuel
-                        </SelectItem>
-                      </SelectGroup>
-                      <SelectGroup>
-                        <SelectLabel>Automatique</SelectLabel>
-                        <SelectItem value="a_coasters">
-                          Top coasters automatique
-                        </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <p>Choisissez le classement à afficher:</p>
+                    <Select defaultValue="a_coasters">
+                      <SelectTrigger className="w-72">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Manuel</SelectLabel>
+                          <SelectItem value="m_coasters">
+                            Top coasters manuel
+                          </SelectItem>
+                        </SelectGroup>
+                        <SelectGroup>
+                          <SelectLabel>Automatique</SelectLabel>
+                          <SelectItem value="a_coasters">
+                            Top coasters automatique
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
+                    <IconScale size={20} /> Voir sa pondération
+                  </Button>
                 </div>
+
                 <Separator className="my-4" />
                 <ul className="flex flex-col gap-4">
                   <li className="flex justify-between items-center">
@@ -302,7 +322,9 @@ export default function UserProfile() {
                       <p className="text-2xl text-slate-800 font-medium flex items-center justify-end gap-2">
                         <IconStar size={20} /> 9.9
                       </p>
-                      <p className="text-muted-foreground">Note moyenne</p>
+                      <p className="text-muted-foreground">
+                        Note avec pondération
+                      </p>
                     </div>
                   </li>
                   <li className="flex justify-between items-center">
@@ -330,7 +352,9 @@ export default function UserProfile() {
                       <p className="text-2xl text-slate-800 font-medium flex items-center justify-end gap-2">
                         <IconStar size={20} /> 9.4
                       </p>
-                      <p className="text-muted-foreground">Note moyenne</p>
+                      <p className="text-muted-foreground">
+                        Note avec pondération
+                      </p>
                     </div>
                   </li>
                   <li className="flex justify-between items-center">
@@ -360,7 +384,9 @@ export default function UserProfile() {
                       <p className="text-2xl text-slate-800 font-medium flex items-center justify-end gap-2">
                         <IconStar size={20} /> 9.1
                       </p>
-                      <p className="text-muted-foreground">Note moyenne</p>
+                      <p className="text-muted-foreground">
+                        Note avec pondération
+                      </p>
                     </div>
                   </li>
                 </ul>
@@ -372,7 +398,63 @@ export default function UserProfile() {
               <CardHeader>
                 <CardTitle>Voyages</CardTitle>
               </CardHeader>
-              <CardContent></CardContent>
+              <CardContent>
+                <p className="text-slate-800">
+                  Liste des voyages publiques de{" "}
+                  <span className="font-medium">@gaspard.dlx</span> | Et si vous
+                  y participiez ?
+                </p>
+                <Separator className="my-4" />
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="border rounded-lg flex flex-col">
+                    <h1 className="text-2xl font-medium p-4 text-center">
+                      Trip aux USA
+                    </h1>
+                    <Separator />
+                    <div className="p-4 flex flex-wrap items-center justify-center gap-4">
+                      <Badge
+                        variant="secondary"
+                        className="w-fit flex items-center justify-center gap-2"
+                      >
+                        <IconPlaneDeparture size={18} /> 12/08/2024
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="w-fit flex items-center justify-center gap-2"
+                      >
+                        <IconPlaneArrival size={18} /> 18/08/2024
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="w-fit flex items-center justify-center gap-2"
+                      >
+                        <IconMoneybag size={18} /> 459€
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="w-fit flex items-center justify-center gap-2"
+                      >
+                        <IconFountain size={18} /> 5 parcs
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="w-fit col-span-2 flex items-center justify-center gap-2"
+                      >
+                        <IconUsersGroup size={18} /> 5 participants
+                      </Badge>
+                    </div>
+                    <Separator />
+                    <div className="p-4 text-red-600 font-medium">
+                      <Link
+                        href="/trip/usa"
+                        className="flex items-center gap-2 justify-center"
+                      >
+                        <IconPlus size={18} /> Voir les détails
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="anecdotes">
