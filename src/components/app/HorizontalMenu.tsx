@@ -141,11 +141,12 @@ export default function HorizontalMenu() {
                 <span className="me-2">{item.icon}</span> {item.name}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="p-2">
-                {item.children.map((child) => (
+                {item.children!.map((child) => (
                   <NavigationMenuLink
                     key={child.name}
                     href={child.href}
                     className={navigationMenuTriggerStyle()}
+                    active={pathName === child.href}
                   >
                     <span className="me-2">{child.icon}</span> {child.name}
                   </NavigationMenuLink>
@@ -155,7 +156,10 @@ export default function HorizontalMenu() {
           ) : (
             <NavigationMenuItem key={item.name}>
               <Link href={item.href} legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <NavigationMenuLink
+                  className={navigationMenuTriggerStyle()}
+                  active={pathName === item.href}
+                >
                   <span className="me-2">{item.icon}</span> {item.name}
                 </NavigationMenuLink>
               </Link>

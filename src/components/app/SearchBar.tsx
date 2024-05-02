@@ -50,7 +50,11 @@ export default function SearchBar() {
 
   return (
     <>
-      <Button variant="outline" onClick={() => setOpenElement("search")}>
+      <Button
+        variant="outline_red"
+        size="sm"
+        onClick={() => setOpenElement("search")}
+      >
         <IconSearch size={20} className="me-2" /> Rechercher n'importe quoi...
       </Button>
       <CommandDialog
