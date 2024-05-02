@@ -32,6 +32,7 @@ import {
   IconPlaneArrival,
   IconPlaneDeparture,
   IconPlus,
+  IconPoo,
   IconRollercoaster,
   IconScale,
   IconStar,
@@ -58,6 +59,16 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { PieChart, Pie, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 export default function UserProfile() {
   const UserStatistics = [
@@ -103,12 +114,55 @@ export default function UserProfile() {
     },
   ];
 
+  const data = [
+    {
+      name: "Vekoma",
+      value: 26,
+    },
+    {
+      name: "Intamin",
+      value: 20,
+    },
+    {
+      name: "B&M",
+      value: 15,
+    },
+    {
+      name: "RMC",
+      value: 10,
+    },
+    {
+      name: "Gerstlauer",
+      value: 8,
+    },
+    {
+      name: "Mack Rides",
+      value: 6,
+    },
+    {
+      name: "Zamperla",
+      value: 5,
+    },
+    {
+      name: "Schwarzkopf",
+      value: 4,
+    },
+    {
+      name: "Maurer Rides",
+      value: 3,
+    },
+    {
+      name: "B&M",
+      value: 2,
+    },
+  ];
+
   // Fonctions
 
   function handleCopyUserLink() {
     navigator.clipboard.writeText("https://thrills.world/user/gaspard.dlx");
     toast({
-      title: "(Trace du) Hourra!",
+      title: "(La Trace du) Hourra!",
       description: "Lien copié dans le presse-papier",
     });
   }
@@ -225,21 +279,51 @@ export default function UserProfile() {
         {/* Statistiques */}
         <div className="col-span-3 grid grid-cols-4 gap-4">
           {UserStatistics.map((stat, index) => (
-            <Card key={index} className="cursor-pointer group">
-              <CardContent className="p-4 flex items-center justify-between">
-                <div className="flex flex-col justify-center items-start">
-                  <p className="font-bold text-slate-800 text-xl group-hover:text-red-600">
-                    {stat.value}
-                  </p>
-                  <p className="text-slate-800 group-hover:text-red-600">
-                    {stat.label}
-                  </p>
-                </div>
-                <div className="bg-red-200 p-3 rounded-full text-red-600">
-                  {stat.icon}
-                </div>
-              </CardContent>
-            </Card>
+            <Dialog key={index}>
+              <DialogTrigger>
+                <Card className="cursor-pointer group">
+                  <CardContent className="p-4 flex items-center justify-between">
+                    <div className="flex flex-col justify-center items-start">
+                      <p className="font-bold text-slate-800 text-xl group-hover:text-red-600">
+                        {stat.value}
+                      </p>
+                      <p className="text-slate-800 group-hover:text-red-600">
+                        {stat.label}
+                      </p>
+                    </div>
+                    <div className="bg-red-200 p-3 rounded-full text-red-600">
+                      {stat.icon}
+                    </div>
+                  </CardContent>
+                </Card>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{stat.value + " " + stat.label}</DialogTitle>
+                  <DialogDescription>
+                    Détails de la statistique
+                  </DialogDescription>
+                  <div className="my-8">
+                    <ResponsiveContainer width="100%" height={250}>
+                      <PieChart>
+                        <Pie
+                          data={data}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius="80%"
+                          fill="#F20A0A"
+                          className="outline-none"
+                          label
+                        />
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           ))}
         </div>
         <Tabs defaultValue="rankings" className="col-span-3">
@@ -247,11 +331,11 @@ export default function UserProfile() {
             <CardContent className="p-2">
               <TabsList className="w-full grid grid-cols-6">
                 <TabsTrigger value="rankings">Classements</TabsTrigger>
+                <TabsTrigger value="notes">Notes</TabsTrigger>
                 <TabsTrigger value="trips">Voyages</TabsTrigger>
                 <TabsTrigger value="anecdotes">Anecdotes</TabsTrigger>
                 <TabsTrigger value="gaming">Gaming</TabsTrigger>
                 <TabsTrigger value="products">Produits</TabsTrigger>
-                <TabsTrigger value="activity">Activité</TabsTrigger>
               </TabsList>
             </CardContent>
           </Card>
@@ -393,6 +477,14 @@ export default function UserProfile() {
               </CardContent>
             </Card>
           </TabsContent>
+          <TabsContent value="notes">
+            <Card>
+              <CardHeader>
+                <CardTitle>Notes</CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+            </Card>
+          </TabsContent>
           <TabsContent value="trips">
             <Card>
               <CardHeader>
@@ -401,7 +493,7 @@ export default function UserProfile() {
               <CardContent>
                 <p className="text-slate-800">
                   Liste des voyages publiques de{" "}
-                  <span className="font-medium">@gaspard.dlx</span> | Et si vous
+                  <span className="font-medium">@gaspard.dlx</span>. Et si vous
                   y participiez ?
                 </p>
                 <Separator className="my-4" />
@@ -447,9 +539,9 @@ export default function UserProfile() {
                     <div className="p-4 text-red-600 font-medium">
                       <Link
                         href="/trip/usa"
-                        className="flex items-center gap-2 justify-center"
+                        className="flex items-center gap-2 justify-center text-sm"
                       >
-                        <IconPlus size={18} /> Voir les détails
+                        <IconPlus size={16} /> Voir les détails
                       </Link>
                     </div>
                   </div>
@@ -462,7 +554,67 @@ export default function UserProfile() {
               <CardHeader>
                 <CardTitle>Anecdotes</CardTitle>
               </CardHeader>
-              <CardContent></CardContent>
+              <CardContent>
+                Liste des pires (et meilleures) anecdotes de{" "}
+                <span className="font-medium">@gaspard.dlx</span>.
+                <Separator className="my-4" />
+                <div className="mb-4 border border-red-200 rounded-lg flex gap-4">
+                  <div className="p-4 border-e border-red-200 text-red-400 flex flex-col justify-between">
+                    <IconPoo size={24} />
+                    <p className="[writing-mode:vertical-lr] text-xl font-bold">
+                      NUL!
+                    </p>
+                    <IconPoo size={24} />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-slate-800 font-medium text-lg flex items-center gap-2 mb-2">
+                      Une des pires sensations!
+                      <Badge variant="outline">PortAventura Park</Badge>
+                    </h3>
+                    <p className=" text-slate-800">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Exercitationem voluptas nam dignissimos voluptatibus
+                      facilis, expedita quaerat quibusdam! Quis delectus ex
+                      ipsa, culpa optio officiis voluptatum laudantium adipisci
+                      quidem dolor aliquid. Ut adipisci commodi quisquam
+                      repellat illum vitae blanditiis suscipit sapiente aliquid
+                      qui? Magnam, repudiandae itaque eius distinctio atque,
+                      quos aspernatur, praesentium consequatur accusamus
+                      assumenda qui hic repellat excepturi fuga sint.
+                    </p>
+                  </div>
+                </div>
+                <div className="mb-4 border border-green-200 rounded-lg flex gap-4">
+                  <div className="p-4 border-e border-green-200 text-green-400 flex flex-col justify-between">
+                    <IconHeart size={24} />
+                    <p className="[writing-mode:vertical-lr] text-xl font-bold">
+                      TOP!
+                    </p>
+                    <IconHeart size={24} />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-slate-800 font-medium text-lg flex items-center gap-2 mb-2">
+                      Quel super opérateur!
+                      <Badge variant="outline">Walibi Belgium</Badge>
+                    </h3>
+                    <p className=" text-slate-800">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Nisi praesentium, eveniet error iusto sed corporis autem.
+                      Blanditiis nobis nisi fugiat officia libero illum
+                      perspiciatis voluptas error consequuntur. Enim, itaque
+                      odit. Beatae, illo eos. Suscipit, praesentium optio
+                      assumenda sint nam, delectus iure maiores eos maxime error
+                      nobis veniam et dolorem! Dicta, nam. Atque sed soluta
+                      commodi reprehenderit iure itaque voluptatibus modi.
+                      Accusamus officiis quo, natus unde quod perferendis ex
+                      optio nihil! Recusandae suscipit asperiores eum rem,
+                      nostrum tempora natus quod voluptates facere nisi ad
+                      deleniti, explicabo fugit expedita, consequuntur omnis
+                      modi?
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="gaming">
@@ -477,14 +629,6 @@ export default function UserProfile() {
             <Card>
               <CardHeader>
                 <CardTitle>Produits</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="activity">
-            <Card>
-              <CardHeader>
-                <CardTitle>Activité</CardTitle>
               </CardHeader>
               <CardContent></CardContent>
             </Card>
