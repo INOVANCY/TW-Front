@@ -2,18 +2,37 @@
 
 import AppLayout from "@/app/layouts/AppLayout";
 import ParksFormModal from "@/components/app/manage/ParksFormModal";
-import TWTable from "@/components/ui/Table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import TWCard from "@/components/ui/cards/Card";
 import TWCardHeader from "@/components/ui/cards/CardHeader";
+import { DataTable } from "@/components/ui/data-table";
 import TWButton from "@/components/ui/forms/Button";
 import TWInput from "@/components/ui/forms/Input";
 import { useState } from "react";
+import { Park, columns } from "./columns";
+import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { set } from "react-hook-form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ManageParksHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPark, setSelectedPark] = useState<number | null>(null);
 
   // Data sur les parcs d'attractions
-  const data = [
+
+  const parks: Park[] = [
     {
       id: 1,
       name: "Disneyland Paris",
@@ -31,24 +50,55 @@ export default function ManageParksHome() {
     { id: 10, name: "Liseberg", city: "Göteborg", country: "Suède" },
   ];
 
-  const columns = [
-    { key: "name", label: "Nom" },
-    { key: "city", label: "Ville" },
-    { key: "country", label: "Pays" },
-  ];
+  const onAddButtonClick = () => {
+    setSelectedPark(null);
+    setIsModalOpen(true);
+  };
+
+  const onEditButtonClick = (parkId: number) => {
+    setSelectedPark(parkId);
+    setIsModalOpen(true);
+  };
 
   return (
     <AppLayout>
-      <TWCard>
-        <TWCardHeader text="Gérer les parcs" />
-        <TWTable
-          columns={columns}
-          data={data}
-          actions
-          onAdd={() => setIsModalOpen(true)}
-        />
-      </TWCard>
-      {isModalOpen && <ParksFormModal />}
+      <Card>
+        <CardHeader>
+          <CardTitle>Gérer les parcs d'attractions</CardTitle>
+          <CardDescription>
+            Sur cette page, vous pouvez gérer tous les parcs d'attractions de
+            Thrills World.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            columns={columns(onEditButtonClick)}
+            data={parks}
+            searchColumn="name"
+            tableName="un parc"
+            onAddButtonClick={onAddButtonClick}
+          />
+        </CardContent>
+      </Card>
+      <Dialog
+        open={isModalOpen}
+        onOpenChange={() => setIsModalOpen(!isModalOpen)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {selectedPark ? "Modifier un parc" : "Ajouter un parc"}
+            </DialogTitle>
+          </DialogHeader>
+          <Tabs defaultValue="general">
+            <TabsList className="w-full">
+              <TabsTrigger value="general">Général</TabsTrigger>
+              <TabsTrigger value="rates">Tarifs</TabsTrigger>
+              <TabsTrigger value="location">Localisation</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </DialogContent>
+      </Dialog>
     </AppLayout>
   );
 }
