@@ -1,22 +1,23 @@
 "use client";
 
 import AuthLayout from "@/app/layouts/AuthLayout";
-import TWButton from "@/components/ui/forms/Button";
-import TWInput from "@/components/ui/forms/Input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
 import { useForm } from "react-hook-form";
 
 export default function AuthForgotPasswordPage() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const form = useForm();
 
   const onSubmit = (data: any) => {
     console.log(data);
-    reset();
   };
 
   return (
@@ -28,27 +29,23 @@ export default function AuthForgotPasswordPage() {
       <p className="text-slate-800 mb-6">
         Entrez votre e-mail pour recevoir un code à usage unique.
       </p>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-1 gap-y-4 gap-x-2 mb-6"
-      >
-        <TWInput
-          type="email"
-          name="email"
-          label="Adresse e-mail"
-          errors={errors}
-          register={register}
-          validationSchema={{
-            required: "L'adresse e-mail est requise",
-            pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-              message: "L'adresse e-mail n'est pas valide",
-            },
-          }}
-          required
-        />
-        <TWButton text="Envoyer le code à usage unique" />
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Adresse e-mail</FormLabel>
+                <FormControl>
+                  <Input placeholder="jhone.doe@email.com" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Envoyer le code à usage unique</Button>
+        </form>
+      </Form>
     </AuthLayout>
   );
 }
