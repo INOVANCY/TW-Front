@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import AppLayout from "../layouts/AppLayout";
+import AppLayout from "../../layouts/AppLayout";
 import { Badge } from "@/components/ui/badge";
 import {
   IconAt,
@@ -70,7 +70,12 @@ import {
 
 import { PieChart, Pie, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
-export default function UserProfile() {
+export default function UserProfile({
+  params,
+}: {
+  params: { username: string };
+}) {
+  console.log(params);
   const UserStatistics = [
     {
       icon: <IconRollercoaster size={32} />,

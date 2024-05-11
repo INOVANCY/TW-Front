@@ -10,11 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import TWButton from "@/components/ui/forms/Button";
 import {
   IconDotsCircleHorizontal,
   IconEdit,
   IconEye,
+  IconTexture,
 } from "@tabler/icons-react";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
@@ -26,7 +26,10 @@ export type Park = {
   country: string;
 };
 
-export const columns = (onEditButtonClick: any): ColumnDef<Park>[] => [
+export const columns = (
+  onEditButtonClick: any,
+  onZoneEditButtonClick: any
+): ColumnDef<Park>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -70,6 +73,13 @@ export const columns = (onEditButtonClick: any): ColumnDef<Park>[] => [
               onClick={() => onEditButtonClick(park.id)}
             >
               <IconEdit size={18} className="me-2" /> Modifier
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => onZoneEditButtonClick(park.id)}
+            >
+              <IconTexture size={18} className="me-2" /> Modifier les zones du
+              parc
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

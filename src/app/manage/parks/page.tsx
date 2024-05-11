@@ -33,7 +33,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { IconArrowDown, IconInfoCircle } from "@tabler/icons-react";
+import {
+  IconArrowDown,
+  IconCheck,
+  IconInfoCircle,
+  IconSend,
+} from "@tabler/icons-react";
 import {
   Select,
   SelectContent,
@@ -47,7 +52,8 @@ import TWMap from "@/components/ui/Map";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function ManageParksHome() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isZoneModalOpen, setIsZoneModalOpen] = useState(true);
   const [selectedPark, setSelectedPark] = useState<number | null>(null);
 
   // Data sur les parcs d'attractions
@@ -80,6 +86,11 @@ export default function ManageParksHome() {
     setIsModalOpen(true);
   };
 
+  const onZoneEditButtonClick = (parkId: number) => {
+    setSelectedPark(parkId);
+    setIsZoneModalOpen(true);
+  };
+
   // Formulaire
   const form = useForm();
 
@@ -99,7 +110,7 @@ export default function ManageParksHome() {
         </CardHeader>
         <CardContent>
           <DataTable
-            columns={columns(onEditButtonClick)}
+            columns={columns(onEditButtonClick, onZoneEditButtonClick)}
             data={parks}
             searchColumn="name"
             tableName="un parc"
@@ -265,6 +276,62 @@ export default function ManageParksHome() {
                   Envoyer les informations
                 </Button>
               </DialogFooter>
+            </DialogContent>
+          </form>
+        </Form>
+      </Dialog>
+      <Dialog
+        open={isZoneModalOpen}
+        onOpenChange={() => setIsZoneModalOpen(!isZoneModalOpen)}
+      >
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Modifier les zones d'un parc</DialogTitle>
+              </DialogHeader>
+              <FormField
+                control={form.control}
+                name="zone_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ajouter une nouvelle zone</FormLabel>
+                    <div className="flex items-center justify-between gap-2">
+                      <FormControl>
+                        <Input placeholder="Croatie" {...field} />
+                      </FormControl>
+                      <Button
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <IconCheck size={14} /> Valider
+                      </Button>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <Separator />
+              <p className="font-semibold">Renommer une zone déjà existante</p>
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <div className="flex items-center justify-between gap-2">
+                    <Input value="Grèce" />
+                    <Button variant="outline">Renommer</Button>
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center justify-between gap-2">
+                    <Input value="France" />
+                    <Button variant="outline">Renommer</Button>
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center justify-between gap-2">
+                    <Input value="Islande" />
+                    <Button variant="outline">Renommer</Button>
+                  </div>
+                </li>
+              </ul>
             </DialogContent>
           </form>
         </Form>
