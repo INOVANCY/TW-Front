@@ -8,6 +8,9 @@ import {
   useMapEvents,
 } from "react-leaflet";
 
+// import "leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css";
+
 const customIcon = new Icon({
   iconUrl: "/point.svg", // URL de l'image du point de couleur
   iconSize: [30, 30], // Taille du point
@@ -41,11 +44,7 @@ function MapUpdater() {
 
 export default function TWMap() {
   return (
-    <MapContainer
-      center={[48.8566, 2.3522]}
-      zoom={6}
-      className="h-full w-full rounded-lg shadow-md"
-    >
+    <MapContainer center={[48.8566, 2.3522]} zoom={6} className="w-full h-full">
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

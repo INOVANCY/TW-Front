@@ -1,42 +1,59 @@
-import { TWAlertProps } from "@/types/ui";
-import {
-  IconCheck,
-  IconCircleCheck,
-  IconCircleX,
-  IconExclamationCircle,
-  IconInfoCircle,
-  IconInfoSmall,
-} from "@tabler/icons-react";
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
-export default function TWAlert({ type, size, message }: TWAlertProps) {
-  const colors = {
-    success: "bg-green-100 text-green-600 border border-green-200 ",
-    info: "bg-blue-100 text-blue-600 border border-blue-200",
-    warning: "bg-yellow-200 text-yellow-600 border border-yellow-200",
-    error: "bg-red-100 text-red-600 border border-red-200",
-  };
+import { cn } from "@/lib/utils"
 
-  const icons = {
-    success: {
-      color: "bg-green-600",
-      icon: <IconCircleCheck />,
+const alertVariants = cva(
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        destructive:
+          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+      },
     },
-    info: { color: "bg-blue-600", icon: <IconInfoCircle /> },
-    warning: {
-      color: "bg-yellow-600",
-      icon: <IconExclamationCircle />,
+    defaultVariants: {
+      variant: "default",
     },
-    error: { color: "bg-red-600", icon: <IconCircleX /> },
-  };
+  }
+)
 
-  return (
-    <div
-      className={`p-3 rounded-lg flex items-center gap-2 ${colors[type]} text-${size}`}
-    >
-      <span className={`p-1 text-white rounded-lg ${icons[type].color}`}>
-        {icons[type].icon}
-      </span>
-      <span>{message}</span>
-    </div>
-  );
-}
+const Alert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+>(({ className, variant, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={cn(alertVariants({ variant }), className)}
+    {...props}
+  />
+))
+Alert.displayName = "Alert"
+
+const AlertTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    {...props}
+  />
+))
+AlertTitle.displayName = "AlertTitle"
+
+const AlertDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    {...props}
+  />
+))
+AlertDescription.displayName = "AlertDescription"
+
+export { Alert, AlertTitle, AlertDescription }
