@@ -73,7 +73,12 @@ export default function UserMenu() {
           item.name === "hr" ? (
             <Separator key={index} className="my-1" />
           ) : (
-            <Button variant="ghost" className="w-full !justify-start" asChild>
+            <Button
+              key={index}
+              variant="ghost"
+              className="w-full !justify-start"
+              asChild
+            >
               <Link
                 key={index}
                 href={item.href}
