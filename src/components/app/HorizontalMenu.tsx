@@ -75,7 +75,7 @@ export default function HorizontalMenu() {
     },
     {
       name: "Produits",
-      href: "/shop",
+      href: "/marketplace",
       code: "products",
       icon: <IconShoppingCart size={20} />,
     },
