@@ -23,10 +23,8 @@ export default function AuthForgotPasswordPage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl text-slate-800 mt-3 mb-1">
-        Mot de passe oublié? 🫢
-      </h1>
-      <p className="text-slate-800 mb-6">
+      <h1 className="text-2xl  mt-3 mb-1">Mot de passe oublié? 🫢</h1>
+      <p className=" mb-6">
         Entrez votre e-mail pour recevoir un code à usage unique.
       </p>
       <Form {...form}>

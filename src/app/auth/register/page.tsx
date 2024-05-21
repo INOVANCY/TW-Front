@@ -1,7 +1,6 @@
 "use client";
 
 import AuthLayout from "@/app/layouts/AuthLayout";
-import TextDivider from "@/components/ui/TextDivider";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,9 +10,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import TWButton from "@/components/ui/forms/Button";
-import TWCheckbox from "@/components/ui/forms/Checkbox";
-import TWInput from "@/components/ui/forms/Input";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
 import { Separator } from "@/components/ui/separator";
@@ -37,12 +33,10 @@ export default function AuthRegisterPage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl text-slate-800 mt-3 mb-1">
+      <h1 className="text-2xl  mt-3 mb-1">
         Bienvenue, cher #ThrillsLover ! 👋🏻
       </h1>
-      <p className="text-slate-800">
-        Créez-vous un compte et commencez l'aventure.
-      </p>
+      <p className="">Créez-vous un compte et commencez l'aventure.</p>
       <Separator className="my-4" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -136,7 +130,7 @@ export default function AuthRegisterPage() {
       </Form>
       <Separator className="my-4" />
 
-      <span className="text-slate-800">
+      <span className="">
         Déjà un compte Thrills ?
         <Link href="/auth/login" className="ms-1 font-medium text-red-600">
           Se connecter

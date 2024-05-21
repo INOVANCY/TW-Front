@@ -8,7 +8,7 @@ import UserMenu from "./UserMenu";
 import Logo from "./Logo";
 export default function NavBar() {
   return (
-    <div className="bg-white dark:bg-gray-700 shadow-md">
+    <div className="bg-card shadow-md">
       <header className="border-b">
         <div className="mx-auto w-9/12">
           <div className="flex justify-between w-full ps-0 p-4">

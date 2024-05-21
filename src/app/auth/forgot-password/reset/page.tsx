@@ -9,8 +9,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import TWButton from "@/components/ui/forms/Button";
-import TWInput from "@/components/ui/forms/Input";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
 import { useForm } from "react-hook-form";
@@ -25,8 +23,8 @@ export default function AuthForgotPasswordResetPage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl text-slate-800 mt-3 mb-1">Yes, we did it! 🙂</h1>
-      <p className="text-slate-800 mb-6">
+      <h1 className="text-2xl  mt-3 mb-1">Yes, we did it! 🙂</h1>
+      <p className=" mb-6">
         Plus qu'à modifier votre mot de passe. Retenez-le, cette fois-ci!
       </p>
       <Form {...form}>

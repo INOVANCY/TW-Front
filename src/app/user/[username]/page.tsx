@@ -185,7 +185,7 @@ export default function UserProfile({
           </div>
           <div className="px-4 pb-4 -mt-10 flex justify-between items-center">
             <div className="flex items-center gap-6">
-              <Avatar className="w-40 h-40 rounded-xl border-4 border-white">
+              <Avatar className="w-40 h-40 rounded-xl border-4 border-card">
                 <AvatarImage src="/dev/pdp.jpeg" alt="Gaspard Delvaux" />
                 <AvatarFallback>GD</AvatarFallback>
               </Avatar>
@@ -193,28 +193,22 @@ export default function UserProfile({
                 <h2 className="text-3xl font-semibold mb-2">Gaspard Delvaux</h2>
                 <ul className="flex gap-4">
                   <li>
-                    <Badge
-                      className="p-1.5 px-2 text-slate-800"
-                      variant="secondary"
-                    >
+                    <Badge className="p-1.5 px-2" variant="secondary">
                       <IconBrandFacebook size={16} />
                     </Badge>
                   </li>
                   <li>
-                    <Badge className="p-1.5 text-slate-800" variant="secondary">
+                    <Badge className="p-1.5" variant="secondary">
                       <IconBrandInstagram size={16} />
                     </Badge>
                   </li>
                   <li>
-                    <Badge className="p-1.5 text-slate-800" variant="secondary">
+                    <Badge className="p-1.5" variant="secondary">
                       <IconBrandX size={16} />
                     </Badge>
                   </li>
                   <li>
-                    <Badge
-                      className="p-1.5 px-2 text-slate-800"
-                      variant="secondary"
-                    >
+                    <Badge className="p-1.5 px-2" variant="secondary">
                       <IconBrandSnapchat size={16} />
                     </Badge>
                   </li>
@@ -236,24 +230,23 @@ export default function UserProfile({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-slate-800"></p>
               <ul className="flex flex-col gap-2">
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconHeart size={18} />
                   Europa-Park
                 </li>
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconHome size={18} />
                   Walibi Belgium
                 </li>
                 <li>
                   <Separator className="my-2" />
                 </li>
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconUser size={18} />
                   Gaspard Delvaux
                 </li>
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconAt size={18} />
                   gaspard.dlx
                   <Badge
@@ -264,15 +257,15 @@ export default function UserProfile({
                     Copier le lien
                   </Badge>
                 </li>
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconLanguage size={18} />
                   Français
                 </li>
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconFlag size={18} />
                   Belgique
                 </li>
-                <li className="flex items-center gap-2 text-slate-800">
+                <li className="flex items-center gap-2">
                   <IconClock size={18} />
                   Membre depuis le 11 juin 2024
                 </li>
@@ -289,12 +282,10 @@ export default function UserProfile({
                 <Card className="cursor-pointer group">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div className="flex flex-col justify-center items-start">
-                      <p className="font-bold text-slate-800 text-xl group-hover:text-red-600">
+                      <p className="font-bold text-xl group-hover:text-red-600">
                         {stat.value}
                       </p>
-                      <p className="text-slate-800 group-hover:text-red-600">
-                        {stat.label}
-                      </p>
+                      <p className="group-hover:text-red-600">{stat.label}</p>
                     </div>
                     <div className="bg-red-200 p-3 rounded-full text-red-600">
                       {stat.icon}
@@ -398,7 +389,7 @@ export default function UserProfile({
                         </AspectRatio>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="text-2xl text-slate-800 font-medium flex items-center gap-2">
+                        <h1 className="text-2xl font-medium flex items-center gap-2">
                           #1 Untamed <Badge variant="gradient">TOP 1</Badge>
                         </h1>
                         <p className="text-muted-foreground">Walibi Holland</p>
@@ -408,7 +399,7 @@ export default function UserProfile({
                       </div>
                     </div>
                     <div className="flex flex-col text-right">
-                      <p className="text-2xl text-slate-800 font-medium flex items-center justify-end gap-2">
+                      <p className="text-2xl font-medium flex items-center justify-end gap-2">
                         <IconStar size={20} /> 9.9
                       </p>
                       <p className="text-muted-foreground">
@@ -430,7 +421,7 @@ export default function UserProfile({
                         </AspectRatio>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="text-2xl text-slate-800 font-medium flex items-center gap-2">
+                        <h1 className="text-2xl font-medium flex items-center gap-2">
                           #2 Kondaa
                         </h1>
                         <p className="text-muted-foreground">Walibi Belgium</p>
@@ -438,7 +429,7 @@ export default function UserProfile({
                       </div>
                     </div>
                     <div className="flex flex-col text-right">
-                      <p className="text-2xl text-slate-800 font-medium flex items-center justify-end gap-2">
+                      <p className="text-2xl font-medium flex items-center justify-end gap-2">
                         <IconStar size={20} /> 9.4
                       </p>
                       <p className="text-muted-foreground">
@@ -460,7 +451,7 @@ export default function UserProfile({
                         </AspectRatio>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="text-2xl text-slate-800 font-medium flex items-center gap-2">
+                        <h1 className="text-2xl font-medium flex items-center gap-2">
                           #3 Wodan Timbur Coaster
                         </h1>
                         <p className="text-muted-foreground">Europa-Park</p>
@@ -470,7 +461,7 @@ export default function UserProfile({
                       </div>
                     </div>
                     <div className="flex flex-col text-right">
-                      <p className="text-2xl text-slate-800 font-medium flex items-center justify-end gap-2">
+                      <p className="text-2xl font-medium flex items-center justify-end gap-2">
                         <IconStar size={20} /> 9.1
                       </p>
                       <p className="text-muted-foreground">
@@ -496,7 +487,7 @@ export default function UserProfile({
                 <CardTitle>Voyages</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-800">
+                <p>
                   Liste des voyages publiques de{" "}
                   <span className="font-medium">@gaspard.dlx</span>. Et si vous
                   y participiez ?
@@ -572,11 +563,11 @@ export default function UserProfile({
                     <IconPoo size={24} />
                   </div>
                   <div className="p-4">
-                    <h3 className="text-slate-800 font-medium text-lg flex items-center gap-2 mb-2">
+                    <h3 className="font-medium text-lg flex items-center gap-2 mb-2">
                       Une des pires sensations!
                       <Badge variant="outline">PortAventura Park</Badge>
                     </h3>
-                    <p className=" text-slate-800">
+                    <p className="">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Exercitationem voluptas nam dignissimos voluptatibus
                       facilis, expedita quaerat quibusdam! Quis delectus ex
@@ -598,11 +589,11 @@ export default function UserProfile({
                     <IconHeart size={24} />
                   </div>
                   <div className="p-4">
-                    <h3 className="text-slate-800 font-medium text-lg flex items-center gap-2 mb-2">
+                    <h3 className="font-medium text-lg flex items-center gap-2 mb-2">
                       Quel super opérateur!
                       <Badge variant="outline">Walibi Belgium</Badge>
                     </h3>
-                    <p className=" text-slate-800">
+                    <p className="">
                       Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                       Nisi praesentium, eveniet error iusto sed corporis autem.
                       Blanditiis nobis nisi fugiat officia libero illum

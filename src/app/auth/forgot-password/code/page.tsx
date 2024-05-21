@@ -10,8 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import TWButton from "@/components/ui/forms/Button";
-import TWInput from "@/components/ui/forms/Input";
 import {
   InputOTP,
   InputOTPGroup,
@@ -31,10 +29,10 @@ export default function AuthForgotPasswordCodePage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl text-slate-800 mt-3 mb-1">
+      <h1 className="text-2xl  mt-3 mb-1">
         Entrez le code que vous avez reçu. 💡
       </h1>
-      <p className="text-slate-800 mb-6">
+      <p className=" mb-6">
         N'oubliez pas de vérifier votre dossier indésirable.
       </p>
       <Form {...form}>

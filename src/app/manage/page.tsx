@@ -86,7 +86,7 @@ export default function ManageHome() {
             <CardTitle>Bienvenue !</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-800 mt-2">
+            <p className=" mt-2">
               Vous êtes sur la partie de gestion de Thrills World. Ici, vous
               pouvez maintenir la base de données du site et alimenter les
               actualités. N'oubliez pas: avec grand pouvoir, vient grande
@@ -94,10 +94,7 @@ export default function ManageHome() {
             </p>
             <ul className="flex flex-col gap-2 mt-2">
               {rules.map((rule, index) => (
-                <li
-                  key={index}
-                  className="flex items-center gap-2 text-slate-800"
-                >
+                <li key={index} className="flex items-center gap-2 ">
                   <span className="bg-green-200/50 rounded-full text-green-600 p-1">
                     <IconCheck size={16} />
                   </span>
@@ -105,7 +102,7 @@ export default function ManageHome() {
                 </li>
               ))}
             </ul>
-            <p className="text-slate-800 mt-2">
+            <p className=" mt-2">
               Encore milles mercis pour votre aide précieuse !
             </p>
           </CardContent>
@@ -118,7 +115,7 @@ export default function ManageHome() {
                   {card.icon}
                 </div>
                 <div className="flex flex-col items-center">
-                  <h1 className="text-slate-800">{card.name}</h1>
+                  <h1 className="">{card.name}</h1>
                   <Link
                     href={card.href}
                     className="text-sm text-center text-red-600 bg-red-100/50 rounded-lg px-1.5 py-0.5 font-medium mt-1"

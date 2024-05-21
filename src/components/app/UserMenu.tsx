@@ -64,8 +64,8 @@ export default function UserMenu() {
             <AvatarFallback>GD</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <p className="text-slate-800 font-medium">Gaspard Delvaux</p>
-            <span className="text-slate-800 text-sm">Administateur</span>
+            <p className="font-medium">Gaspard Delvaux</p>
+            <span className="text-sm">Administateur</span>
           </div>
         </div>
         <Separator className="mt-4 mb-1" />

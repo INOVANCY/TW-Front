@@ -34,8 +34,8 @@ export default function AuthLoginPage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl text-slate-800 mt-3 mb-1">Enfin de retour! 👋🏻</h1>
-      <p className="text-slate-800">
+      <h1 className="text-2xl  mt-3 mb-1">Enfin de retour! 👋🏻</h1>
+      <p className="">
         Connectez-vous à votre compte et (re-)commencez l'aventure.
       </p>
       <Separator className="my-4" />
@@ -97,7 +97,7 @@ export default function AuthLoginPage() {
         </form>
       </Form>
       <Separator className="my-4" />
-      <span className="text-slate-800">
+      <span className="">
         Nouveau sur Thrills ?
         <Link href="/auth/register" className="ms-1 font-medium text-red-600">
           Créer un compte

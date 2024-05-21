@@ -31,7 +31,7 @@ export default function Notifications() {
       <PopoverTrigger asChild>
         <IconBell
           size={24}
-          className="text-slate-800 cursor-pointer"
+          className="cursor-pointer"
           onClick={() => handleOpenClose()}
         />
       </PopoverTrigger>
@@ -39,7 +39,7 @@ export default function Notifications() {
       <PopoverContent sideOffset={10} align="center" className="w-auto">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-slate-700 font-medium">Notifications</h1>
-          <div className="text-slate-800 flex items-center gap-3">
+          <div className=" flex items-center gap-3">
             <Badge variant="destructive">2 non lues</Badge>
             <IconMailOpened size={20} />
           </div>
@@ -50,8 +50,8 @@ export default function Notifications() {
             <IconUserPlus size={24} />
           </span>
           <div className="flex flex-col">
-            <p className="text-slate-800">Nouvelle demande d'ami</p>
-            <p className="text-xs text-slate-800">
+            <p className="">Nouvelle demande d'ami</p>
+            <p className="text-xs ">
               Hourra ! Gaspard Delvaux vous a demandé en ami.
             </p>
             <span className="text-gray-400 text-xs mt-1">Aujourd'hui</span>
@@ -63,10 +63,8 @@ export default function Notifications() {
             <IconTrophy size={24} />
           </span>
           <div className="flex flex-col">
-            <p className="text-slate-800">Le nouveau classement est arrivé</p>
-            <p className="text-xs text-slate-800">
-              Alors, ça donne quoi ce mois-ci ?
-            </p>
+            <p className="">Le nouveau classement est arrivé</p>
+            <p className="text-xs ">Alors, ça donne quoi ce mois-ci ?</p>
             <span className="text-gray-400 text-xs mt-1">Hier</span>
           </div>
         </div>
@@ -76,8 +74,8 @@ export default function Notifications() {
             <IconShoppingCart size={24} />
           </span>
           <div className="flex flex-col">
-            <p className="text-slate-800">Nouvelle commande</p>
-            <p className="text-xs text-slate-800">
+            <p className="">Nouvelle commande</p>
+            <p className="text-xs ">
               Félicitations, vous avez reçu une nouvelle commande.
             </p>
             <span className="text-gray-400 text-xs mt-1">14 avril 2024</span>

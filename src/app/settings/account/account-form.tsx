@@ -26,7 +26,15 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { IconCalendar } from "@tabler/icons-react";
-import { format } from "date-fns";
+import {
+  addDays,
+  addYears,
+  format,
+  setMonth,
+  setYear,
+  subYears,
+} from "date-fns";
+import { parse } from "path";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -36,9 +44,11 @@ export function AccountForm() {
     console.log("submit");
   }
 
-  const [birthDate, setBirthDate] = useState<Date>();
+  const [birthDate, setBirthDate] = React.useState<Date>(new Date());
+
+  // Years array ()
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - i - 10);
+  const years = Array.from({ length: 90 }, (_, i) => currentYear - i - 10);
 
   return (
     <Form {...form}>
@@ -73,7 +83,7 @@ export function AccountForm() {
         </div>
         <FormField
           control={form.control}
-          name="dob"
+          name="birthDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Date de naissance</FormLabel>
@@ -96,35 +106,55 @@ export function AccountForm() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Select
-                    onValueChange={(value) => {
-                      const birthDate = new Date();
-                      birthDate.setFullYear(
-                        birthDate.getFullYear() - parseInt(value)
-                      );
-                    }}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent position="popper">
-                      {years.map((year) => (
-                        <SelectItem
-                          key={year}
-                          value={(new Date().getFullYear - value).toString()}
-                        >
-                          {year}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <PopoverContent className="w-auto p-2" align="start">
+                  <div className="grid grid-cols-2 gap-x-2">
+                    <Select
+                      onValueChange={(value) =>
+                        setBirthDate(setYear(birthDate, parseInt(value)))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Année" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        {years.map((year) => (
+                          <SelectItem key={year} value={year.toString()}>
+                            {year}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select
+                      onValueChange={(value) =>
+                        setBirthDate(setMonth(birthDate, parseInt(value)))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Mois" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        <SelectItem value="0">Janvier</SelectItem>
+                        <SelectItem value="1">Février</SelectItem>
+                        <SelectItem value="2">Mars</SelectItem>
+                        <SelectItem value="3">Avril</SelectItem>
+                        <SelectItem value="4">Mai</SelectItem>
+                        <SelectItem value="5">Juin</SelectItem>
+                        <SelectItem value="6">Juillet</SelectItem>
+                        <SelectItem value="7">Août</SelectItem>
+                        <SelectItem value="8">Septembre</SelectItem>
+                        <SelectItem value="9">Octobre</SelectItem>
+                        <SelectItem value="10">Novembre</SelectItem>
+                        <SelectItem value="11">Décembre</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   <Calendar
-                    key={birthDate.toString()}
                     mode="single"
-                    selected={birthDate}
-                    onSelect={setBirthDate}
-                    initialFocus
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    month={birthDate}
+                    onMonthChange={setBirthDate}
                   />
                 </PopoverContent>
               </Popover>
