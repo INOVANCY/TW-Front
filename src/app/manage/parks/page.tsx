@@ -50,10 +50,11 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import TWMap from "@/components/ui/Map";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function ManageParksHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isZoneModalOpen, setIsZoneModalOpen] = useState(true);
+  const [isZoneModalOpen, setIsZoneModalOpen] = useState(false);
   const [selectedPark, setSelectedPark] = useState<number | null>(null);
 
   // Data sur les parcs d'attractions
@@ -113,7 +114,6 @@ export default function ManageParksHome() {
             columns={columns(onEditButtonClick, onZoneEditButtonClick)}
             data={parks}
             searchColumn="name"
-            tableName="un parc"
             onAddButtonClick={onAddButtonClick}
           />
         </CardContent>
@@ -218,6 +218,92 @@ export default function ManageParksHome() {
                         <FormControl>
                           <Input placeholder="32,50" {...field} />
                         </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="items"
+                    render={() => (
+                      <FormItem className="col-span-3">
+                        <div className="mb-4">
+                          <FormLabel className="text-base">
+                            Offres & promotions
+                          </FormLabel>
+                          <FormDescription>
+                            Sélectionnez tout ce qui s'applique pour cette
+                            période.
+                          </FormDescription>
+                        </div>
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="items"
+                            render={({ field }) => {
+                              return (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 col-span-3 mb-1">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked) => {
+                                        field.onChange;
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">
+                                    L'entrée du parc est gratuite
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="items"
+                            render={({ field }) => {
+                              return (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 col-span-3 mb-1">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked) => {
+                                        field.onChange;
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">
+                                    Le parc propose souvent des réductions
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="items"
+                            render={({ field }) => {
+                              return (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 col-span-3 mb-1">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value}
+                                      onCheckedChange={(checked) => {
+                                        field.onChange;
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">
+                                    Le parc propose des réductions sur les
+                                    achats anticipés
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        </div>
+
+                        <FormMessage />
                       </FormItem>
                     )}
                   />

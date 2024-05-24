@@ -44,7 +44,11 @@ function MapUpdater() {
 
 export default function TWMap() {
   return (
-    <MapContainer center={[48.8566, 2.3522]} zoom={6} className="w-full h-full">
+    <MapContainer
+      center={[48.8566, 2.3522]}
+      zoom={6}
+      className="w-full h-full rounded-md"
+    >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

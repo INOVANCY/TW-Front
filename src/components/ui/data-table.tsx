@@ -28,7 +28,6 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchColumn: string;
-  tableName: string;
   onAddButtonClick?: () => void;
   onEditButtonClick?: (row: TData) => void;
 }
