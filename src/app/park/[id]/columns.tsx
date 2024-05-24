@@ -35,7 +35,7 @@ export const ridesColumns: ColumnDef<Rides>[] = [
     cell: ({ row }) => {
       return (
         <Button variant="link" size="link" asChild>
-          <Link href={`/park/${row.id}`}> Voir</Link>
+          <Link href={`/ride/${row.id}`}> Voir</Link>
         </Button>
       );
     },
