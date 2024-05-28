@@ -138,7 +138,7 @@ export default function Home() {
         {newsList.map((news) => (
           <Link
             href={`/news/${news.id}`}
-            className="col-span-12 sm:col-span-6 lg:col-span-4 2xl:col-span-2 "
+            className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-2"
             key={news.id}
           >
             <Card className="h-full">
@@ -165,7 +165,7 @@ export default function Home() {
             </Card>
           </Link>
         ))}
-        <Card className="col-span-12 2xl:col-span-5">
+        <Card className="col-span-12 xl:col-span-5">
           <CardHeader>
             <div className="flex flex-col items-center justify-between md:flex-row">
               <CardTitle>Dernier classement mondial</CardTitle>
@@ -210,7 +210,7 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-12 md:col-span-6 2xl:col-span-3">
+        <Card className="col-span-12 md:col-span-6 xl:col-span-3">
           <CardHeader>
             <CardTitle>Produits du moment</CardTitle>
           </CardHeader>
@@ -236,7 +236,7 @@ export default function Home() {
             ))}
           </CardContent>
         </Card>
-        <Card className="col-span-12 md:col-span-6 2xl:col-span-4">
+        <Card className="col-span-12 md:col-span-6 xl:col-span-4">
           <CardHeader>
             <CardTitle>Actualités Thrills</CardTitle>
           </CardHeader>

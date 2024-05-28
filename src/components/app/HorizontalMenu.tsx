@@ -188,8 +188,8 @@ export default function HorizontalMenu() {
       <div className="block xl:hidden">
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="icon" variant="outline" className="my-1">
-              <IconMenu2 />
+            <Button variant="outline" className="my-1">
+              <IconMenu2 className="me-2" /> Menu
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
