@@ -9,7 +9,7 @@ export default function Logo() {
         width={48}
         alt="Thrills World Logomark"
       />
-      <h1 className="font-cagr text-4xl font-extrabold uppercase mt-1">
+      <h1 className="font-cagr text-4xl font-extrabold uppercase mt-1 hidden sm:block">
         Thrills
       </h1>
     </div>
