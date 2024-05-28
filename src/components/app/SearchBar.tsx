@@ -55,8 +55,8 @@ export default function SearchBar() {
         size="sm"
         onClick={() => setOpenElement("search")}
       >
-        <IconSearch size={20} className="lg:me-2" />
-        <span className="hidden lg:block">Rechercher n'importe quoi...</span>
+        <IconSearch size={20} className="md:me-2" />
+        <span className="hidden md:block">Rechercher n'importe quoi...</span>
       </Button>
       <CommandDialog
         open={openElement === "search"}

@@ -10,7 +10,7 @@ export default function NavBar() {
   return (
     <div className="bg-card shadow-md">
       <header className="border-b">
-        <div className="mx-auto w-9/12">
+        <div className="mx-auto w-11/12 2xl:w-9/12">
           <div className="flex justify-between w-full ps-0 p-4">
             <Logo />
             <div className="flex gap-5 items-center">
@@ -23,7 +23,7 @@ export default function NavBar() {
         </div>
       </header>
       <nav className="border-b">
-        <div className="mx-auto w-9/12">
+        <div className="mx-auto w-11/12 2xl:w-9/12">
           <HorizontalMenu />
         </div>
       </nav>
