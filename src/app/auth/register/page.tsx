@@ -4,15 +4,26 @@ import AuthLayout from "@/app/layouts/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
+import AuthService from "@/services/auth/AuthService";
 import {
   IconBrandApple,
   IconBrandFacebook,
@@ -24,11 +35,40 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function AuthRegisterPage() {
-  const form = useForm();
+  const { toast } = useToast();
+  // First step form
+  const firstStepForm = useForm({
+    defaultValues: {
+      email: "",
+      terms: false,
+    },
+  });
+  const onSubmitFirstStep = (data: any) => {
+    console.log(data);
+    if (data.terms === true) {
+      AuthService.checkEmail(data.email)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+          toast({
+            variant: "destructive",
+            title: "Aïe!",
+            description: "Cet email est déjà utilisé par l'un de nos membres.",
+          });
+        });
+    }
+  };
 
-  const onSubmit = (data: any) => {
+  // Second step form
+  const secondStepForm = useForm();
+  const onSubmitSecondStep = (data: any) => {
     console.log(data);
   };
+
+  // Second step modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <AuthLayout>
@@ -38,22 +78,13 @@ export default function AuthRegisterPage() {
       </h1>
       <p className="">Créez-vous un compte et commencez l'aventure.</p>
       <Separator className="my-4" />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <Form {...firstStepForm}>
+        <form
+          onSubmit={firstStepForm.handleSubmit(onSubmitFirstStep)}
+          className="space-y-4"
+        >
           <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nom d'utilisateur</FormLabel>
-                <FormControl>
-                  <Input placeholder="jhone_doe" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
+            control={firstStepForm.control}
             name="email"
             render={({ field }) => (
               <FormItem>
@@ -61,42 +92,21 @@ export default function AuthRegisterPage() {
                 <FormControl>
                   <Input placeholder="jhon.doe@email.com" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-2 gap-x-3">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mot de passe</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password_confirmation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirmer le mot de passe</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
+
           <FormField
-            control={form.control}
-            name="remember_me"
+            control={firstStepForm.control}
+            name="terms"
             render={({ field }) => (
               <FormItem className="flex flex-row items-center gap-3 py-2">
                 <FormControl>
-                  <Checkbox />
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
                 <FormLabel className="!m-0">
                   J'accepte les
@@ -112,7 +122,7 @@ export default function AuthRegisterPage() {
                     className="text-red-600 underline-offset-2 hover:underline mx-1"
                   >
                     politique de confidentialité
-                  </Link>{" "}
+                  </Link>
                 </FormLabel>
               </FormItem>
             )}
@@ -136,6 +146,99 @@ export default function AuthRegisterPage() {
           Se connecter
         </Link>
       </span>
+      <Dialog open={isModalOpen}>
+        <Form {...secondStepForm}>
+          <form onSubmit={secondStepForm.handleSubmit(onSubmitSecondStep)}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Finalisez votre inscription 🤩</DialogTitle>
+                <DialogDescription>
+                  Plus que quelques étapes pour rejoindre la communauté Thrills.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={secondStepForm.control}
+                  name="first_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Prénom</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={secondStepForm.control}
+                  name="last_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nom</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Doe" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={secondStepForm.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nom d'utilisateur</FormLabel>
+                      <FormControl>
+                        <Input placeholder="jhon.doe" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={secondStepForm.control}
+                  name="birthday"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Date d'anniversaire</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={secondStepForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mot de passe</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={secondStepForm.control}
+                  name="password_confirmation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirmer le mot de passe</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <DialogFooter>
+                <Button type="submit">Finaliser mon inscription</Button>
+              </DialogFooter>
+            </DialogContent>
+          </form>
+        </Form>
+      </Dialog>
     </AuthLayout>
   );
 }

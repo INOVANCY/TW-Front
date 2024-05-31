@@ -1,6 +1,7 @@
 "use client";
 
 import { IconHeart } from "@tabler/icons-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Footer() {
@@ -28,12 +29,18 @@ export default function Footer() {
           </a>
         </p>
         <div className="flex items-center gap-4">
-          <a href="" className=" hover:underline underline-offset-2">
+          <Link
+            href="/privacy-policy"
+            className=" hover:underline underline-offset-2"
+          >
             Politique de confidentialité
-          </a>
-          <a href="" className=" hover:underline underline-offset-2">
+          </Link>
+          <Link
+            href="/terms-of-use"
+            className=" hover:underline underline-offset-2"
+          >
             Conditions d'utilisation
-          </a>
+          </Link>
         </div>
       </div>
     </div>

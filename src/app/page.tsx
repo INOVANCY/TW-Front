@@ -141,7 +141,7 @@ export default function Home() {
             className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-2"
             key={news.id}
           >
-            <Card className="h-full">
+            <Card className="h-full group">
               <AspectRatio ratio={16 / 9}>
                 <Image
                   src={news.image}
