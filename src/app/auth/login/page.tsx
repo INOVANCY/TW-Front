@@ -10,10 +10,12 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
 import { Separator } from "@/components/ui/separator";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   IconBrandApple,
   IconBrandFacebook,
@@ -23,12 +25,49 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { loginFormSchema, loginFormType } from "./schema";
+import AuthService from "@/services/auth/AuthService";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/ui/loader";
 
 export default function AuthLoginPage() {
-  const form = useForm();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const form = useForm<loginFormType>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
+
+  const onSubmit = (data: loginFormType) => {
+    setIsSubmitting(true);
+    AuthService.login(data)
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        form.reset();
+        toast({
+          title: "Hourra! 🎉",
+          description: "Tu es maintenant connecté. Bon retour!",
+        });
+        router.push("/");
+      })
+      .catch((error) => {
+        toast({
+          title: "Oops! 😢",
+          description:
+            "Tes informations d'identification semblent incorrectes. Réessaye!",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -43,13 +82,14 @@ export default function AuthLoginPage() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mb-6">
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nom d'utilisateur</FormLabel>
+                <FormLabel>Adresse e-mail</FormLabel>
                 <FormControl>
                   <Input placeholder="jhone_doe" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -70,23 +110,32 @@ export default function AuthLoginPage() {
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="remember_me"
+            name="rememberMe"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center gap-3 py-2">
-                <FormControl>
-                  <Checkbox />
-                </FormControl>
-                <FormLabel className="!m-0">Se souvenir de moi</FormLabel>
+              <FormItem>
+                <div className="flex flex-row items-center gap-3 py-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="!m-0">Se souvenir de moi</FormLabel>
+                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex justify-between items-center">
-            <Button type="submit">Se connecter</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting && <Loader size={18} />}Se connecter
+            </Button>
             <div className="flex gap-4 items-center">
               <IconBrandFacebook size={20} className="text-blue-500" />
               <IconBrandGoogle size={20} className="text-red-500" />

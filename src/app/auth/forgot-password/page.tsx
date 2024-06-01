@@ -8,16 +8,52 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { sendOtpCodeFormSchema, sendOtpCodeFormType } from "./schema";
+import AuthService from "@/services/auth/AuthService";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Loader from "@/components/ui/loader";
 
 export default function AuthForgotPasswordPage() {
-  const form = useForm();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const form = useForm<sendOtpCodeFormType>({
+    resolver: zodResolver(sendOtpCodeFormSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: sendOtpCodeFormType) => {
+    setIsSubmitting(true);
+    AuthService.sendForgotPasswordOtpCode(data.email)
+      .then((response) => {
+        form.reset();
+        toast({
+          title: "Code envoyé! 📬",
+          description:
+            "Si cette adresse e-mail est valide, tu vas recevoir un code à usage unique dans quelques instants.",
+        });
+        router.push("/auth/forgot-password/code");
+      })
+      .catch((error) => {
+        toast({
+          title: "Oh non 😢",
+          description: "Une erreur s'est produite. Réessaye!",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -38,10 +74,13 @@ export default function AuthForgotPasswordPage() {
                 <FormControl>
                   <Input placeholder="jhone.doe@email.com" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Envoyer le code à usage unique</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting && <Loader size={18} />}Envoyer le code à usage unique
+          </Button>
         </form>
       </Form>
     </AuthLayout>

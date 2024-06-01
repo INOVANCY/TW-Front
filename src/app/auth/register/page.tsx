@@ -111,8 +111,8 @@ export default function AuthRegisterPage() {
             setIsModalOpen(false);
             localStorage.setItem("token", response.data.token);
             toast({
-              title: "Félicitations!",
-              description: "Votre compte a été créé avec succès.",
+              title: "Félicitations! 🎉",
+              description: "Ton compte a été créé avec succès.",
             });
             router.push("/");
           })
@@ -120,9 +120,9 @@ export default function AuthRegisterPage() {
             console.error(error);
             toast({
               variant: "destructive",
-              title: "Oups!",
+              title: "Oups! 😢",
               description:
-                "Une erreur s'est produite lors de la création de votre compte.",
+                "Une erreur s'est produite lors de la création de ton compte. Réessaye!",
             });
           })
           .finally(() =>
@@ -147,7 +147,7 @@ export default function AuthRegisterPage() {
       <h1 className="text-2xl  mt-3 mb-1">
         Bienvenue, cher #ThrillsLover ! 👋🏻
       </h1>
-      <p className="">Créez-vous un compte et commencez l'aventure.</p>
+      <p className="">Crée-toi un compte et commence l'aventure.</p>
       <Separator className="my-4" />
       <Form {...firstStepForm}>
         <form
@@ -159,7 +159,7 @@ export default function AuthRegisterPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Adresse e-mail</FormLabel>
                 <FormControl>
                   <Input placeholder="jhon.doe@email.com" {...field} />
                 </FormControl>
@@ -230,7 +230,7 @@ export default function AuthRegisterPage() {
               className="space-y-4"
             >
               <DialogHeader>
-                <DialogTitle>Finalisez votre inscription 🤩</DialogTitle>
+                <DialogTitle>Finalise ton inscription 🤩</DialogTitle>
                 <DialogDescription>
                   Plus que quelques étapes pour rejoindre la communauté Thrills.
                 </DialogDescription>

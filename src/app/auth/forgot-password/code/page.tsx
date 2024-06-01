@@ -25,17 +25,89 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import Logo from "@/components/ui/logo";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import {
+  checkOtpCodeFormSchema,
+  checkOtpCodeFormType,
+  resetPasswordFormSchema,
+  resetPasswordFormType,
+} from "./schema";
+import Loader from "@/components/ui/loader";
+import AuthService from "@/services/auth/AuthService";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function AuthForgotPasswordCodePage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState({
+    checkCode: false,
+    resetPassword: false,
+  });
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const otpForm = useForm();
-  const passwordForm = useForm();
+  const otpForm = useForm<checkOtpCodeFormType>({
+    resolver: zodResolver(checkOtpCodeFormSchema),
+    defaultValues: {
+      code: "",
+    },
+  });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const passwordForm = useForm<resetPasswordFormType>({
+    resolver: zodResolver(resetPasswordFormSchema),
+    defaultValues: {
+      password: "",
+      password_confirmation: "",
+    },
+  });
+
+  const onSubmitCheckCode = (data: checkOtpCodeFormType) => {
+    setIsSubmitting({ ...isSubmitting, checkCode: true });
+    AuthService.checkForgotPasswordOtpCode(data.code)
+      .then((response) => {
+        setUserId(response.data.id);
+        setIsModalOpen(true);
+      })
+      .catch(() => {
+        toast({
+          title: "Oh non 😢",
+          description: "Le code est incorrect ou expiré. Réessaye!",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting({ ...isSubmitting, checkCode: false });
+        otpForm.reset();
+      });
+  };
+
+  const onSubmitResetPassword = (data: resetPasswordFormType) => {
+    setIsSubmitting({ ...isSubmitting, resetPassword: true });
+    const completeData = { ...data, id: userId };
+    AuthService.resetPassword(completeData)
+      .then(() => {
+        setIsModalOpen(false);
+        toast({
+          title: "Mot de passe modifié! 🎉",
+          description:
+            "Ton mot de passe a été modifié avec succès. Tu peux maintenant te connecter avec ton nouveau mot de passe.",
+        });
+        router.push("/auth/login");
+      })
+      .catch(() => {
+        toast({
+          title: "Oh non 😢",
+          description: "Une erreur s'est produite. Réessaye!",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting({ ...isSubmitting, resetPassword: false });
+        passwordForm.reset();
+      });
   };
 
   return (
@@ -48,10 +120,13 @@ export default function AuthForgotPasswordCodePage() {
         N'oubliez pas de vérifier votre dossier indésirable.
       </p>
       <Form {...otpForm}>
-        <form onSubmit={otpForm.handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={otpForm.handleSubmit(onSubmitCheckCode)}
+          className="space-y-4"
+        >
           <FormField
             control={otpForm.control}
-            name="pin"
+            name="code"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Code à usage unique</FormLabel>
@@ -71,13 +146,18 @@ export default function AuthForgotPasswordCodePage() {
               </FormItem>
             )}
           />
-          <Button type="submit">Valider le code</Button>
+          <Button type="submit" disabled={isSubmitting.checkCode}>
+            {isSubmitting.checkCode && <Loader />}Valider le code
+          </Button>
         </form>
       </Form>
       <Dialog open={isModalOpen}>
-        <Form {...passwordForm}>
-          <form onSubmit={passwordForm.handleSubmit(onSubmit)}>
-            <DialogContent>
+        <DialogContent>
+          <Form {...passwordForm}>
+            <form
+              onSubmit={passwordForm.handleSubmit(onSubmitResetPassword)}
+              className="space-y-4"
+            >
               <DialogHeader>
                 <DialogTitle>Yes, we did it! 🙂</DialogTitle>
                 <DialogDescription>
@@ -85,6 +165,7 @@ export default function AuthForgotPasswordCodePage() {
                   fois-ci!
                 </DialogDescription>
               </DialogHeader>
+
               <FormField
                 control={passwordForm.control}
                 name="password"
@@ -94,6 +175,7 @@ export default function AuthForgotPasswordCodePage() {
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -106,16 +188,19 @@ export default function AuthForgotPasswordCodePage() {
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
 
               <DialogFooter>
-                <Button type="submit">Changer le mot de passe</Button>
+                <Button type="submit" disabled={isSubmitting.checkCode}>
+                  {isSubmitting.checkCode && <Loader />}Changer le mot de passe
+                </Button>
               </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </DialogContent>
       </Dialog>
     </AuthLayout>
   );
