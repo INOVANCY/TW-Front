@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
 import { useState, useEffect } from "react";
 import { Toaster } from "../ui/toaster";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 export default function Providers({
   children,
@@ -20,10 +21,12 @@ export default function Providers({
   }
 
   return (
-    <ThemeProvider attribute="class">
-      <NextTopLoader color="#dc2626" />
-      <Toaster />
-      <OpenElementProvider>{children}</OpenElementProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider attribute="class">
+        <NextTopLoader color="#dc2626" />
+        <Toaster />
+        <OpenElementProvider>{children}</OpenElementProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }

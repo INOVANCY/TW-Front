@@ -35,7 +35,7 @@ import {
   resetPasswordFormType,
 } from "./schema";
 import Loader from "@/components/ui/loader";
-import AuthService from "@/services/auth/AuthService";
+import AuthService from "@/services/AuthService";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 

@@ -26,7 +26,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { loginFormSchema, loginFormType } from "./schema";
-import AuthService from "@/services/auth/AuthService";
+import AuthService from "@/services/AuthService";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/ui/loader";
@@ -57,7 +57,7 @@ export default function AuthLoginPage() {
         });
         router.push("/");
       })
-      .catch((error) => {
+      .catch(() => {
         toast({
           title: "Oops! 😢",
           description:

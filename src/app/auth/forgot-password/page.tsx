@@ -15,7 +15,7 @@ import Logo from "@/components/ui/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { sendOtpCodeFormSchema, sendOtpCodeFormType } from "./schema";
-import AuthService from "@/services/auth/AuthService";
+import AuthService from "@/services/AuthService";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

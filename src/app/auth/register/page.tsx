@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import Logo from "@/components/ui/logo";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import AuthService from "@/services/auth/AuthService";
+import AuthService from "@/services/AuthService";
 import {
   IconBrandApple,
   IconBrandFacebook,
