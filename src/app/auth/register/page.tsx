@@ -32,39 +32,110 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import * as z from "zod";
+import {
+  firstStepFormSchema,
+  firstStepFormType,
+  secondStepFormSchema,
+  secondStepFormType,
+} from "./schema";
+import { set } from "date-fns";
+import Loader from "@/components/ui/loader";
+import { useRouter } from "next/navigation";
 
 export default function AuthRegisterPage() {
   const { toast } = useToast();
+  const [email, setEmail] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState({
+    firstStep: false,
+    secondStep: false,
+  });
+
+  const router = useRouter();
+
   // First step form
-  const firstStepForm = useForm({
+  const firstStepForm = useForm<firstStepFormType>({
+    resolver: zodResolver(firstStepFormSchema),
     defaultValues: {
       email: "",
       terms: false,
     },
   });
-  const onSubmitFirstStep = (data: any) => {
+
+  const onSubmitFirstStep = (data: firstStepFormType) => {
+    setIsSubmitting({ ...isSubmitting, firstStep: true });
     console.log(data);
     if (data.terms === true) {
       AuthService.checkEmail(data.email)
-        .then((data) => {
-          console.log(data);
+        .then((response) => {
+          setIsModalOpen(true);
+          setEmail(data.email);
         })
         .catch((error) => {
           console.error(error);
-          toast({
-            variant: "destructive",
-            title: "Aïe!",
-            description: "Cet email est déjà utilisé par l'un de nos membres.",
+          firstStepForm.setError("email", {
+            type: "manual",
+            message: "Oups! Cet email est déjà utilisé.",
           });
-        });
+        })
+        .finally(() => setIsSubmitting({ ...isSubmitting, firstStep: false }));
     }
   };
 
   // Second step form
-  const secondStepForm = useForm();
-  const onSubmitSecondStep = (data: any) => {
-    console.log(data);
+
+  const secondStepForm = useForm<secondStepFormType>({
+    resolver: zodResolver(secondStepFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      birthday: new Date().toISOString().split("T")[0],
+      password: "",
+      password_confirmation: "",
+    },
+  });
+
+  const onSubmitSecondStep = (data: secondStepFormType) => {
+    setIsSubmitting({ ...isSubmitting, secondStep: true });
+    AuthService.checkUsername(data.username)
+      .then((response) => {
+        const completeData = { ...data, email };
+        AuthService.register(completeData)
+          .then((response) => {
+            secondStepForm.reset();
+            firstStepForm.reset();
+            setIsModalOpen(false);
+            localStorage.setItem("token", response.data.token);
+            toast({
+              title: "Félicitations!",
+              description: "Votre compte a été créé avec succès.",
+            });
+            router.push("/");
+          })
+          .catch((error) => {
+            console.error(error);
+            toast({
+              variant: "destructive",
+              title: "Oups!",
+              description:
+                "Une erreur s'est produite lors de la création de votre compte.",
+            });
+          })
+          .finally(() =>
+            setIsSubmitting({ ...isSubmitting, secondStep: false })
+          );
+      })
+      .catch((error) => {
+        secondStepForm.setError("username", {
+          type: "manual",
+          message: "Oups! Ce nom d'utilisateur est déjà pris.",
+        });
+        setIsSubmitting({ ...isSubmitting, secondStep: false });
+      });
   };
 
   // Second step modal state
@@ -101,34 +172,39 @@ export default function AuthRegisterPage() {
             control={firstStepForm.control}
             name="terms"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center gap-3 py-2">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className="!m-0">
-                  J'accepte les
-                  <Link
-                    href="/terms"
-                    className="text-red-600 underline-offset-2 hover:underline mx-1"
-                  >
-                    conditions d'utilisation
-                  </Link>
-                  et la
-                  <Link
-                    href="/privacy"
-                    className="text-red-600 underline-offset-2 hover:underline mx-1"
-                  >
-                    politique de confidentialité
-                  </Link>
-                </FormLabel>
+              <FormItem>
+                <div className="flex flex-row items-center gap-3 py-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="!m-0">
+                    J'accepte les
+                    <Link
+                      href="/terms"
+                      className="text-red-600 underline-offset-2 hover:underline mx-1"
+                    >
+                      conditions d'utilisation
+                    </Link>
+                    et la
+                    <Link
+                      href="/privacy"
+                      className="text-red-600 underline-offset-2 hover:underline mx-1"
+                    >
+                      politique de confidentialité
+                    </Link>
+                  </FormLabel>
+                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex justify-between items-center">
-            <Button type="submit">S'enregistrer</Button>
+            <Button type="submit" disabled={isSubmitting.firstStep}>
+              {isSubmitting.firstStep && <Loader size={18} />} S'enregistrer
+            </Button>
             <div className="flex gap-4 items-center">
               <IconBrandFacebook size={20} className="text-blue-500" />
               <IconBrandGoogle size={20} className="text-red-500" />
@@ -146,10 +222,13 @@ export default function AuthRegisterPage() {
           Se connecter
         </Link>
       </span>
-      <Dialog open={isModalOpen}>
-        <Form {...secondStepForm}>
-          <form onSubmit={secondStepForm.handleSubmit(onSubmitSecondStep)}>
-            <DialogContent>
+      <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
+        <DialogContent>
+          <Form {...secondStepForm}>
+            <form
+              onSubmit={secondStepForm.handleSubmit(onSubmitSecondStep)}
+              className="space-y-4"
+            >
               <DialogHeader>
                 <DialogTitle>Finalisez votre inscription 🤩</DialogTitle>
                 <DialogDescription>
@@ -159,25 +238,27 @@ export default function AuthRegisterPage() {
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={secondStepForm.control}
-                  name="first_name"
+                  name="firstName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Prénom</FormLabel>
                       <FormControl>
                         <Input placeholder="John" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
                 <FormField
                   control={secondStepForm.control}
-                  name="last_name"
+                  name="lastName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nom</FormLabel>
                       <FormControl>
                         <Input placeholder="Doe" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -190,6 +271,7 @@ export default function AuthRegisterPage() {
                       <FormControl>
                         <Input placeholder="jhon.doe" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -202,6 +284,7 @@ export default function AuthRegisterPage() {
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -215,6 +298,7 @@ export default function AuthRegisterPage() {
                       <FormControl>
                         <Input type="password" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -227,17 +311,20 @@ export default function AuthRegisterPage() {
                       <FormControl>
                         <Input type="password" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-
               <DialogFooter>
-                <Button type="submit">Finaliser mon inscription</Button>
+                <Button type="submit" disabled={isSubmitting.secondStep}>
+                  {isSubmitting.secondStep && <Loader size={18} />} Finaliser
+                  mon inscription
+                </Button>
               </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </DialogContent>
       </Dialog>
     </AuthLayout>
   );
