@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Park } from "@/types/db";
 import {
   IconDotsCircleHorizontal,
   IconEdit,
@@ -18,13 +19,6 @@ import {
 } from "@tabler/icons-react";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-
-export type Park = {
-  id: number;
-  name: string;
-  city: string;
-  country: string;
-};
 
 export const columns = (
   onEditButtonClick: any,
@@ -37,15 +31,15 @@ export const columns = (
     ),
   },
   {
-    accessorKey: "city",
+    accessorKey: "localisation.entrance",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ville" />
+      <DataTableColumnHeader column={column} title="Localisation" />
     ),
   },
   {
-    accessorKey: "country",
+    accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Pays" />
+      <DataTableColumnHeader column={column} title="Date d'ajout" />
     ),
   },
   {
@@ -66,17 +60,17 @@ export const columns = (
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
               <IconEye size={18} className="me-2" />
-              <Link href={`/park/` + park.id}>Voir sur Thrills World</Link>
+              <Link href={`/park/` + park._id}>Voir sur Thrills World</Link>
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => onEditButtonClick(park.id)}
+              onClick={() => onEditButtonClick(park._id)}
             >
               <IconEdit size={18} className="me-2" /> Modifier
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => onZoneEditButtonClick(park.id)}
+              onClick={() => onZoneEditButtonClick(park._id)}
             >
               <IconTexture size={18} className="me-2" /> Modifier les zones du
               parc

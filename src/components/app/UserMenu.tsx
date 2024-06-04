@@ -16,31 +16,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { Button, buttonVariants } from "../ui/button";
 import { useAuth } from "@/providers/AuthProvider";
+import { useToast } from "../ui/use-toast";
+import { capitalizeFirstLetter, getInitials } from "@/lib/utils";
 
 export default function UserMenu() {
-  const { user } = useAuth();
-
-  const userNavItems: NavItems = [
-    {
-      name: "Votre profil",
-      href: "/user/gaspard.dlx",
-      icon: <IconUser size={20} />,
-    },
-    { name: "Paramètres", href: "/settings", icon: <IconSettings size={20} /> },
-    {
-      name: "Vos commandes",
-      href: "/orders",
-      icon: <IconShoppingCart size={20} />,
-    },
-    { name: "hr", href: "", icon: <></> },
-    {
-      name: "Panneau de gestion",
-      href: "/manage",
-      icon: <IconManualGearbox size={20} />,
-    },
-    { name: "hr", href: "", icon: <></> },
-    { name: "Déconnexion", href: "/", icon: <IconLogout size={20} /> },
-  ];
+  const { user, setUser } = useAuth();
+  const { toast } = useToast();
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    toast({
+      title: "Hipipip ! 🎉",
+      description: "Vous êtes désormais déconnecté ! À bientôt !",
+    });
+  };
 
   return (
     <Popover>
@@ -62,35 +51,70 @@ export default function UserMenu() {
             <div className="flex gap-3 items-center">
               <Avatar className="cursor-pointer">
                 <AvatarImage src="/dev/pdp.jpeg" alt="Avatar" />
-                <AvatarFallback>GD</AvatarFallback>
+                <AvatarFallback>
+                  {getInitials(user.lastName, user.firstName)}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <p className="font-medium">Gaspard Delvaux</p>
-                <span className="text-sm">Administateur</span>
+                <p className="font-medium">
+                  {user.firstName + " " + user.lastName}
+                </p>
+                <span className="text-sm">
+                  {capitalizeFirstLetter(user.role)}
+                </span>
               </div>
             </div>
-            <Separator className="mt-4 mb-1" />
-            {userNavItems.map((item, index) =>
-              item.name === "hr" ? (
-                <Separator key={index} className="my-1" />
-              ) : (
+            <Separator className="mt-4 mb-2" />
+            <Button variant="ghost" className="w-full !justify-start" asChild>
+              <Link
+                href="/user/gaspard.dlx"
+                className="flex gap-2 items-center"
+              >
+                <IconUser size={20} />
+                Votre profil
+              </Link>
+            </Button>
+            <Button variant="ghost" className="w-full !justify-start" asChild>
+              <Link href="/settings" className="flex gap-2 items-center">
+                <IconSettings size={20} />
+                Paramètres
+              </Link>
+            </Button>
+            <Button variant="ghost" className="w-full !justify-start" asChild>
+              <Link href="/orders" className="flex gap-2 items-center">
+                <IconShoppingCart size={20} />
+                Vos commandes
+              </Link>
+            </Button>
+            {user.role === "staff" && (
+              <div>
+                <Separator className="my-2" />
                 <Button
-                  key={index}
                   variant="ghost"
                   className="w-full !justify-start"
                   asChild
                 >
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="flex gap-2 items-center"
-                  >
-                    {item.icon}
-                    {item.name}
+                  <Link href="/manage" className="flex gap-2 items-center">
+                    <IconManualGearbox size={20} />
+                    Tableau de gestion
                   </Link>
                 </Button>
-              )
+              </div>
             )}
+            <Separator className="my-2" />
+            <Button
+              variant="ghost"
+              className="w-full !justify-start cursor-pointer"
+              asChild
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              <span className="flex gap-2 items-center">
+                <IconLogout size={20} />
+                Déconnexion
+              </span>
+            </Button>
           </div>
         ) : (
           <div className="text-center flex flex-col space-y-2">

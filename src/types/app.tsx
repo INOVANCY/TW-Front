@@ -10,6 +10,7 @@ type NavItem = {
   icon: ReactElement;
   code?: string;
   children?: NavItem[];
+  rank?: "member" | "staff" | "admin";
 };
 
 type NavItems = NavItem[];

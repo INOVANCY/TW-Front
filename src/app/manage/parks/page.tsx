@@ -9,8 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { useState } from "react";
-import { Park, columns } from "./columns";
+import { use, useEffect, useState } from "react";
+import { columns } from "./columns";
 import { set, useForm } from "react-hook-form";
 import {
   Dialog,
@@ -51,31 +51,30 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import TWMap from "@/components/ui/Map";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Checkbox } from "@/components/ui/checkbox";
+import ManageParkService from "@/services/manage/ManageParkService";
+import { Park } from "@/types/db";
 
 export default function ManageParksHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isZoneModalOpen, setIsZoneModalOpen] = useState(false);
   const [selectedPark, setSelectedPark] = useState<number | null>(null);
+  const [parks, setParks] = useState<Park[]>([]);
 
   // Data sur les parcs d'attractions
 
-  const parks: Park[] = [
-    {
-      id: 1,
-      name: "Disneyland Paris",
-      city: "Marne-la-Vallée",
-      country: "France",
-    },
-    { id: 2, name: "Parc Astérix", city: "Plailly", country: "France" },
-    { id: 3, name: "Europa-Park", city: "Rust", country: "Allemagne" },
-    { id: 4, name: "PortAventura", city: "Salou", country: "Espagne" },
-    { id: 5, name: "Phantasialand", city: "Brühl", country: "Allemagne" },
-    { id: 6, name: "Efteling", city: "Kaatsheuvel", country: "Pays-Bas" },
-    { id: 7, name: "Alton Towers", city: "Alton", country: "Royaume-Uni" },
-    { id: 8, name: "Thorpe Park", city: "Chertsey", country: "Royaume-Uni" },
-    { id: 9, name: "Tivoli Gardens", city: "Copenhague", country: "Danemark" },
-    { id: 10, name: "Liseberg", city: "Göteborg", country: "Suède" },
-  ];
+  useEffect(() => {
+    const fetchParks = async () => {
+      try {
+        ManageParkService.getParks(10, 1).then((response) => {
+          setParks(response.data.parks);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchParks();
+  }, []);
 
   const onAddButtonClick = () => {
     setSelectedPark(null);
@@ -115,6 +114,9 @@ export default function ManageParksHome() {
             data={parks}
             searchColumn="name"
             onAddButtonClick={onAddButtonClick}
+            onPaginationChange={(pageIndex, pageSize) => {
+              console.log(pageIndex, pageSize);
+            }}
           />
         </CardContent>
       </Card>

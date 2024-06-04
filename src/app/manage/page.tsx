@@ -1,3 +1,5 @@
+"use client";
+
 import { NavItems } from "@/types/app";
 import {
   IconBuilding,
@@ -16,8 +18,25 @@ import {
 import Link from "next/link";
 import AppLayout from "../layouts/AppLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/providers/AuthProvider";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ManageHome() {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user || (user.role !== "admin" && user.role !== "staff")) {
+      router.replace("/");
+    }
+  }, [user, router]);
+
+  if (!user || (user.role !== "admin" && user.role !== "staff")) {
+    return null;
+  }
+
   const cards: NavItems = [
     {
       name: "Actualités",
@@ -95,7 +114,7 @@ export default function ManageHome() {
             <ul className="flex flex-col gap-2 mt-2">
               {rules.map((rule, index) => (
                 <li key={index} className="flex items-center gap-2 ">
-                  <span className="bg-green-200/50 rounded-full text-green-600 p-1">
+                  <span className="bg-green-500 rounded-full text-white p-1">
                     <IconCheck size={16} />
                   </span>
                   {rule}
@@ -111,17 +130,14 @@ export default function ManageHome() {
           return (
             <Card>
               <CardContent className="flex flex-col gap-2 items-center justify-center h-full !pt-6">
-                <div className="h-16 w-16 bg-red-200/50 rounded-full flex items-center justify-center text-red-600">
+                <div className="h-16 w-16 bg-red-600 rounded-full flex items-center justify-center text-white">
                   {card.icon}
                 </div>
                 <div className="flex flex-col items-center">
-                  <h1 className="">{card.name}</h1>
-                  <Link
-                    href={card.href}
-                    className="text-sm text-center text-red-600 bg-red-100/50 rounded-lg px-1.5 py-0.5 font-medium mt-1"
-                  >
-                    Cliquez pour gérer
-                  </Link>
+                  <h1 className="mb-1">{card.name}</h1>
+                  <Button variant="link" size="link" asChild>
+                    <Link href={card.href}>Cliquez pour gérer</Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
