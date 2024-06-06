@@ -41,6 +41,14 @@ export const columns = (
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date d'ajout" />
     ),
+    cell: ({ row }) => {
+      const date = new Date(row.original.createdAt);
+      return date.toLocaleDateString("fr-FR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
   },
   {
     id: "actions",
@@ -64,13 +72,13 @@ export const columns = (
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => onEditButtonClick(park._id)}
+              onClick={() => onEditButtonClick(park)}
             >
               <IconEdit size={18} className="me-2" /> Modifier
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => onZoneEditButtonClick(park._id)}
+              onClick={() => onZoneEditButtonClick(park)}
             >
               <IconTexture size={18} className="me-2" /> Modifier les zones du
               parc

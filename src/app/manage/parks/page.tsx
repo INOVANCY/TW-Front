@@ -11,7 +11,7 @@ import {
 import { DataTable } from "@/components/ui/data-table";
 import { use, useEffect, useState } from "react";
 import { columns } from "./columns";
-import { set, useForm } from "react-hook-form";
+import { Controller, set, useFieldArray, useForm } from "react-hook-form";
 import {
   Dialog,
   DialogContent,
@@ -53,49 +53,84 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Checkbox } from "@/components/ui/checkbox";
 import ManageParkService from "@/services/manage/ManageParkService";
 import { Park } from "@/types/db";
+import { ManageParkFormSchema, ManageParkFormType } from "./schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function ManageParksHome() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isZoneModalOpen, setIsZoneModalOpen] = useState(false);
-  const [selectedPark, setSelectedPark] = useState<number | null>(null);
+  const [selectedPark, setSelectedPark] = useState<Park | null>(null);
   const [parks, setParks] = useState<Park[]>([]);
+  const [pageCount, setPageCount] = useState(0);
 
   // Data sur les parcs d'attractions
 
-  useEffect(() => {
-    const fetchParks = async () => {
-      try {
-        ManageParkService.getParks(10, 1).then((response) => {
+  const fetchParks = async (
+    pageIndex: number,
+    pageSize: number,
+    query: string = ""
+  ) => {
+    try {
+      ManageParkService.getParks(pageIndex, pageSize, query)
+        .then((response) => {
           setParks(response.data.parks);
+          setPageCount(response.data.pagination.pageCount);
+        })
+        .catch((error) => {
+          console.error(error);
         });
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    fetchParks();
+  useEffect(() => {
+    fetchParks(0, 10);
   }, []);
+
+  // Formulaire
 
   const onAddButtonClick = () => {
     setSelectedPark(null);
     setIsModalOpen(true);
   };
 
-  const onEditButtonClick = (parkId: number) => {
-    setSelectedPark(parkId);
+  const onEditButtonClick = (park: Park) => {
+    setSelectedPark(park);
     setIsModalOpen(true);
   };
 
-  const onZoneEditButtonClick = (parkId: number) => {
-    setSelectedPark(parkId);
+  const onZoneEditButtonClick = (park: Park) => {
+    setSelectedPark(park);
     setIsZoneModalOpen(true);
   };
 
   // Formulaire
-  const form = useForm();
+  const form = useForm<ManageParkFormType>({
+    resolver: zodResolver(ManageParkFormSchema),
+    defaultValues: {
+      name: "",
+      story: "",
+      rates: [],
+      localisation: {
+        entrance: [0, 0],
+        upperLeftBound: [0, 0],
+        lowerRightBound: [0, 0],
+      },
+      medias: [],
+      lands: [],
+    },
+  });
 
-  const onSubmit = (data: any) => {
+  useEffect(() => {
+    if (selectedPark) {
+      form.reset(selectedPark);
+    }
+  }, [selectedPark]);
+
+  const onSubmit = (data: ManageParkFormType) => {
     console.log(data);
+    console.log("Submit:", selectedPark);
   };
 
   return (
@@ -112,10 +147,10 @@ export default function ManageParksHome() {
           <DataTable
             columns={columns(onEditButtonClick, onZoneEditButtonClick)}
             data={parks}
-            searchColumn="name"
+            pageCount={pageCount}
             onAddButtonClick={onAddButtonClick}
-            onPaginationChange={(pageIndex, pageSize) => {
-              console.log(pageIndex, pageSize);
+            onPageChange={(pageIndex, pageSize, query) => {
+              fetchParks(pageIndex, pageSize, query);
             }}
           />
         </CardContent>
@@ -124,9 +159,9 @@ export default function ManageParksHome() {
         open={isModalOpen}
         onOpenChange={() => setIsModalOpen(!isModalOpen)}
       >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogContent>
+        <DialogContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <DialogHeader>
                 <DialogTitle>
                   {selectedPark ? "Modifier un parc" : "Ajouter un parc"}
@@ -154,7 +189,7 @@ export default function ManageParksHome() {
                   />
                   <FormField
                     control={form.control}
-                    name="history"
+                    name="story"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Histoire du parc</FormLabel>
@@ -169,7 +204,7 @@ export default function ManageParksHome() {
                     )}
                   />
                 </TabsContent>
-                <TabsContent value="rates" className="grid grid-cols-3 gap-4">
+                {/* <TabsContent value="rates" className="grid grid-cols-3 gap-4">
                   <FormField
                     control={form.control}
                     name="price_validity_period"
@@ -309,6 +344,7 @@ export default function ManageParksHome() {
                       </FormItem>
                     )}
                   />
+                  <Button size="sm">Ajouter ce tarif</Button>
                   {selectedPark && (
                     <Alert className="col-span-3">
                       <AlertTitle>Modifier des tarifs existants</AlertTitle>
@@ -330,7 +366,8 @@ export default function ManageParksHome() {
                       </Select>
                     </Alert>
                   )}
-                </TabsContent>
+                </TabsContent> */}
+
                 <TabsContent value="location">
                   <Alert>
                     <IconInfoCircle size={18} />
@@ -364,11 +401,11 @@ export default function ManageParksHome() {
                   Envoyer les informations
                 </Button>
               </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </DialogContent>
       </Dialog>
-      <Dialog
+      {/* <Dialog
         open={isZoneModalOpen}
         onOpenChange={() => setIsZoneModalOpen(!isZoneModalOpen)}
       >
@@ -423,7 +460,7 @@ export default function ManageParksHome() {
             </DialogContent>
           </form>
         </Form>
-      </Dialog>
+      </Dialog> */}
     </AppLayout>
   );
 }

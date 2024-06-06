@@ -2,15 +2,12 @@ import { getBearerToken } from "@/lib/utils";
 import api from "../api";
 
 const ManageParkService = {
-  getParks: async (itemsPerPage: number, page: number) => {
+  getParks: async (pageIndex: number, pageSize: number, query: string) => {
     const response = await api.get("/manage/parks", {
       headers: {
         Authorization: getBearerToken(),
       },
-      params: {
-        itemsPerPage,
-        page,
-      },
+      params: { pageIndex, pageSize, query },
     });
     return response;
   },

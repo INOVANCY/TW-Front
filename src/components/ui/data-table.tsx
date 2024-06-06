@@ -20,14 +20,16 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { DataTablePagination } from "./data-table-pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./input";
 import { Button } from "./button";
+import { useDebounce } from "use-debounce";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchColumn: string;
+  pageCount: number;
+  onPageChange: (pageIndex: number, pageSize: number, query: string) => void;
   onAddButtonClick?: () => void;
   onEditButtonClick?: (row: TData) => void;
 }
@@ -35,17 +37,24 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchColumn,
+  pageCount,
+  onPageChange,
   onAddButtonClick,
   onEditButtonClick,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  // Pagination
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  // Query
+  const [query, setQuery] = useState("");
+  const [debouncedQuery] = useDebounce(query, 500);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -54,19 +63,22 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    manualPagination: true,
   });
+
+  useEffect(() => {
+    if (onPageChange) {
+      onPageChange(pageIndex, pageSize, debouncedQuery);
+    }
+  }, [pageIndex, pageSize, debouncedQuery]);
 
   return (
     <div>
       <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Rechercher un élément"
-          value={
-            (table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn(searchColumn)?.setFilterValue(event.target.value)
-          }
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
           className="max-w-sm"
         />
         {onAddButtonClick && (
@@ -123,7 +135,13 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination
+        pageIndex={pageIndex}
+        pageSize={pageSize}
+        pageCount={pageCount}
+        setPageIndex={setPageIndex}
+        setPageSize={setPageSize}
+      />
     </div>
   );
 }
