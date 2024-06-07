@@ -1,4 +1,4 @@
-import { Icon, LatLng, LatLngExpression } from "leaflet";
+import { Icon, LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import {
   MapContainer,

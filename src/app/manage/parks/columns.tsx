@@ -15,15 +15,13 @@ import {
   IconDotsCircleHorizontal,
   IconEdit,
   IconEye,
+  IconMoneybag,
   IconTexture,
 } from "@tabler/icons-react";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
-export const columns = (
-  onEditButtonClick: any,
-  onZoneEditButtonClick: any
-): ColumnDef<Park>[] => [
+export const columns = (onEditButtonClick: any): ColumnDef<Park>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -72,13 +70,19 @@ export const columns = (
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => onEditButtonClick(park)}
+              onClick={() => onEditButtonClick(park, "general")}
             >
-              <IconEdit size={18} className="me-2" /> Modifier
+              <IconEdit size={18} className="me-2" /> Modifier les informations
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => onZoneEditButtonClick(park)}
+              onClick={() => onEditButtonClick(park, "rates")}
+            >
+              <IconMoneybag size={18} className="me-2" /> Modifier les tarifs
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => onEditButtonClick(park, "lands")}
             >
               <IconTexture size={18} className="me-2" /> Modifier les zones du
               parc

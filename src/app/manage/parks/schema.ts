@@ -28,12 +28,20 @@ const LandSchema = z
   .optional();
 
 const ManageParkFormSchema = z.object({
-  name: z.string(),
-  story: z.string(),
+  _id: z.string().optional(),
+  name: z.string().min(1, {
+    message: "Veuillez saisir un nom.",
+  }),
+
+  story: z.string().min(50, {
+    message: "Veuillez saisir une histoire de minimum 50 caractères.",
+  }),
   rates: z.array(RateSchema).optional(),
   localisation: LocalisationSchema,
   medias: z.array(MediaSchama).optional(),
   lands: z.array(LandSchema).optional(),
+  updatedAt: z.date().optional(),
+  createdAt: z.date().optional(),
 });
 
 type ManageParkFormType = z.infer<typeof ManageParkFormSchema>;

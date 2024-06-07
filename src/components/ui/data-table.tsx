@@ -40,7 +40,6 @@ export function DataTable<TData, TValue>({
   pageCount,
   onPageChange,
   onAddButtonClick,
-  onEditButtonClick,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
