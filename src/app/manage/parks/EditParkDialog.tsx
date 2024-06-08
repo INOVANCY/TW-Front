@@ -24,8 +24,11 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import { ManageParkFormSchema, ManageParkFormType } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ManageParkService from "@/services/manage/ManageParkService";
+import { LatLng, LatLngExpression, LatLngLiteral, LatLngTuple } from "leaflet";
+import { set } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
 
 interface EditParkDialogProps {
   isOpen: boolean;
@@ -38,39 +41,73 @@ export default function EditParkDialog({
   onClose,
   parkData,
 }: EditParkDialogProps) {
+  const { toast } = useToast();
+  // Map
+  const [allowMovePoint, setAllowMovePoint] = useState(false);
+  const [entrancePoint, setEntrancePoint] = useState<[number, number]>([0, 0]);
+
   const form = useForm<ManageParkFormType>({
     resolver: zodResolver(ManageParkFormSchema),
   });
 
   const onSubmit = (data: ManageParkFormType) => {
     console.log(data);
+    data.localisation = entrancePoint;
     if (parkData && parkData._id) {
       ManageParkService.updatePark(parkData._id, data)
         .then(() => {
-          console.log("Park updated successfully");
+          form.reset();
+          toast({
+            title: "Ah bah ça c'est génial!",
+            description: "Les informations du parc ont été mises à jour.",
+          });
+          onClose();
         })
         .catch((error) => {
           console.error("Error while updating park", error);
+          toast({
+            title: "Oups!",
+            description: "Une erreur s'est produite lors de la mise à jour.",
+            variant: "destructive",
+          });
+        });
+    } else {
+      ManageParkService.createPark(data)
+        .then((response) => {
+          console.log(response);
+          form.reset();
+          toast({
+            title: "Trop bien!",
+            description: "Le parc a été créé avec succès.",
+          });
+          onClose();
+        })
+        .catch((error) => {
+          console.error("Error while creating park", error);
+          toast({
+            title: "Oups!",
+            description: "Une erreur s'est produite lors de la création.",
+            variant: "destructive",
+          });
         });
     }
   };
 
   useEffect(() => {
+    setAllowMovePoint(false);
     if (parkData) {
       form.reset(parkData);
+      setEntrancePoint(parkData.localisation);
     } else {
       form.reset({
         name: "",
         story: "",
         rates: [],
-        localisation: {
-          entrance: [0, 0],
-          upperLeftBound: [0, 0],
-          lowerRightBound: [0, 0],
-        },
+        localisation: [0, 0],
         medias: [],
         lands: [],
       });
+      setEntrancePoint([0, 0]);
     }
   }, [parkData]);
 
@@ -291,24 +328,33 @@ export default function EditParkDialog({
                   <AlertDescription>
                     A des fins de précision et de facilité, les points de
                     localisation se définissent directement sur la carte
-                    ci-dessous. Sélectionnez le point à replacer en cliquant sur
-                    l'un des 3 boutons ci-dessous et puis cliquez directement
-                    sur la carte pour le replacer.
+                    ci-dessous. Cliquez simplement sur le bouton ci-dessous pour
+                    activer le déplacement, puis cliquez sur la carte pour
+                    (re-)définir le point d'entrée du parc.
                   </AlertDescription>
                 </Alert>
                 <div className="flex justify-start items-center gap-2 my-4 flex-wrap">
-                  <Button variant="outline" size="sm">
-                    Replacer l'entrée
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Replacer la borne supérieure gauche
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Replacer la borne inférieure droite
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setAllowMovePoint(!allowMovePoint);
+                    }}
+                  >
+                    {allowMovePoint
+                      ? "Désactiver le déplacement de l'entrée"
+                      : "Activer le déplacement de l'entrée"}
                   </Button>
                 </div>
                 <div className="w-full h-52">
-                  <TWMap />
+                  <TWMap
+                    point={entrancePoint}
+                    center={entrancePoint}
+                    zoom={13}
+                    allowMovePoint={allowMovePoint}
+                    onPointEdit={setEntrancePoint}
+                  />
                 </div>
               </TabsContent>
             </Tabs>

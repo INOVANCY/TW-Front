@@ -21,6 +21,15 @@ const ManageParkService = {
     });
     return response;
   },
+
+  createPark: async (data: any) => {
+    const response = await api.post("/manage/parks", data, {
+      headers: {
+        Authorization: getBearerToken(),
+      },
+    });
+    return response;
+  },
 };
 
 export default ManageParkService;

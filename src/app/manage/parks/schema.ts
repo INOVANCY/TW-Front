@@ -10,12 +10,6 @@ const RateSchema = z.object({
   offersEarlyBird: z.boolean(),
 });
 
-const LocalisationSchema = z.object({
-  entrance: z.tuple([z.number(), z.number()]),
-  upperLeftBound: z.tuple([z.number(), z.number()]),
-  lowerRightBound: z.tuple([z.number(), z.number()]),
-});
-
 const MediaSchama = z.object({
   url: z.string(),
   type: z.string(),
@@ -37,11 +31,9 @@ const ManageParkFormSchema = z.object({
     message: "Veuillez saisir une histoire de minimum 50 caractères.",
   }),
   rates: z.array(RateSchema).optional(),
-  localisation: LocalisationSchema,
+  localisation: z.tuple([z.number(), z.number()]),
   medias: z.array(MediaSchama).optional(),
   lands: z.array(LandSchema).optional(),
-  updatedAt: z.date().optional(),
-  createdAt: z.date().optional(),
 });
 
 type ManageParkFormType = z.infer<typeof ManageParkFormSchema>;

@@ -13,11 +13,7 @@ type Park = {
       offersEarlyBird: boolean;
     }
   ];
-  localisation: {
-    entrance: [number, number];
-    upperLeftBound: [number, number];
-    lowerRightBound: [number, number];
-  };
+  localisation: [number, number];
   medias: [{ url: string; type: string }];
   lands: [
     {

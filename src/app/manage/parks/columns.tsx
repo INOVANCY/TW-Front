@@ -29,7 +29,7 @@ export const columns = (onEditButtonClick: any): ColumnDef<Park>[] => [
     ),
   },
   {
-    accessorKey: "localisation.entrance",
+    accessorKey: "localisation",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Localisation" />
     ),

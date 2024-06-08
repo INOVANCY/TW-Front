@@ -1,5 +1,5 @@
-import { Icon, LatLng } from "leaflet";
-import { useEffect, useState } from "react";
+import { Icon, LatLng, LatLngExpression } from "leaflet";
+import { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -8,28 +8,38 @@ import {
   useMapEvents,
 } from "react-leaflet";
 
-// import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
 
 const customIcon = new Icon({
-  iconUrl: "/point.svg", // URL de l'image du point de couleur
-  iconSize: [30, 30], // Taille du point
-  iconAnchor: [15, 15], // Point du point qui correspondra à la position du marqueur
+  iconUrl: "/point.svg",
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
 });
 
-function ClickMarker() {
-  const [position, setPosition] = useState<LatLng | null>(null);
+type MapProps = {
+  point: [number, number];
+  center: [number, number];
+  zoom: number;
+  allowMovePoint: boolean;
+  onPointEdit: (newPosition: [number, number]) => void;
+};
 
-  const map = useMapEvents({
+function ClickMarker({
+  allowMovePoint,
+  onPointEdit,
+}: {
+  allowMovePoint: boolean;
+  onPointEdit: (newPosition: [number, number]) => void;
+}) {
+  useMapEvents({
     click: (e) => {
-      setPosition(e.latlng);
-      console.log(`Latitude: ${e.latlng.lat}, Longitude: ${e.latlng.lng}`);
+      if (allowMovePoint) {
+        onPointEdit([e.latlng.lat, e.latlng.lng]);
+      }
     },
   });
 
-  return position === null ? null : (
-    <Marker position={position} icon={customIcon} />
-  );
+  return null;
 }
 
 function MapUpdater() {
@@ -42,18 +52,25 @@ function MapUpdater() {
   return null;
 }
 
-export default function TWMap() {
+export default function TWMap({
+  point,
+  center,
+  zoom,
+  allowMovePoint,
+  onPointEdit,
+}: MapProps) {
   return (
     <MapContainer
-      center={[48.8566, 2.3522]}
-      zoom={6}
+      center={center}
+      zoom={zoom}
       className="w-full h-full rounded-md"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
-      <ClickMarker />
+      <Marker position={point} icon={customIcon} />
+      <ClickMarker allowMovePoint={allowMovePoint} onPointEdit={onPointEdit} />
       <MapUpdater />
     </MapContainer>
   );
