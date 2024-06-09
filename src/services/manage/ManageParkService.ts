@@ -1,6 +1,7 @@
 import { getBearerToken } from "@/lib/utils";
 import api from "../api";
 import { Park } from "@/types/db";
+import axios from "axios";
 
 const ManageParkService = {
   getParks: async (pageIndex: number, pageSize: number, query: string) => {
@@ -28,6 +29,16 @@ const ManageParkService = {
         Authorization: getBearerToken(),
       },
     });
+    return response;
+  },
+
+  getCoordinatesFromAddress: async (query: string) => {
+    const response = await axios.get(
+      "https://nominatim.openstreetmap.org/search",
+      {
+        params: { q: query, format: "json" },
+      }
+    );
     return response;
   },
 };

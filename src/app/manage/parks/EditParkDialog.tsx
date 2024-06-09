@@ -347,15 +347,13 @@ export default function EditParkDialog({
                       : "Activer le déplacement de l'entrée"}
                   </Button>
                 </div>
-                <div className="w-full h-52">
-                  <TWMap
-                    point={entrancePoint}
-                    center={entrancePoint}
-                    zoom={13}
-                    allowMovePoint={allowMovePoint}
-                    onPointEdit={setEntrancePoint}
-                  />
-                </div>
+                <TWMap
+                  point={entrancePoint}
+                  center={entrancePoint}
+                  zoom={13}
+                  allowMovePoint={allowMovePoint}
+                  onPointEdit={setEntrancePoint}
+                />
               </TabsContent>
             </Tabs>
             <DialogFooter>
