@@ -127,7 +127,7 @@ export default function ParkFormDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
               <DialogTitle>
-                {parkData ? "Modifier un parc" : "Ajouter un parc"}
+                {parkData ? "Modifier " + parkData.name : "Ajouter un parc"}
               </DialogTitle>
             </DialogHeader>
             <Tabs defaultValue="general">
@@ -166,170 +166,6 @@ export default function ParkFormDialog({
                   )}
                 />
               </TabsContent>
-              {/* <TabsContent value="rates" className="grid grid-cols-3 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="price_validity_period"
-                    render={({ field }) => (
-                      <FormItem className="col-span-3">
-                        <FormLabel>Période de validité des tarifs</FormLabel>
-                        <FormControl>
-                          <Input type="number" placeholder="2024" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex justify-between col-span-3 text-gray-400">
-                    <IconArrowDown size={18} />
-                    <IconArrowDown size={18} />
-                    <IconArrowDown size={18} />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="rate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tarif adulte</FormLabel>
-                        <FormControl>
-                          <Input placeholder="49,50" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="rate_child"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tarif enfant</FormLabel>
-                        <FormControl>
-                          <Input placeholder="39,50" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="rate_special"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tarif spécial</FormLabel>
-                        <FormControl>
-                          <Input placeholder="32,50" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="items"
-                    render={() => (
-                      <FormItem className="col-span-3">
-                        <div className="mb-4">
-                          <FormLabel className="text-base">
-                            Offres & promotions
-                          </FormLabel>
-                          <FormDescription>
-                            Sélectionnez tout ce qui s'applique pour cette
-                            période.
-                          </FormDescription>
-                        </div>
-                        <div>
-                          <FormField
-                            control={form.control}
-                            name="items"
-                            render={({ field }) => {
-                              return (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 col-span-3 mb-1">
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked) => {
-                                        field.onChange;
-                                      }}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className="font-normal">
-                                    L'entrée du parc est gratuite
-                                  </FormLabel>
-                                </FormItem>
-                              );
-                            }}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="items"
-                            render={({ field }) => {
-                              return (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 col-span-3 mb-1">
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked) => {
-                                        field.onChange;
-                                      }}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className="font-normal">
-                                    Le parc propose souvent des réductions
-                                  </FormLabel>
-                                </FormItem>
-                              );
-                            }}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="items"
-                            render={({ field }) => {
-                              return (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 col-span-3 mb-1">
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value}
-                                      onCheckedChange={(checked) => {
-                                        field.onChange;
-                                      }}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className="font-normal">
-                                    Le parc propose des réductions sur les
-                                    achats anticipés
-                                  </FormLabel>
-                                </FormItem>
-                              );
-                            }}
-                          />
-                        </div>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button size="sm">Ajouter ce tarif</Button>
-                  {selectedPark && (
-                    <Alert className="col-span-3">
-                      <AlertTitle>Modifier des tarifs existants</AlertTitle>
-                      <AlertDescription>
-                        Pour modifier les tarifs existants, veuillez choisir une
-                        période déjà encodée via le menu déroulant ci-dessous.
-                      </AlertDescription>
-                      <Select>
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Choisir une période" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="2020">2020</SelectItem>
-                            <SelectItem value="2022">2022</SelectItem>
-                            <SelectItem value="2023">2023</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </Alert>
-                  )}
-                </TabsContent> */}
-
               <TabsContent value="location">
                 <Alert>
                   <IconInfoCircle size={18} />
@@ -346,7 +182,7 @@ export default function ParkFormDialog({
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full"
+                    className="w-[500px]"
                     onClick={(e) => {
                       e.preventDefault();
                       setAllowMovePoint(!allowMovePoint);

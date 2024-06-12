@@ -115,63 +115,6 @@ export default function ManageParksHome() {
           onClose={handleModalClose}
         />
       )}
-
-      {/* <Dialog
-        open={isZoneModalOpen}
-        onOpenChange={() => setIsZoneModalOpen(!isZoneModalOpen)}
-      >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Modifier les zones d'un parc</DialogTitle>
-              </DialogHeader>
-              <FormField
-                control={form.control}
-                name="zone_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ajouter une nouvelle zone</FormLabel>
-                    <div className="flex items-center justify-between gap-2">
-                      <FormControl>
-                        <Input placeholder="Croatie" {...field} />
-                      </FormControl>
-                      <Button
-                        variant="outline"
-                        className="flex items-center gap-2"
-                      >
-                        <IconCheck size={14} /> Valider
-                      </Button>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <Separator />
-              <p className="font-semibold">Renommer une zone déjà existante</p>
-              <ul className="flex flex-col gap-2">
-                <li>
-                  <div className="flex items-center justify-between gap-2">
-                    <Input value="Grèce" />
-                    <Button variant="outline">Renommer</Button>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center justify-between gap-2">
-                    <Input value="France" />
-                    <Button variant="outline">Renommer</Button>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center justify-between gap-2">
-                    <Input value="Islande" />
-                    <Button variant="outline">Renommer</Button>
-                  </div>
-                </li>
-              </ul>
-            </DialogContent>
-          </form>
-        </Form>
-      </Dialog> */}
     </AppLayout>
   );
 }
