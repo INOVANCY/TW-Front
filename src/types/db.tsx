@@ -4,6 +4,7 @@ type Park = {
   story: string;
   rates: [
     {
+      _id: string;
       year: number;
       adultPrice: number;
       childPrice: number;

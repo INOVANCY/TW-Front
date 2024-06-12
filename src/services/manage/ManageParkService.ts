@@ -74,6 +74,39 @@ const ManageParkService = {
     );
     return response;
   },
+
+  // Rates
+
+  fetchRates: async (parkId: string) => {
+    const response = await api.get(`/manage/parks/${parkId}/rates`, {
+      headers: {
+        Authorization: getBearerToken(),
+      },
+    });
+    return response;
+  },
+
+  createRate: async (parkId: string, data: any) => {
+    const response = await api.post(`/manage/parks/${parkId}/rates`, data, {
+      headers: {
+        Authorization: getBearerToken(),
+      },
+    });
+    return response;
+  },
+
+  updateRate: async (parkId: string, rateId: string, data: any) => {
+    const response = await api.put(
+      `/manage/parks/${parkId}/rates/${rateId}`,
+      data,
+      {
+        headers: {
+          Authorization: getBearerToken(),
+        },
+      }
+    );
+    return response;
+  },
 };
 
 export default ManageParkService;

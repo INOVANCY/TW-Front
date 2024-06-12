@@ -7,13 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Park } from "@/types/db";
 import { useForm } from "react-hook-form";
-import {
-  LandSchema,
-  LandSchemaType,
-  ManageParkFormType,
-  RateSchema,
-  RateSchemaType,
-} from "./schema";
+import { LandSchema, LandSchemaType } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -149,7 +143,7 @@ export default function ParkLandFormDialog({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Modifier les zones de {parkData?.name}</DialogTitle>
+              <DialogTitle>Modifier les zones de {parkData.name}</DialogTitle>
             </DialogHeader>
 
             <div className="grid w-full items-center gap-2">

@@ -21,7 +21,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Park } from "@/types/db";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { ManageParkFormSchema, ManageParkFormType } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -30,6 +29,7 @@ import { LatLng, LatLngExpression, LatLngLiteral, LatLngTuple } from "leaflet";
 import { set } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/ui/loader";
+import { ParkSchema, ParkSchemaType } from "./schema";
 
 interface ParkFormDialogProps {
   isOpen: boolean;
@@ -49,11 +49,11 @@ export default function ParkFormDialog({
   const [allowMovePoint, setAllowMovePoint] = useState(false);
   const [entrancePoint, setEntrancePoint] = useState<[number, number]>([0, 0]);
 
-  const form = useForm<ManageParkFormType>({
-    resolver: zodResolver(ManageParkFormSchema),
+  const form = useForm<ParkSchemaType>({
+    resolver: zodResolver(ParkSchema),
   });
 
-  const onSubmit = (data: ManageParkFormType) => {
+  const onSubmit = (data: ParkSchemaType) => {
     setIsLoading(true);
     data.localisation = entrancePoint;
     if (parkData && parkData._id) {

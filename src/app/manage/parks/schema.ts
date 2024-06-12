@@ -1,10 +1,10 @@
 import * as z from "zod";
 
 const RateSchema = z.object({
-  year: z.number(),
-  adultPrice: z.number(),
-  childPrice: z.number(),
-  specialPrice: z.number(),
+  year: z.coerce.number().min(1900).max(2100),
+  adultPrice: z.coerce.number(),
+  childPrice: z.coerce.number(),
+  specialPrice: z.coerce.number(),
   isEntranceFree: z.boolean(),
   offersDiscounts: z.boolean(),
   offersEarlyBird: z.boolean(),
@@ -19,7 +19,7 @@ const LandSchema = z.object({
   name: z.string(),
 });
 
-const ManageParkFormSchema = z.object({
+const ParkSchema = z.object({
   _id: z.string().optional(),
   name: z.string().min(1, {
     message: "Veuillez saisir un nom.",
@@ -34,8 +34,10 @@ const ManageParkFormSchema = z.object({
   lands: z.array(LandSchema).optional(),
 });
 
-type ManageParkFormType = z.infer<typeof ManageParkFormSchema>;
+// Types inference
+type ParkSchemaType = z.infer<typeof ParkSchema>;
 type RateSchemaType = z.infer<typeof RateSchema>;
 type LandSchemaType = z.infer<typeof LandSchema>;
-export { ManageParkFormSchema, RateSchema, LandSchema };
-export type { ManageParkFormType, RateSchemaType, LandSchemaType };
+// Exports
+export { ParkSchema, RateSchema, LandSchema };
+export type { ParkSchemaType, RateSchemaType, LandSchemaType };
