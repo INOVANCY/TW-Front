@@ -9,57 +9,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { columns } from "./columns";
-import { Controller, set, useFieldArray, useForm } from "react-hook-form";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  IconArrowDown,
-  IconCheck,
-  IconInfoCircle,
-  IconSend,
-} from "@tabler/icons-react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import TWMap from "@/components/ui/Map";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Checkbox } from "@/components/ui/checkbox";
 import ManageParkService from "@/services/manage/ManageParkService";
 import { Park } from "@/types/db";
-import { ManageParkFormSchema, ManageParkFormType } from "./schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import EditParkDialog from "./EditParkDialog";
+import ParkFormDialog from "./ParkFormDialog";
+import ParkLandFormDialog from "./ParkLandFormDialog";
+import ParkRateFormDialog from "./ParkRateFormDialog";
 
 export default function ManageParksHome() {
   // Modals
-  const [isModalOpen, setIsModalOpen] = useState<string | null>(null);
+  const [openModal, setOpenModal] = useState<
+    "general" | "lands" | "rates" | null
+  >(null);
   const [selectedPark, setSelectedPark] = useState<Park | null>(null);
 
   // Datatable
@@ -95,20 +57,21 @@ export default function ManageParksHome() {
 
   const onAddButtonClick = () => {
     setSelectedPark(null);
-    setIsModalOpen("general");
+    setOpenModal("general");
   };
 
   const onEditButtonClick = (
     park: Park,
-    type: "general" | "zones" | "rates"
+    type: "general" | "lands" | "rates"
   ) => {
     setSelectedPark(park);
-    setIsModalOpen(type);
+    setOpenModal(type);
   };
 
   const handleModalClose = () => {
     setSelectedPark(null);
-    setIsModalOpen(null);
+    setOpenModal(null);
+    fetchParks(0, 10);
   };
 
   return (
@@ -133,11 +96,26 @@ export default function ManageParksHome() {
           />
         </CardContent>
       </Card>
-      <EditParkDialog
-        isOpen={isModalOpen === "general"}
+      <ParkFormDialog
+        isOpen={openModal === "general"}
         parkData={selectedPark}
         onClose={handleModalClose}
       />
+      {selectedPark && (
+        <ParkLandFormDialog
+          isOpen={openModal === "lands"}
+          parkData={selectedPark}
+          onClose={handleModalClose}
+        />
+      )}
+      {selectedPark && (
+        <ParkRateFormDialog
+          isOpen={openModal === "rates"}
+          parkData={selectedPark}
+          onClose={handleModalClose}
+        />
+      )}
+
       {/* <Dialog
         open={isZoneModalOpen}
         onOpenChange={() => setIsZoneModalOpen(!isZoneModalOpen)}

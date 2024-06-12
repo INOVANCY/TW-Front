@@ -17,6 +17,7 @@ type Park = {
   medias: [{ url: string; type: string }];
   lands: [
     {
+      _id: string;
       name: string;
     }
   ];

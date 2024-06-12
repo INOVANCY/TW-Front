@@ -29,19 +29,22 @@ import ManageParkService from "@/services/manage/ManageParkService";
 import { LatLng, LatLngExpression, LatLngLiteral, LatLngTuple } from "leaflet";
 import { set } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
+import Loader from "@/components/ui/loader";
 
-interface EditParkDialogProps {
+interface ParkFormDialogProps {
   isOpen: boolean;
   onClose: () => void;
   parkData: Park | null;
 }
 
-export default function EditParkDialog({
+export default function ParkFormDialog({
   isOpen,
   onClose,
   parkData,
-}: EditParkDialogProps) {
+}: ParkFormDialogProps) {
   const { toast } = useToast();
+  // Loader
+  const [isLoading, setIsLoading] = useState(false);
   // Map
   const [allowMovePoint, setAllowMovePoint] = useState(false);
   const [entrancePoint, setEntrancePoint] = useState<[number, number]>([0, 0]);
@@ -51,7 +54,7 @@ export default function EditParkDialog({
   });
 
   const onSubmit = (data: ManageParkFormType) => {
-    console.log(data);
+    setIsLoading(true);
     data.localisation = entrancePoint;
     if (parkData && parkData._id) {
       ManageParkService.updatePark(parkData._id, data)
@@ -70,6 +73,9 @@ export default function EditParkDialog({
             description: "Une erreur s'est produite lors de la mise à jour.",
             variant: "destructive",
           });
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else {
       ManageParkService.createPark(data)
@@ -89,6 +95,9 @@ export default function EditParkDialog({
             description: "Une erreur s'est produite lors de la création.",
             variant: "destructive",
           });
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   };
@@ -337,6 +346,7 @@ export default function EditParkDialog({
                   <Button
                     variant="outline"
                     size="sm"
+                    className="w-full"
                     onClick={(e) => {
                       e.preventDefault();
                       setAllowMovePoint(!allowMovePoint);
@@ -357,8 +367,8 @@ export default function EditParkDialog({
               </TabsContent>
             </Tabs>
             <DialogFooter>
-              <Button type="submit" size="sm">
-                Envoyer les informations
+              <Button type="submit" size="sm" disabled={isLoading}>
+                {isLoading && <Loader size={18} />} Envoyer les informations
               </Button>
             </DialogFooter>
           </form>

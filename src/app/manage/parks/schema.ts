@@ -15,11 +15,9 @@ const MediaSchama = z.object({
   type: z.string(),
 });
 
-const LandSchema = z
-  .object({
-    name: z.string(),
-  })
-  .optional();
+const LandSchema = z.object({
+  name: z.string(),
+});
 
 const ManageParkFormSchema = z.object({
   _id: z.string().optional(),
@@ -37,5 +35,7 @@ const ManageParkFormSchema = z.object({
 });
 
 type ManageParkFormType = z.infer<typeof ManageParkFormSchema>;
-export { ManageParkFormSchema };
-export type { ManageParkFormType };
+type RateSchemaType = z.infer<typeof RateSchema>;
+type LandSchemaType = z.infer<typeof LandSchema>;
+export { ManageParkFormSchema, RateSchema, LandSchema };
+export type { ManageParkFormType, RateSchemaType, LandSchemaType };

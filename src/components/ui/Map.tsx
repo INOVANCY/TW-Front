@@ -1,18 +1,18 @@
 import { Icon, LatLng, LatLngExpression } from "leaflet";
-import { useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   useMap,
   useMapEvents,
+  MapContainerProps,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
-import { Input } from "./input";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Button } from "./button";
-import { IconCaretUpDown, IconCheck } from "@tabler/icons-react";
+import { IconCaretUpDown } from "@tabler/icons-react";
 import {
   Command,
   CommandEmpty,
@@ -21,10 +21,9 @@ import {
   CommandItem,
   CommandList,
 } from "./command";
-import { cn } from "@/lib/utils";
 import { useDebounce } from "use-debounce";
 import ManageParkService from "@/services/manage/ManageParkService";
-import { number } from "zod";
+import Loader from "./loader";
 
 const customIcon = new Icon({
   iconUrl: "/point.svg",
@@ -53,45 +52,53 @@ export default function TWMap({
   allowMovePoint,
   onPointEdit,
 }: MapProps) {
+  // Adress search
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [debouncedQuery] = useDebounce(query, 500);
-  const [view, setView] = useState<[number, number]>([0, 0]);
+  const [query, setQuery] = useState<string>("");
+  const [debouncedQuery] = useDebounce<string>(query, 500);
+  const [view, setView] = useState<[number, number] | null>(null);
   const [results, setResults] = useState<Results[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  function ClickMarker({
-    allowMovePoint,
-    onPointEdit,
-  }: {
-    allowMovePoint: boolean;
-    onPointEdit: (newPosition: [number, number]) => void;
-  }) {
-    useMapEvents({
-      click: (e) => {
+  // Map Updater, View Setter and Click Handler
+  function MapUpdater() {
+    const map = useMap();
+
+    useEffect(() => {
+      if (view !== null) {
+        map.setView(view, map.getZoom());
+        setView(null);
+      }
+    }, [view, map]);
+
+    useEffect(() => {
+      const handleClick = (e: any) => {
         if (allowMovePoint) {
           onPointEdit([e.latlng.lat, e.latlng.lng]);
         }
-      },
-    });
+      };
 
-    return null;
-  }
+      map.on("click", handleClick);
 
-  function MapUpdater() {
-    const map = useMap();
+      return () => {
+        map.off("click", handleClick);
+      };
+    }, [allowMovePoint, onPointEdit, map]);
+
     useEffect(() => {
       map.invalidateSize();
-    }, []);
-
-    useEffect(() => {
-      map.setView(view, 13);
-    }, [view]);
-
+    }, [map]);
     return null;
   }
 
+  // Get coordinates from address
   useEffect(() => {
-    if (!debouncedQuery && !(debouncedQuery !== "")) return;
+    if (!debouncedQuery) return;
+    if (debouncedQuery.length < 3) {
+      setResults([]);
+      return;
+    }
+    setIsLoading(true);
     ManageParkService.getCoordinatesFromAddress(debouncedQuery)
       .then((response) => {
         const filteredResults = response.data
@@ -107,28 +114,30 @@ export default function TWMap({
             lon: item.lon,
           }));
         setResults(filteredResults);
-        console.log(filteredResults);
       })
       .catch((error) => {
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [debouncedQuery]);
 
   return (
-    <div>
+    <div className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="mb-4">
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[500px] justify-between"
+            className="w-full justify-between"
           >
             Rechercher une adresse ou un lieu
             <IconCaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[500px] p-0">
+        <PopoverContent className="w-full p-0">
           <Command>
             <CommandInput
               placeholder="Rechercher une adresse ou un lieu..."
@@ -136,7 +145,15 @@ export default function TWMap({
               onValueChange={setQuery}
             />
             <CommandList>
-              <CommandEmpty>No framework found.</CommandEmpty>
+              <CommandEmpty>
+                {isLoading ? (
+                  <span className="flex items-center justify-center">
+                    <Loader size={18} /> Chargement en cours...
+                  </span>
+                ) : (
+                  "Aucune adresse trouvée."
+                )}
+              </CommandEmpty>
               <CommandGroup>
                 {results.map((result, index) => (
                   <CommandItem
@@ -165,10 +182,6 @@ export default function TWMap({
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <Marker position={point} icon={customIcon} />
-          <ClickMarker
-            allowMovePoint={allowMovePoint}
-            onPointEdit={onPointEdit}
-          />
           <MapUpdater />
         </MapContainer>
       </div>

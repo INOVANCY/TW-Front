@@ -41,6 +41,39 @@ const ManageParkService = {
     );
     return response;
   },
+
+  // Lands
+
+  fetchLands: async (parkId: string) => {
+    const response = await api.get(`/manage/parks/${parkId}/lands`, {
+      headers: {
+        Authorization: getBearerToken(),
+      },
+    });
+    return response;
+  },
+
+  createLand: async (parkId: string, data: any) => {
+    const response = await api.post(`/manage/parks/${parkId}/lands`, data, {
+      headers: {
+        Authorization: getBearerToken(),
+      },
+    });
+    return response;
+  },
+
+  updateLand: async (parkId: string, landId: string, data: any) => {
+    const response = await api.put(
+      `/manage/parks/${parkId}/lands/${landId}`,
+      data,
+      {
+        headers: {
+          Authorization: getBearerToken(),
+        },
+      }
+    );
+    return response;
+  },
 };
 
 export default ManageParkService;
