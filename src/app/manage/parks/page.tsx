@@ -36,7 +36,7 @@ export default function ManageParksHome() {
     query: string = ""
   ) => {
     try {
-      ManageParkService.getParks(pageIndex, pageSize, query)
+      await ManageParkService.getParks(pageIndex, pageSize, query)
         .then((response) => {
           setParks(response.data.parks);
           setPageCount(response.data.pagination.pageCount);

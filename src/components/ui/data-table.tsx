@@ -80,6 +80,7 @@ export function DataTable<TData, TValue>({
           onChange={(event) => setQuery(event.target.value)}
           className="max-w-sm"
         />
+
         {onAddButtonClick && (
           <Button onClick={() => onAddButtonClick()}>Ajouter un élément</Button>
         )}
