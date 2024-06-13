@@ -30,11 +30,14 @@ import AuthService from "@/services/AuthService";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/ui/loader";
+import { jwtDecode } from "jwt-decode";
+import { UserPayload } from "@/types/db";
 
 export default function AuthLoginPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   const form = useForm<loginFormType>({
     resolver: zodResolver(loginFormSchema),
@@ -49,6 +52,8 @@ export default function AuthLoginPage() {
     setIsSubmitting(true);
     AuthService.login(data)
       .then((response) => {
+        const decoded = jwtDecode<UserPayload>(response.data.token);
+        setProfilePicture(decoded.profilePicture);
         localStorage.setItem("token", response.data.token);
         form.reset();
         toast({

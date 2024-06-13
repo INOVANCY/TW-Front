@@ -51,7 +51,6 @@ export function ProfilePictureCropper() {
 
   // On input select file
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       let imageDataUrl = await readFile(file);
@@ -69,7 +68,6 @@ export function ProfilePictureCropper() {
 
   // On crop complete
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-    console.log(croppedArea, croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
@@ -112,18 +110,14 @@ export function ProfilePictureCropper() {
     formData.append("picture", file);
 
     // Send file to server
-    console.log(new Date());
     ProfileService.updateProfilePicture(formData)
       .then((response) => {
         toast({
           title: "Oh parfait!",
           description: "Votre photo de profil a été mise à jour.",
         });
-        if (response.data.fileName && user) {
-          setUser({
-            ...user,
-            profilePicture: response.data.fileName,
-          });
+        if (user && response.data.fileName) {
+          setUser({ ...user, profilePicture: response.data.fileName });
         }
         cancelProfilePictureChange();
       })

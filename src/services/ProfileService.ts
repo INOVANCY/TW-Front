@@ -10,7 +10,7 @@ const ProfileService = {
   },
 
   updateProfile: async (data: any) => {
-    const response = await api.put("/profile", data);
+    const response = await api.put("/profile/update", data);
     return response;
   },
 

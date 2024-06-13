@@ -128,7 +128,7 @@ export default function ManageHome() {
         </Card>
         {cards.map((card) => {
           return (
-            <Card>
+            <Card key={card.name}>
               <CardContent className="flex flex-col gap-2 items-center justify-center h-full !pt-6">
                 <div className="h-16 w-16 bg-red-600 rounded-full flex items-center justify-center text-white">
                   {card.icon}

@@ -19,33 +19,113 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { profileFormSchema, profileFormType } from "../schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ProfileService from "@/services/ProfileService";
+import Loader from "@/components/ui/loader";
 
 export function AppearanceForm() {
-  const form = useForm();
-  function onSubmit() {
-    console.log("submit");
-  }
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { toast } = useToast();
 
-  const languages = [
-    { label: "English", value: "en" },
-    { label: "Français", value: "fr" },
-  ];
+  // Form
+  const form = useForm<profileFormType>({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      _id: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      username: "",
+      birthday: new Date().toISOString().split("T")[0],
+      bio: "",
+      favoritePark: "",
+      homePark: "",
+      links: {
+        facebook: "",
+        twitter: "",
+        threads: "",
+        instagram: "",
+        youtube: "",
+        snapchat: "",
+        tiktok: "",
+      },
+      preferredLanguage: "fr",
+      preferredTheme: "system",
+      notifications: {
+        rankings: false,
+        news: false,
+        marketplace: false,
+        account: false,
+      },
+    },
+  });
+
+  const onSubmit = (data: profileFormType) => {
+    setIsLoading(true);
+    ProfileService.updateProfile(data)
+      .then(() => {
+        toast({
+          title: "On dirait que tout s'est bien passé !",
+          description: "Votre profil a été mis à jour avec succès.",
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        toast({
+          title: "Rooh, raté !",
+          description:
+            "Une erreur s'est produite lors de la mise à jour de votre profil.",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const languages = [{ label: "Français", value: "fr" }];
+
+  useEffect(() => {
+    ProfileService.getProfile()
+      .then((response) => {
+        const formattedData = {
+          ...response.data.user,
+          birthday: new Date(response.data.user.birthday)
+            .toISOString()
+            .split("T")[0],
+        };
+        form.reset(formattedData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="language"
+          name="preferredLanguage"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Langue de l'application</FormLabel>
               <FormControl>
-                <Select>
+                <Select
+                  defaultValue={field.value}
+                  onValueChange={field.onChange}
+                >
                   <SelectTrigger>
                     <SelectValue>
-                      {languages.find((l) => l.value === field.value)?.label}
+                      {
+                        languages.find(
+                          (language) => language.value === field.value
+                        )?.label
+                      }
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -65,7 +145,7 @@ export function AppearanceForm() {
         />
         <FormField
           control={form.control}
-          name="theme"
+          name="preferredTheme"
           render={({ field }) => (
             <FormItem className="space-y-1">
               <FormLabel>Thème</FormLabel>
@@ -73,8 +153,34 @@ export function AppearanceForm() {
               <RadioGroup
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                className="grid max-w-md grid-cols-2 gap-8 pt-2"
+                className="grid grid-cols-3 gap-8 pt-2"
               >
+                <FormItem>
+                  <FormLabel className="[&:has([data-state=checked])>div]:border-primary">
+                    <FormControl>
+                      <RadioGroupItem value="system" className="sr-only" />
+                    </FormControl>
+                    <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                      <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
+                        <div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
+                          <div className="h-2 w-[80px] rounded-lg bg-[#ecedef]" />
+                          <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
+                        </div>
+                        <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                          <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
+                          <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
+                        </div>
+                        <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                          <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
+                          <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
+                        </div>
+                      </div>
+                    </div>
+                    <span className="block w-full p-2 text-center font-normal">
+                      Système
+                    </span>
+                  </FormLabel>
+                </FormItem>
                 <FormItem>
                   <FormLabel className="[&:has([data-state=checked])>div]:border-primary">
                     <FormControl>
@@ -131,7 +237,9 @@ export function AppearanceForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Mettre à jour l'apparence</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading && <Loader />}Mettre à jour l'apparence
+        </Button>
       </form>
     </Form>
   );

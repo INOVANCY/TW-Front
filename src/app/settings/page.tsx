@@ -1,12 +1,7 @@
 "use client";
-
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ProfileForm } from "./profile-form";
 import { useAuth } from "@/providers/AuthProvider";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import ProfileService from "@/services/ProfileService";
 
 export default function SettingsProfilePage() {
   const router = useRouter();
@@ -15,16 +10,6 @@ export default function SettingsProfilePage() {
     router.push("/auth/login");
     return <></>;
   }
-
-  useEffect(() => {
-    ProfileService.getProfile()
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   return (
     <div className="space-y-6">

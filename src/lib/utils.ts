@@ -17,8 +17,8 @@ export function getBearerToken() {
   return localStorage.getItem("token");
 }
 
-export function getProfilePicture(fileName: string | null) {
-  if (fileName === null) {
+export function getProfilePicture(fileName: string | null | undefined) {
+  if (fileName === null || fileName === undefined) {
     return "/defaults/user_placeholder.png";
   } else {
     return process.env.API_URL + "/uploads/" + fileName;

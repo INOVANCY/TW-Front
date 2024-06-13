@@ -3,13 +3,13 @@ import api from "./api";
 const AuthService = {
   // Register
 
-  checkEmail: async (email: string) => {
-    const response = await api.post("/auth/check/email", { email });
+  checkEmail: async (email: string, id?: string) => {
+    const response = await api.post("/auth/check/email", { email, id });
     return response;
   },
 
-  checkUsername: async (username: string) => {
-    const response = await api.post("/auth/check/username", { username });
+  checkUsername: async (username: string, id?: string) => {
+    const response = await api.post("/auth/check/username", { username, id });
     return response;
   },
 

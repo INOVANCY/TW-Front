@@ -25,6 +25,7 @@ import {
 
 export default function UserMenu() {
   const { user, setUser } = useAuth();
+
   const { toast } = useToast();
   const handleLogout = () => {
     setUser(null);
@@ -34,6 +35,8 @@ export default function UserMenu() {
       description: "Vous êtes désormais déconnecté ! À bientôt !",
     });
   };
+
+  const profilePicture = localStorage.getItem("profilePicture");
 
   return (
     <Popover>

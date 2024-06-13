@@ -1,3 +1,15 @@
+type UserPayload = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  role: string;
+  profilePicture: string | null;
+  iat: number; // Timestamp d'émission
+  exp: number; // Timestamp d'expiration
+};
+
 type Park = {
   _id: string;
   name: string;
@@ -27,4 +39,4 @@ type Park = {
   updatedAt: Date;
 };
 
-export type { Park };
+export type { UserPayload, Park };

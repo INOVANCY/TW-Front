@@ -2,42 +2,31 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import { usePathname } from "next/navigation";
-
-// types.ts
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  username: string;
-  profilePicture: string | null;
-  role: string;
-  iat: number; // Timestamp d'émission
-  exp: number; // Timestamp d'expiration
-}
+import { UserPayload } from "@/types/db";
 
 interface AuthContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  user: UserPayload | null;
+  setUser: React.Dispatch<React.SetStateAction<UserPayload | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserPayload | null>(null);
   const pathName = usePathname();
   useEffect(() => {
-    console.log("AuthProvider is checking user for ", pathName);
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const decoded = jwtDecode<User>(token);
+        const decoded = jwtDecode<UserPayload>(token);
         if (decoded.exp * 1000 > Date.now()) {
-          console.log(user?.profilePicture !== decoded.profilePicture);
-          if (!user || user.profilePicture === decoded.profilePicture) {
+          if (user && user.profilePicture !== decoded.profilePicture) {
+            decoded.profilePicture = user.profilePicture;
             setUser(decoded);
-            console.log("User is set to ", decoded);
+          } else {
+            setUser(decoded);
           }
+          setUser(decoded);
         } else {
           localStorage.removeItem("token");
           setUser(null);
