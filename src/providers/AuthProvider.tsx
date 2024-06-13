@@ -10,6 +10,7 @@ interface User {
   lastName: string;
   email: string;
   username: string;
+  profilePicture: string | null;
   role: string;
   iat: number; // Timestamp d'émission
   exp: number; // Timestamp d'expiration
@@ -32,8 +33,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const decoded = jwtDecode<User>(token);
         if (decoded.exp * 1000 > Date.now()) {
-          setUser(decoded);
-          console.log("User is set to ", decoded);
+          console.log(user?.profilePicture !== decoded.profilePicture);
+          if (!user || user.profilePicture === decoded.profilePicture) {
+            setUser(decoded);
+            console.log("User is set to ", decoded);
+          }
         } else {
           localStorage.removeItem("token");
           setUser(null);

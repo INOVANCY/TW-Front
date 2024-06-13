@@ -17,7 +17,11 @@ import { Separator } from "../ui/separator";
 import { Button, buttonVariants } from "../ui/button";
 import { useAuth } from "@/providers/AuthProvider";
 import { useToast } from "../ui/use-toast";
-import { capitalizeFirstLetter, getInitials } from "@/lib/utils";
+import {
+  capitalizeFirstLetter,
+  getInitials,
+  getProfilePicture,
+} from "@/lib/utils";
 
 export default function UserMenu() {
   const { user, setUser } = useAuth();
@@ -36,7 +40,10 @@ export default function UserMenu() {
       <PopoverTrigger asChild>
         {user ? (
           <Avatar className="cursor-pointer">
-            <AvatarImage src="/dev/pdp.jpeg" alt="Avatar" />
+            <AvatarImage
+              src={getProfilePicture(user.profilePicture)}
+              alt="Avatar"
+            />
             <AvatarFallback>GD</AvatarFallback>
           </Avatar>
         ) : (
@@ -50,7 +57,10 @@ export default function UserMenu() {
           <div>
             <div className="flex gap-3 items-center">
               <Avatar className="cursor-pointer">
-                <AvatarImage src="/dev/pdp.jpeg" alt="Avatar" />
+                <AvatarImage
+                  src={getProfilePicture(user.profilePicture)}
+                  alt="Avatar"
+                />
                 <AvatarFallback>
                   {getInitials(user.lastName, user.firstName)}
                 </AvatarFallback>
