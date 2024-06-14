@@ -113,7 +113,7 @@ export default function AuthForgotPasswordCodePage() {
   return (
     <AuthLayout>
       <Logo width={50} height={50} />
-      <h1 className="text-2xl  mt-3 mb-1">
+      <h1 className="text-2xl mt-3 mb-1">
         Entrez le code que vous avez reçu. 💡
       </h1>
       <p className=" mb-6">

@@ -143,7 +143,7 @@ export function AccountForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="md:grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="firstName"
@@ -161,7 +161,7 @@ export function AccountForm() {
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-4 md:mt-0">
                 <FormLabel>Nom de famille</FormLabel>
                 <FormControl>
                   <Input placeholder="Doe" {...field} />
@@ -174,7 +174,7 @@ export function AccountForm() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="col-span-2">
+              <FormItem className="col-span-2 mt-4 md:mt-0">
                 <FormLabel>Adresse e-mail</FormLabel>
                 <FormControl>
                   <Input placeholder="jhon.doe@mail.com" {...field} />
@@ -187,7 +187,7 @@ export function AccountForm() {
             control={form.control}
             name="birthday"
             render={({ field }) => (
-              <FormItem className="flex flex-col col-span-2">
+              <FormItem className="flex flex-col col-span-2 mt-4 md:mt-0">
                 <FormLabel>Date de naissance</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -283,7 +283,7 @@ export function AccountForm() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-4 md:mt-0">
                 <FormLabel>Nouveau mot de passe</FormLabel>
                 <FormControl>
                   <Input {...field} />
@@ -296,7 +296,7 @@ export function AccountForm() {
             control={form.control}
             name="password_confirmation"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-4 md:mt-0">
                 <FormLabel>Répéter le nouveau mot de passe</FormLabel>
                 <FormControl>
                   <Input {...field} />
