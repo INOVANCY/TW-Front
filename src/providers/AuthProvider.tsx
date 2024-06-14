@@ -20,8 +20,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const decoded = jwtDecode<UserPayload>(token);
         if (decoded.exp * 1000 > Date.now()) {
-          if (user && user.profilePicture !== decoded.profilePicture) {
+          const lsProfilePicture = localStorage.getItem("profilePicture");
+          if (
+            user &&
+            user.profilePicture &&
+            user.profilePicture !== decoded.profilePicture
+          ) {
             decoded.profilePicture = user.profilePicture;
+          } else if (
+            lsProfilePicture &&
+            decoded.profilePicture !== lsProfilePicture
+          ) {
+            decoded.profilePicture = lsProfilePicture;
           }
 
           setUser(decoded);

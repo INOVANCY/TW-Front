@@ -119,6 +119,7 @@ export function ProfilePictureCropper() {
         if (user && response.data.fileName) {
           setUser({ ...user, profilePicture: response.data.fileName });
         }
+        localStorage.setItem("profilePicture", response.data.fileName);
         cancelProfilePictureChange();
       })
       .catch((error) => {

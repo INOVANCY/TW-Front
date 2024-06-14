@@ -30,13 +30,12 @@ export default function UserMenu() {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("profilePicture");
     toast({
       title: "Hipipip ! 🎉",
       description: "Vous êtes désormais déconnecté ! À bientôt !",
     });
   };
-
-  const profilePicture = localStorage.getItem("profilePicture");
 
   return (
     <Popover>
