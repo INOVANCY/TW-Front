@@ -292,28 +292,9 @@ export default function Home() {
                 ))}
               </CarouselContent>
             </Carousel>
-            {/* {Array.from({ length: 5 }).map((_, index) => (
-              <div className="flex items-center space-x-2" key={index}>
-                <Image
-                  width={45}
-                  height={45}
-                  src={`/dev/products/${index}.png`}
-                  alt="Product image"
-                />
-                <div>
-                  <p className="font-medium">
-                    Tshirt "J'peux pas j'ai coaster"
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">+ {100 - index * 9 - 5}%</Badge>
-                    <p className="text-muted-foreground">29,99€</p>
-                  </div>
-                </div>
-              </div>
-            ))} */}
           </CardContent>
         </Card>
-        <Card className="col-span-12 md:col-span-6 xl:col-span-3">
+        {/* <Card className="col-span-12 md:col-span-6 xl:col-span-3">
           <CardHeader>
             <CardTitle>Actualités Thrills</CardTitle>
           </CardHeader>
@@ -333,7 +314,7 @@ export default function Home() {
               </CardDescription>
             ))}
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </AppLayout>
   );
