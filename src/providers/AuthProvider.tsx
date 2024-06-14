@@ -22,10 +22,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (decoded.exp * 1000 > Date.now()) {
           if (user && user.profilePicture !== decoded.profilePicture) {
             decoded.profilePicture = user.profilePicture;
-            setUser(decoded);
-          } else {
-            setUser(decoded);
           }
+
           setUser(decoded);
         } else {
           localStorage.removeItem("token");

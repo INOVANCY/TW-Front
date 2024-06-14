@@ -34,6 +34,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Rides, ridesColumns } from "./columns";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import ParkService from "@/services/ParkService";
+import RatesDialog from "./RatesDialog";
+import StoryDialog from "./StoryDialog";
 
 const places = [
   { name: "Bobbejaanland", distance: "60 km" },
@@ -44,139 +50,146 @@ const places = [
   { name: "Phantasialand", distance: "161 km" },
 ];
 
-const rides: Rides[] = [
-  {
-    id: 1,
-    name: "Kondaa",
-    type: "Montagnes russes",
-    manufacturer: "Intamin",
-  },
-  {
-    id: 2,
-    name: "Tiki-Waka",
-    type: "Montagnes russes",
-    manufacturer: "Gerstlauer",
-  },
-  {
-    id: 3,
-    name: "Calamity Mine",
-    type: "Montagnes russes",
-    manufacturer: "Vekoma",
-  },
-  {
-    id: 4,
-    name: "Pulsar",
-    type: "Montagnes russes",
-    manufacturer: "Mack Rides",
-  },
-  {
-    id: 5,
-    name: "Challenge of Tutankhamon",
-    type: "Montagnes russes",
-    manufacturer: "Sally Corporation",
-  },
-  {
-    id: 6,
-    name: "Radja River",
-    type: "Attraction aquatique",
-    manufacturer: "Intamin",
-  },
-  {
-    id: 7,
-    name: "Loup Garou",
-    type: "Montagnes russes",
-    manufacturer: "Vekoma",
-  },
-  {
-    id: 8,
-    name: "Vampire",
-    type: "Montagnes russes",
-    manufacturer: "Vekoma",
-  },
-  {
-    id: 9,
-    name: "Cobra",
-    type: "Montagnes russes",
-    manufacturer: "Vekoma",
-  },
-  {
-    id: 10,
-    name: "Psyke Underground",
-    type: "Montagnes russes",
-    manufacturer: "Gerstlauer",
-  },
-  {
-    id: 11,
-    name: "Popcorn Revenge",
-    type: "Attraction interactive",
-    manufacturer: "Alterface",
-  },
-  {
-    id: 12,
-    name: "Dalton Terror",
-    type: "Attraction",
-    manufacturer: "Intamin",
-  },
-  {
-    id: 13,
-    name: "Fun Pilot",
-    type: "Montagnes russes",
-    manufacturer: "Zierer",
-  },
-  {
-    id: 14,
-    name: "Vampire",
-    type: "Montagnes russes",
-    manufacturer: "Vekoma",
-  },
-];
+type Rate = {
+  year: number;
+  adultPrice: number;
+  childPrice: number;
+  specialPrice: number;
+  isEntranceFree: boolean;
+  offersDiscounts: boolean;
+  offersEarlyBird: boolean;
+  _id: string;
+};
 
-export default function DBParkPage() {
+type Land = {
+  name: string;
+  _id: string;
+};
+
+type ParkData = {
+  _id: string;
+  name: string;
+  story: string;
+  rates: Rate[];
+  localisation: [number, number];
+  medias: any[];
+  lands: Land[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  city: string;
+} | null;
+
+export default function DBParkPage({ params }: { params: { id: string } }) {
+  const [parkData, setParkData] = useState<ParkData>(null);
+  const [mostRecentIndex, setMostRecentIndex] = useState(0);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (params.id) {
+      ParkService.getPark(params.id)
+        .then((response) => {
+          response.data.park.rates.sort((a: Rate, b: Rate) => a.year - b.year);
+          setParkData(response.data.park);
+          setMostRecentIndex(response.data.park.rates.length - 1);
+        })
+        .catch((error) => {
+          toast({
+            title: "Oups! 🤯",
+            description: "Ce parc n'existe pas.",
+            variant: "destructive",
+          });
+          router.push("/");
+        });
+    } else {
+      toast({
+        title: "Oups! 🤯",
+        description: "Ce parc n'existe pas.",
+        variant: "destructive",
+      });
+      router.push("/");
+    }
+  }, []);
+
+  if (!parkData) return null;
   return (
     <AppLayout>
-      <div className="grid grid-cols-12 gap-4">
+      <div className="md:grid grid-cols-12 gap-4">
         <Card className="col-span-3 row-span-3">
           <CardHeader>
-            <CardTitle className="text-primary">Walibi Belgium</CardTitle>
-            <CardDescription>Wavre, Belgique</CardDescription>
+            <CardTitle className="text-primary">{parkData.name}</CardTitle>
+            <CardDescription>{parkData.city}</CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="flex flex-col gap-2">
-              <li className="text-muted-foreground">Prix d'entrée (2024)</li>
+            {parkData.rates && parkData.rates.length > 0 && (
+              <ul className="flex flex-col gap-2">
+                <li className="text-muted-foreground">
+                  Prix d'entrée ({parkData.rates[mostRecentIndex].year})
+                </li>
 
-              <li className="flex items-center gap-2">
-                <IconMan size={18} /> Adultes: 49,00 €
-              </li>
-              <li className="flex items-center gap-2">
-                <IconHorseToy size={18} /> Enfants: 44,00 €
-              </li>
-              <li className="flex items-center gap-2">
-                <IconWheelchair size={18} /> Spécial: 44,00 €
-              </li>
-              <li className="text-muted-foreground mt-2">
-                Offres & promotions (2024)
-              </li>
-              <li className="flex items-center gap-2">
-                <IconX size={18} /> L'entrée n'est pas gratuite
-              </li>
-              <li className="flex items-center gap-2">
-                <IconX size={18} /> Pas d'offre d'achat anticipé
-              </li>
-              <li className="flex items-center gap-2">
-                <IconCheck size={18} /> Promotions régulières
-              </li>
-              <li>
-                <Button variant="link" size="link">
-                  Voir l'historique
-                </Button>
-              </li>
-            </ul>
-            {/* <div className="w-full h-52 mt-4">
-              <TWMap />
-            </div> */}
+                <li className="flex items-center gap-2">
+                  <IconMan size={18} /> Adultes:
+                  {" " + parkData.rates[mostRecentIndex].adultPrice + " "}€
+                </li>
+                <li className="flex items-center gap-2">
+                  <IconHorseToy size={18} /> Enfants:
+                  {" " + parkData.rates[mostRecentIndex].childPrice + " "}€
+                </li>
+                <li className="flex items-center gap-2">
+                  <IconWheelchair size={18} /> Spécial:
+                  {" " + parkData.rates[mostRecentIndex].specialPrice + " "} €
+                </li>
+                <li className="text-muted-foreground mt-2">
+                  Offres & promotions ({parkData.rates[mostRecentIndex].year})
+                </li>
+                <li className="flex items-center gap-2">
+                  {parkData.rates[mostRecentIndex].isEntranceFree ? (
+                    <>
+                      <IconX size={18} /> L'entrée n'est pas gratuite
+                    </>
+                  ) : (
+                    <>
+                      <IconCheck size={18} />
+                      L'entrée est gratuite
+                    </>
+                  )}
+                </li>
+                <li className="flex items-center gap-2">
+                  {parkData.rates[mostRecentIndex].offersDiscounts ? (
+                    <>
+                      <IconX size={18} /> Pas de promotions régulières
+                    </>
+                  ) : (
+                    <>
+                      <IconCheck size={18} />
+                      Promotions régulières
+                    </>
+                  )}
+                </li>
+                <li className="flex items-center gap-2">
+                  {parkData.rates[mostRecentIndex].offersEarlyBird ? (
+                    <>
+                      <IconX size={18} /> Pas d'offre d'achat anticipé
+                    </>
+                  ) : (
+                    <>
+                      <IconCheck size={18} />
+                      Offres d'achat anticipé
+                    </>
+                  )}
+                </li>
+                {parkData.rates.length > 1 && (
+                  <RatesDialog
+                    rates={parkData.rates}
+                    parkName={parkData.name}
+                  />
+                )}
+              </ul>
+            )}
           </CardContent>
         </Card>
-        <Card className="col-span-3 p-6 flex-col flex items-center justify-center">
+        <Card className="col-span-3 mt-4 md:mt-0 p-6 flex-col flex items-center justify-center">
           <Badge className="text-2xl flex items-center gap-2 mb-2">
             <IconStar size={20} /> 9.4
           </Badge>
@@ -186,7 +199,7 @@ export default function DBParkPage() {
           </Button>
         </Card>
 
-        <Card className="col-span-4 row-span-2">
+        <Card className="col-span-4 mt-4 md:mt-0 row-span-2">
           <CardContent className="!p-6">
             <Carousel className="w-full">
               <CarouselContent>
@@ -219,7 +232,7 @@ export default function DBParkPage() {
             </Carousel>
           </CardContent>
         </Card>
-        <Card className="col-span-2 row-span-2">
+        <Card className="col-span-2 mt-4 md:mt-0 row-span-2">
           <CardHeader>
             <CardTitle>A proximité</CardTitle>
           </CardHeader>
@@ -238,7 +251,7 @@ export default function DBParkPage() {
             </ul>
           </CardContent>
         </Card>
-        <Card className="col-span-3 p-6 flex-col flex items-center justify-center">
+        <Card className="col-span-3 mt-4 md:mt-0 p-6 flex-col flex items-center justify-center">
           <Badge className="text-2xl flex items-center gap-2 mb-2">
             <IconTrophy size={20} /> #489
           </Badge>
@@ -247,15 +260,17 @@ export default function DBParkPage() {
             Voir le classement
           </Button>
         </Card>
-        <Card className="col-span-6 p-6 text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati,
-          architecto. Ipsam animi nulla vero iusto vel fugit natus culpa rem qui
-          libero maxime, cupiditate, minus...{" "}
-          <span className="text-primary font-medium hover:underline underline-offset-4 cursor-pointer">
-            Lire plus
-          </span>
+        <Card className="col-span-6 mt-4 md:mt-0 p-6 text-center">
+          {parkData.story.length > 200 ? (
+            <>
+              {parkData.story.substring(0, 150)}...{" "}
+              <StoryDialog story={parkData.story} parkName={parkData.name} />
+            </>
+          ) : (
+            parkData.story
+          )}
         </Card>
-        <Card className="col-span-3 p-6 flex flex-col justify-center items-center gap-1">
+        <Card className="col-span-3 mt-4 md:mt-0 p-6 flex flex-col justify-center items-center gap-1">
           <Button variant="link" size="link">
             Voir le calendrier
           </Button>
@@ -263,26 +278,26 @@ export default function DBParkPage() {
             Comparer avec un autre parc
           </Button>
         </Card>
-        <div className="col-span-5">
+        <div className="col-span-5 mt-4 md:mt-0">
           <Card>
             <CardHeader>
               <CardTitle>Plan du parc</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="w-full h-96">
-                <TWMap />
+              <div className="w-full h-36">
+                <p>Plan du parc avec données dynamiques</p>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="col-span-7">
+        <Card className="col-span-7 mt-4 md:mt-0">
           <CardHeader>
             <CardTitle>Elements du parc</CardTitle>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="rides">
-              <TabsList className="w-full !justify-between">
+              <TabsList className="grid grid-cols-2 md:grid-cols-6 h-auto">
                 <TabsTrigger value="rides">Attractions</TabsTrigger>
                 <TabsTrigger value="shows">Spectacles</TabsTrigger>
                 <TabsTrigger value="restaurants">
@@ -293,11 +308,7 @@ export default function DBParkPage() {
                 <TabsTrigger value="services">Services</TabsTrigger>
               </TabsList>
               <TabsContent value="rides">
-                <DataTable
-                  columns={ridesColumns}
-                  data={rides}
-                  searchColumn="name"
-                />
+                <p>Attractions</p>
               </TabsContent>
               <TabsContent value="shows">
                 <p>Spectacles</p>

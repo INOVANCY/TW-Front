@@ -8,11 +8,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { IconBook, IconTrophy } from "@tabler/icons-react";
+import { IconBook, IconShoppingBag, IconTrophy } from "@tabler/icons-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 export default function Home() {
   const newsList = [
@@ -39,18 +44,6 @@ export default function Home() {
       title: "Voltron: enfin un coaster à la hauteur",
       date: "11 mai 2024",
       image: "/dev/voltron.jpg",
-    },
-    {
-      id: 5,
-      title: "Black Mamba: le sol n'est jamais très loin",
-      date: "14 mai 2024",
-      image: "/dev/blackmamba.webp",
-    },
-    {
-      id: 6,
-      title: "Taron: le bruit d'un launch surpuissant",
-      date: "11 mai 2024",
-      image: "/dev/taron.jpg",
     },
   ];
 
@@ -132,13 +125,52 @@ export default function Home() {
     },
   ];
 
+  const productsList = [
+    {
+      id: 1,
+      title: "Kondaa MOC",
+      description: "Construisez votre propre Kondaa en Lego!",
+      image: "kondaa_moc.webp",
+    },
+    {
+      id: 2,
+      title: "The Smiler 3D Model",
+      description: "Un modèle 3D du train du célèbre The Smiler!",
+      image: "smiler_3d.webp",
+    },
+    {
+      id: 3,
+      title: "Cadre Voltron Nevera",
+      description: "Un cadre de Voltron pour décorer votre intérieur!",
+      image: "voltron_frame.webp",
+    },
+    {
+      id: 4,
+      title: "Ride To Happiness MOC",
+      description: "Construisez votre propre Ride To Happiness en Lego!",
+      image: "rth_moc.webp",
+    },
+    {
+      id: 5,
+      title: "The Smiler Mini Figure",
+      description: "Le tracé de The Smiler dans votre salon!",
+      image: "smiler_minifigure.webp",
+    },
+    {
+      id: 6,
+      title: "Untamed MOC",
+      description: "Construisez votre propre Untamed en Lego!",
+      image: "untamed_moc.webp",
+    },
+  ];
+
   return (
     <AppLayout>
       <div className="grid grid-cols-12 gap-4">
         {newsList.map((news) => (
           <Link
             href={`/news/${news.id}`}
-            className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-2"
+            className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
             key={news.id}
           >
             <Card className="h-full group">
@@ -165,7 +197,7 @@ export default function Home() {
             </Card>
           </Link>
         ))}
-        <Card className="col-span-12 xl:col-span-5">
+        <Card className="col-span-12 xl:col-span-7">
           <CardHeader>
             <div className="flex flex-col items-center justify-between md:flex-row">
               <CardTitle>Dernier classement mondial</CardTitle>
@@ -210,12 +242,57 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-12 md:col-span-6 xl:col-span-3">
+        <Card className="col-span-12 md:col-span-6 xl:col-span-5">
           <CardHeader>
-            <CardTitle>Produits du moment</CardTitle>
+            <div className="flex flex-col items-center justify-between md:flex-row">
+              <CardTitle>Produits du moment</CardTitle>
+
+              <Button
+                size="link"
+                variant="link"
+                className="mt-2 md:mt-1"
+                asChild
+              >
+                <Link href="/marketplace">
+                  <IconShoppingBag size={16} className="me-1" /> Voir la
+                  boutique
+                </Link>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {Array.from({ length: 5 }).map((_, index) => (
+            <Carousel className="w-full" opts={{ loop: true, align: "center" }}>
+              <CarouselContent>
+                {productsList.map((product) => (
+                  <CarouselItem key={product.id} className="basis-1/2">
+                    <div className="w-full flex items-center justify-center flex-col border rounded-lg">
+                      <Image
+                        width={250}
+                        height={250}
+                        src={`/dev/products/${product.image}`}
+                        alt="Product image"
+                        className="rounded-lg m-1"
+                      />
+                      <div className="p-2 text-center">
+                        <h1 className="text-xl font-medium">{product.title}</h1>
+                        <p className="text-sm text-muted-foreground">
+                          {product.description}
+                        </p>
+                      </div>
+                      <div className="w-full p-2 mt-4 flex justify-between">
+                        <Button variant="link" size="link" asChild>
+                          <Link href={`/marketplace/product/${product.id}`}>
+                            Voir le produit
+                          </Link>
+                        </Button>
+                        <Badge>+32%</Badge>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+            {/* {Array.from({ length: 5 }).map((_, index) => (
               <div className="flex items-center space-x-2" key={index}>
                 <Image
                   width={45}
@@ -233,10 +310,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
           </CardContent>
         </Card>
-        <Card className="col-span-12 md:col-span-6 xl:col-span-4">
+        <Card className="col-span-12 md:col-span-6 xl:col-span-3">
           <CardHeader>
             <CardTitle>Actualités Thrills</CardTitle>
           </CardHeader>

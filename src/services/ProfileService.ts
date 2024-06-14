@@ -27,6 +27,11 @@ const ProfileService = {
     const response = await api.put("/profile/change-password", data);
     return response;
   },
+
+  getPublicProfile: async (username: string) => {
+    const response = await api.get(`/profile/public/${username}`);
+    return response;
+  },
 };
 
 export default ProfileService;

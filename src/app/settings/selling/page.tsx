@@ -5,6 +5,7 @@ export default function SettingsSellPage() {
     <div className="space-y-6">
       <h3 className="text-lg font-medium">Vente</h3>
       {/* ici le form */}
+      <p>#todo</p>
     </div>
   );
 }

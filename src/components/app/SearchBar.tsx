@@ -3,13 +3,16 @@
 import { useOpenElement } from "@/contexts/OpenElement";
 import {
   IconArrowBack,
+  IconFountain,
   IconRollercoaster,
   IconSearch,
+  IconUser,
   IconX,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -18,64 +21,107 @@ import {
   CommandList,
 } from "../ui/command";
 import Link from "next/link";
+import { useDebounce } from "use-debounce";
+import SearchService from "@/services/SearchService";
+
+type Park = {
+  _id: string;
+  name: string;
+  city: string;
+};
+
+type User = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+};
+
+type Results = {
+  parks: Park[];
+  users: User[];
+} | null;
 
 export default function SearchBar() {
-  const { openElement, setOpenElement } = useOpenElement();
-
-  const handleButtonClick = () => {
-    setOpenElement("search");
-  };
-
-  const handleClose = () => {
-    setOpenElement(null);
-  };
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useDebounce(query, 300);
+  const [results, setResults] = useState<Results>(null);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleClose();
-      }
-    };
-
-    if (openElement === "search") {
-      window.addEventListener("keydown", handleKeyDown);
+    if (debouncedQuery && debouncedQuery.length > 3) {
+      SearchService.mainSearch(debouncedQuery)
+        .then((response) => {
+          setResults(response.data.results);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
-      window.removeEventListener("keydown", handleKeyDown);
+      setResults(null);
     }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [openElement]);
+  }, [debouncedQuery]);
 
   return (
     <>
-      <Button
-        variant="outline_red"
-        size="sm"
-        onClick={() => setOpenElement("search")}
-      >
+      <Button variant="outline_red" size="sm" onClick={() => setIsOpen(true)}>
         <IconSearch size={20} className="md:me-2" />
         <span className="hidden md:block">Rechercher n'importe quoi...</span>
       </Button>
-      <CommandDialog
-        open={openElement === "search"}
-        onOpenChange={() => setOpenElement(null)}
-      >
-        <CommandInput placeholder="Taron, B&M, Hôtel Krønasår..." />
-        <CommandList>
-          <CommandEmpty>
-            Aucun résultat n'a été trouvé! Il fallait le faire...
-          </CommandEmpty>
-          <CommandGroup heading="Attractions">
-            <CommandItem>
-              <IconRollercoaster className="!w-4 !h-4 mr-2" />
-              <span>Taron Phantasialand</span>
-            </CommandItem>
-            <CommandItem>Colorado Adventure - Phantasialand</CommandItem>
-            <CommandItem>Black Mamba - Phantasialand</CommandItem>
-          </CommandGroup>
-        </CommandList>
+      <CommandDialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+        <Command shouldFilter={false}>
+          <CommandInput
+            placeholder="Taron, B&M, Hôtel Krønasår..."
+            value={query}
+            onValueChange={setQuery}
+          />
+          <CommandList>
+            <CommandEmpty>
+              Aucun résultat n'a été trouvé! Il fallait le faire...
+            </CommandEmpty>
+            {results && results.parks.length > 0 && (
+              <CommandGroup heading="Parcs">
+                {results.parks.map((park) => (
+                  <CommandItem key={park._id} className="cursor-pointer">
+                    <Link
+                      href={`/park/${park._id}`}
+                      className="flex justify-between items-center w-full"
+                    >
+                      <span className="flex items-center">
+                        <IconFountain size={16} className="mr-2" />
+                        {park.name}
+                      </span>
+                      <span className="text-muted-foreground ml-3">
+                        {park.city}
+                      </span>
+                    </Link>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+            {results && results.users.length > 0 && (
+              <CommandGroup heading="Utilisateurs">
+                {results.users.map((user) => (
+                  <CommandItem key={user._id} className="cursor-pointer">
+                    <Link
+                      href={`/user/${user.username}`}
+                      className="flex justify-between items-center w-full"
+                    >
+                      <span className="flex items-center">
+                        <IconUser size={16} className="mr-2" />
+
+                        {user.firstName + " " + user.lastName}
+                      </span>
+                      <span className="text-muted-foreground ml-3">
+                        {user.username}
+                      </span>
+                    </Link>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+          </CommandList>
+        </Command>
       </CommandDialog>
     </>
   );

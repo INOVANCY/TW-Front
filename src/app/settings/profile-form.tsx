@@ -267,7 +267,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2 gap-x-4">
+        <div className="md:grid grid-cols-2 gap-x-4">
           <FormField
             control={form.control}
             name="favoritePark"
@@ -290,7 +290,7 @@ export function ProfileForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="w-[300px] p-0">
                     <Command shouldFilter={false}>
                       <CommandInput
                         value={parkSearchQuery}
@@ -332,7 +332,7 @@ export function ProfileForm() {
             control={form.control}
             name="homePark"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col mt-4 md:mt-0">
                 <FormLabel>Parc maison (home park)</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -350,7 +350,7 @@ export function ProfileForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="w-[300px] p-0">
                     <Command shouldFilter={false}>
                       <CommandInput
                         value={parkSearchQuery}
