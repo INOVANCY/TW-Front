@@ -190,7 +190,7 @@ export default function Home() {
                 <div className="flex justify-between mt-2">
                   <p className="text-sm text-muted-foreground">{news.date}</p>
                   <Button variant="link" size="link">
-                    <IconBook size={16} className="me-1" /> Lire l'article
+                    <IconBook size={16} className="me-1" /> Lire l&apos;article
                   </Button>
                 </div>
               </CardContent>

@@ -130,6 +130,7 @@ export default function AuthRegisterPage() {
           );
       })
       .catch((error) => {
+        console.error(error);
         secondStepForm.setError("username", {
           type: "manual",
           message: "Oups! Ce nom d'utilisateur est déjà pris.",
@@ -147,7 +148,7 @@ export default function AuthRegisterPage() {
       <h1 className="text-2xl  mt-3 mb-1">
         Bienvenue, cher #ThrillsLover ! 👋🏻
       </h1>
-      <p className="">Crée-toi un compte et commence l'aventure.</p>
+      <p className="">Crée-toi un compte et commence l&apos;aventure.</p>
       <Separator className="my-4" />
       <Form {...firstStepForm}>
         <form
@@ -181,12 +182,12 @@ export default function AuthRegisterPage() {
                     />
                   </FormControl>
                   <FormLabel className="!m-0">
-                    J'accepte les
+                    J&apos;accepte les
                     <Link
                       href="/terms"
                       className="text-red-600 underline-offset-2 hover:underline mx-1"
                     >
-                      conditions d'utilisation
+                      conditions d&apos;utilisation
                     </Link>
                     et la
                     <Link
@@ -203,7 +204,8 @@ export default function AuthRegisterPage() {
           />
           <div className="flex justify-between items-center">
             <Button type="submit" disabled={isSubmitting.firstStep}>
-              {isSubmitting.firstStep && <Loader size={18} />} S'enregistrer
+              {isSubmitting.firstStep && <Loader size={18} />}{" "}
+              S&apos;enregistrer
             </Button>
             <div className="flex gap-4 items-center">
               <IconBrandFacebook size={20} className="text-blue-500" />
@@ -267,7 +269,7 @@ export default function AuthRegisterPage() {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nom d'utilisateur</FormLabel>
+                      <FormLabel>Nom d&apos;utilisateur</FormLabel>
                       <FormControl>
                         <Input placeholder="jhon.doe" {...field} />
                       </FormControl>
@@ -280,7 +282,7 @@ export default function AuthRegisterPage() {
                   name="birthday"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Date d'anniversaire</FormLabel>
+                      <FormLabel>Date d&apos;anniversaire</FormLabel>
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>

@@ -286,7 +286,7 @@ export function AccountForm() {
               <FormItem className="mt-4 md:mt-0">
                 <FormLabel>Nouveau mot de passe</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -299,7 +299,7 @@ export function AccountForm() {
               <FormItem className="mt-4 md:mt-0">
                 <FormLabel>Répéter le nouveau mot de passe</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

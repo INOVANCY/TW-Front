@@ -117,7 +117,7 @@ export default function AuthForgotPasswordCodePage() {
         Entrez le code que vous avez reçu. 💡
       </h1>
       <p className=" mb-6">
-        N'oubliez pas de vérifier votre dossier indésirable.
+        N&apos;oubliez pas de vérifier votre dossier indésirable.
       </p>
       <Form {...otpForm}>
         <form
@@ -161,7 +161,7 @@ export default function AuthForgotPasswordCodePage() {
               <DialogHeader>
                 <DialogTitle>Yes, we did it! 🙂</DialogTitle>
                 <DialogDescription>
-                  Plus qu'à modifier votre mot de passe. Retenez-le, cette
+                  Plus qu&apos;à modifier votre mot de passe. Retenez-le, cette
                   fois-ci!
                 </DialogDescription>
               </DialogHeader>

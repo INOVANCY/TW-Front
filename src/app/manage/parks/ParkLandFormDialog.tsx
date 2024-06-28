@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -52,9 +53,7 @@ export default function ParkLandFormDialog({
   const { toast } = useToast();
 
   useEffect(() => {
-    console.log(selectedLand);
     if (selectedLand) {
-      console.log(selectedLand);
       const land = lands.find((land) => land._id === selectedLand);
       console.log(land);
       if (land) {

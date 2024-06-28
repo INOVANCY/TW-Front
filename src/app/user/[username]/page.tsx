@@ -18,6 +18,7 @@ import {
   IconBrandThreads,
   IconBrandTiktok,
   IconBrandX,
+  IconBrandYoutube,
   IconBuildingCarousel,
   IconCalendarEvent,
   IconCirclePlus,
@@ -187,7 +188,7 @@ const SocialsIcons: SocialIcon = {
     baseUrl: "https://instagram.com/",
   },
   youtube: {
-    icon: <IconBrandX size={16} />,
+    icon: <IconBrandYoutube size={16} />,
     baseUrl: "https://youtube.com/",
   },
   snapchat: {
@@ -303,7 +304,7 @@ export default function UserProfile({
               <Avatar className="w-40 h-40 rounded-xl border-4 border-card">
                 <AvatarImage
                   src={getProfilePicture(userData.profilePicture)}
-                  alt="Gaspard Delvaux"
+                  alt={userData.firstName + " " + userData.lastName}
                 />
                 <AvatarFallback>GD</AvatarFallback>
               </Avatar>
@@ -359,7 +360,7 @@ export default function UserProfile({
                     {userData.favoritePark.name}
                   </li>
                 )}
-                {userData.favoritePark && userData.favoritePark.name && (
+                {userData.homePark && userData.homePark.name && (
                   <li className="flex items-center gap-2">
                     <IconHome size={18} />
                     {userData.homePark.name}

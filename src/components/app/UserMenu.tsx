@@ -46,7 +46,9 @@ export default function UserMenu() {
               src={getProfilePicture(user.profilePicture)}
               alt="Avatar"
             />
-            <AvatarFallback>GD</AvatarFallback>
+            <AvatarFallback>
+              {getInitials(user.lastName, user.firstName)}
+            </AvatarFallback>
           </Avatar>
         ) : (
           <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-red-600 to-rose-300 flex items-center justify-center text-white cursor-pointer">
@@ -79,7 +81,7 @@ export default function UserMenu() {
             <Separator className="mt-4 mb-2" />
             <Button variant="ghost" className="w-full !justify-start" asChild>
               <Link
-                href="/user/gaspard.dlx"
+                href={`/user/${user.username}`}
                 className="flex gap-2 items-center"
               >
                 <IconUser size={20} />
@@ -138,7 +140,7 @@ export default function UserMenu() {
               <Link href="/auth/login">Se connecter</Link>
             </Button>
             <Button size="sm" asChild>
-              <Link href="/auth/login">S'enregistrer</Link>
+              <Link href="/auth/register">S&apos;enregistrer</Link>
             </Button>
           </div>
         )}

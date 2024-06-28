@@ -62,7 +62,8 @@ export default function AuthLoginPage() {
         });
         router.push("/");
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error(error);
         toast({
           title: "Oops! 😢",
           description:
@@ -80,7 +81,7 @@ export default function AuthLoginPage() {
       <Logo width={50} height={50} />
       <h1 className="text-2xl  mt-3 mb-1">Enfin de retour! 👋🏻</h1>
       <p className="">
-        Connectez-vous à votre compte et (re-)commencez l'aventure.
+        Connectez-vous à votre compte et (re-)commencez l&apos;aventure.
       </p>
       <Separator className="my-4" />
       <Form {...form}>

@@ -108,7 +108,7 @@ export default function ManageHome() {
             <p className=" mt-2">
               Vous êtes sur la partie de gestion de Thrills World. Ici, vous
               pouvez maintenir la base de données du site et alimenter les
-              actualités. N'oubliez pas: avec grand pouvoir, vient grande
+              actualités. N&apos;oubliez pas: avec grand pouvoir, vient grande
               responsabilité.
             </p>
             <ul className="flex flex-col gap-2 mt-2">

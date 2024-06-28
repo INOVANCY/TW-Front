@@ -66,7 +66,9 @@ export default function SearchBar() {
     <>
       <Button variant="outline_red" size="sm" onClick={() => setIsOpen(true)}>
         <IconSearch size={20} className="md:me-2" />
-        <span className="hidden md:block">Rechercher n'importe quoi...</span>
+        <span className="hidden md:block">
+          Rechercher n&apos;importe quoi...
+        </span>
       </Button>
       <CommandDialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
         <Command shouldFilter={false}>
@@ -77,7 +79,7 @@ export default function SearchBar() {
           />
           <CommandList>
             <CommandEmpty>
-              Aucun résultat n'a été trouvé! Il fallait le faire...
+              Aucun résultat n&apos;a été trouvé! Il fallait le faire...
             </CommandEmpty>
             {results && results.parks.length > 0 && (
               <CommandGroup heading="Parcs">

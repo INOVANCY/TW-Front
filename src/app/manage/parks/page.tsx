@@ -74,14 +74,16 @@ export default function ManageParksHome() {
     fetchParks(0, 10);
   };
 
+  if (typeof window === "undefined") return null;
+
   return (
     <AppLayout>
       <Card>
         <CardHeader>
-          <CardTitle>Gérer les parcs d'attractions</CardTitle>
+          <CardTitle>Gérer les parcs d&apos;attractions</CardTitle>
           <CardDescription>
-            Sur cette page, vous pouvez gérer tous les parcs d'attractions de
-            Thrills World.
+            Sur cette page, vous pouvez gérer tous les parcs d&apos;attractions
+            de Thrills World.
           </CardDescription>
         </CardHeader>
         <CardContent>

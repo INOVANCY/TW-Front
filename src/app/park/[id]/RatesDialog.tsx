@@ -41,7 +41,7 @@ export default function RatesDialog({ rates, parkName }: RatesDialogProps) {
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="link" size="link">
-            Voir l'historique
+            Voir l&apos;historique
           </Button>
         </DialogTrigger>
         <DialogContent>

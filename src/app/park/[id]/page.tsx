@@ -125,7 +125,7 @@ export default function DBParkPage({ params }: { params: { id: string } }) {
             {parkData.rates && parkData.rates.length > 0 && (
               <ul className="flex flex-col gap-2">
                 <li className="text-muted-foreground">
-                  Prix d'entrée ({parkData.rates[mostRecentIndex].year})
+                  Prix d&apos;entrée ({parkData.rates[mostRecentIndex].year})
                 </li>
 
                 <li className="flex items-center gap-2">
@@ -146,36 +146,36 @@ export default function DBParkPage({ params }: { params: { id: string } }) {
                 <li className="flex items-center gap-2">
                   {parkData.rates[mostRecentIndex].isEntranceFree ? (
                     <>
-                      <IconX size={18} /> L'entrée n'est pas gratuite
+                      <IconCheck size={18} />
+                      L&apos;entrée est gratuite
                     </>
                   ) : (
                     <>
-                      <IconCheck size={18} />
-                      L'entrée est gratuite
+                      <IconX size={18} /> L&apos;entrée n&apos;est pas gratuite
                     </>
                   )}
                 </li>
                 <li className="flex items-center gap-2">
                   {parkData.rates[mostRecentIndex].offersDiscounts ? (
                     <>
-                      <IconX size={18} /> Pas de promotions régulières
+                      <IconCheck size={18} />
+                      Promotions régulières
                     </>
                   ) : (
                     <>
-                      <IconCheck size={18} />
-                      Promotions régulières
+                      <IconX size={18} /> Pas de promotions régulières
                     </>
                   )}
                 </li>
                 <li className="flex items-center gap-2">
                   {parkData.rates[mostRecentIndex].offersEarlyBird ? (
                     <>
-                      <IconX size={18} /> Pas d'offre d'achat anticipé
+                      <IconCheck size={18} />
+                      Offres d&apos;achat anticipé
                     </>
                   ) : (
                     <>
-                      <IconCheck size={18} />
-                      Offres d'achat anticipé
+                      <IconX size={18} /> Pas d&apos;offre d&apos;achat anticipé
                     </>
                   )}
                 </li>

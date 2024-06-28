@@ -43,7 +43,7 @@ export default function Footer() {
             href="/terms-of-use"
             className=" hover:underline underline-offset-2"
           >
-            Conditions d'utilisation
+            Conditions d&apos;utilisation
           </Link>
         </div>
       </div>

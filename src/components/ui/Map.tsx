@@ -8,7 +8,6 @@ import {
   useMapEvents,
   MapContainerProps,
 } from "react-leaflet";
-
 import "leaflet/dist/leaflet.css";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Button } from "./button";

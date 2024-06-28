@@ -1,4 +1,5 @@
-import TWMap from "@/components/ui/Map";
+"use client";
+import { DynamicMap } from "@/components/ui/DynamicMap";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +31,7 @@ import { set } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/ui/loader";
 import { ParkSchema, ParkSchemaType } from "./schema";
+import dynamic from "next/dynamic";
 
 interface ParkFormDialogProps {
   isOpen: boolean;
@@ -175,7 +177,7 @@ export default function ParkFormDialog({
                     localisation se définissent directement sur la carte
                     ci-dessous. Cliquez simplement sur le bouton ci-dessous pour
                     activer le déplacement, puis cliquez sur la carte pour
-                    (re-)définir le point d'entrée du parc.
+                    (re-)définir le point d&apos;entrée du parc.
                   </AlertDescription>
                 </Alert>
                 <div className="flex justify-start items-center gap-2 my-4 flex-wrap">
@@ -193,7 +195,7 @@ export default function ParkFormDialog({
                       : "Activer le déplacement de l'entrée"}
                   </Button>
                 </div>
-                <TWMap
+                <DynamicMap
                   point={entrancePoint}
                   center={entrancePoint}
                   zoom={13}

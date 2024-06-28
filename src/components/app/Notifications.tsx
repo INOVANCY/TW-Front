@@ -50,12 +50,12 @@ export default function Notifications() {
             <IconUserPlus size={24} />
           </span>
           <div className="flex flex-col">
-            <p>Nouvelle demande d'ami</p>
+            <p>Nouvelle demande d&apos;ami</p>
             <p className="text-xs">
               Hourra ! Gaspard Delvaux vous a demandé en ami.
             </p>
             <span className="text-xs mt-1 text-muted-foreground">
-              Aujourd'hui
+              Aujourd&apos;hui
             </span>
           </div>
         </div>

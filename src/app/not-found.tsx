@@ -16,8 +16,8 @@ export default function Custom404() {
           <CardHeader>
             <CardTitle>Mince! Page inconnue 🫤</CardTitle>
             <CardDescription>
-              La page sur laquelle vous êtes arrivée n'existe pas. Mais comment
-              avez-vous fait?!
+              La page sur laquelle vous êtes arrivée n&apos;existe pas. Mais
+              comment avez-vous fait?!
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -34,7 +34,7 @@ export default function Custom404() {
         <Card className="col-span-3">
           <CardHeader>
             <CardTitle>
-              Vous cherchiez peut-être l'un de ces éléments? 🔎
+              Vous cherchiez peut-être l&apos;un de ces éléments? 🔎
             </CardTitle>
           </CardHeader>
           <CardContent></CardContent>

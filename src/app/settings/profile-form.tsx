@@ -227,7 +227,7 @@ export function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <Label htmlFor="profilepicture">Photo de profil</Label>
         <div className="flex items-center gap-4">
-          <Image
+          <img
             src={getProfilePicture(user?.profilePicture)}
             alt="Profile picture"
             className="rounded-md"
@@ -241,13 +241,13 @@ export function ProfileForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nom d'utilisateur</FormLabel>
+              <FormLabel>Nom d&apos;utilisateur</FormLabel>
               <FormControl>
-                <Input placeholder="gaspard.dlx" {...field} />
+                <Input placeholder="jhon.doe" {...field} />
               </FormControl>
               <FormDescription>
-                C'est votre @ Thrills World. Vous ne pouvez le changer qu'une
-                fois par mois.
+                C&apos;est votre @ Thrills World. Vous ne pouvez le changer
+                qu&apos;une fois par mois.
               </FormDescription>
               <FormMessage />
             </FormItem>

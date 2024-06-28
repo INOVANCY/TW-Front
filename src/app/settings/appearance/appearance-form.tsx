@@ -119,7 +119,7 @@ export function AppearanceForm() {
           name="preferredLanguage"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Langage de l'application</FormLabel>
+              <FormLabel>Langage de l&apos;application</FormLabel>
               <FormControl>
                 <Select
                   defaultValue={field.value}
@@ -256,7 +256,7 @@ export function AppearanceForm() {
           )}
         />
         <Button type="submit" disabled={isLoading}>
-          {isLoading && <Loader />}Mettre à jour l'apparence
+          {isLoading && <Loader />}Mettre à jour l&apos;apparence
         </Button>
       </form>
     </Form>

@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -53,9 +54,7 @@ export default function ParkRateFormDialog({
   const { toast } = useToast();
 
   useEffect(() => {
-    console.log(selectedRate);
     if (selectedRate) {
-      console.log(selectedRate);
       const rate = rates.find((rate) => rate._id === selectedRate);
       console.log(rate);
       if (rate) {
@@ -245,7 +244,7 @@ export default function ParkRateFormDialog({
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel>L'entrée est/était gratuite</FormLabel>
+                    <FormLabel>L&apos;entrée est/était gratuite</FormLabel>
                   </FormItem>
                 )}
               />
@@ -275,7 +274,7 @@ export default function ParkRateFormDialog({
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel>Offres d'achat anticipé</FormLabel>
+                    <FormLabel>Offres d&apos;achat anticipé</FormLabel>
                   </FormItem>
                 )}
               />

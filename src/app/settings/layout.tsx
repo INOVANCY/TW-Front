@@ -46,7 +46,7 @@ export default function SettingsPage({ children }: SettingsPageProps) {
           <CardTitle>Paramètres</CardTitle>
           <CardDescription>
             Gérer les paramètres de votre compte et définir vos conditions de
-            vente sur l'eshop.
+            vente sur l&apos;eshop.
           </CardDescription>
         </CardHeader>
         <CardContent>
